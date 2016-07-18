@@ -1,0 +1,23 @@
+# Permalinks
+#
+# Use of `relative_permalinks` ensures post links from the index work properly.
+permalink:           pretty
+#relative_permalinks: true
+
+# Setup
+title:               'tcler''s blog'
+tagline:             'A Jekyll theme'
+description:         'Tcler''s blog, based on <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme <a href="http://jekyllthemes.io/theme/15489219/lanyon">Lanyon</a>'
+url:                 https://tcler.github.io
+baseurl:             ''
+paginate:            5
+gems: [jekyll-paginate]
+
+# About/contact
+author:
+  name:              Jianhong Yin
+  url:               https://github.com/tcler
+  email:             yin-jianhong@163.com
+
+# Custom vars
+version:             1.0.0
