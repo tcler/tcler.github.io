@@ -8,6 +8,8 @@ title: openindiana nfs export
 而且google到的大部分文档 包括oracle官网文档里的用法都不能工作。还好在一个不起眼的链接里找到线索 试了很多写法终于配好了。
 好记性不如烂笔头，记录一下配置步骤
 
+## Configure
+### create fs and set sharenfs property
 The right way:
 ref: https://openindiana.org/pipermail/openindiana-discuss/2012-August/009091.html
 
@@ -43,4 +45,57 @@ $
 $ # there is not 'share' property in system  #新的OI系统里根本没有 'share' 这个属性
 $ zfs get all /rpool/nfsshare_rootclient | grep -w share
 $ zfs get all /rpool/nfsshare_rootclient | grep -w sharenfs
+```
+
+### nfs server config
+
+```
+yjh@openindiana:/home/yjh$ sudo svcadm ?
+Usage: svcadm [-S <state>] [-v] [-Z | -z zone] [cmd [args ... ]]
+
+        svcadm enable [-rst] [<service> ...]    - enable and online service(s)
+        svcadm disable [-st] [<service> ...]    - disable and offline service(s)
+        svcadm restart [-d] [<service> ...]     - restart specified service(s)
+        svcadm refresh [<service> ...]          - re-read service configuration
+        svcadm mark [-It] <state> [<service> ...] - set maintenance state
+        svcadm clear [<service> ...]            - clear maintenance state
+        svcadm milestone [-d] <milestone>       - advance to a service milestone
+
+        Services can be specified using an FMRI, abbreviation, or fnmatch(5)
+        pattern, as shown in these examples for svc:/network/smtp:sendmail
+
+        svcadm <cmd> svc:/network/smtp:sendmail
+        svcadm <cmd> network/smtp:sendmail
+        svcadm <cmd> network/*mail
+        svcadm <cmd> network/smtp
+        svcadm <cmd> smtp:sendmail
+        svcadm <cmd> smtp
+        svcadm <cmd> sendmail
+yjh@openindiana:/home/yjh$ sudo svcadm enable network/nfs/server
+Password: 
+yjh@openindiana:/home/yjh$ svcs network/nfs/server
+STATE          STIME    FMRI
+online         17:20:22 svc:/network/nfs/server:default
+yjh@openindiana:/home/yjh$ svcs | less
+yjh@openindiana:/home/yjh$ sudo sharectl set -p server_versmax=4.2 nfs  # seems does not work
+yjh@openindiana:/home/yjh$ sudo sharectl set -p server_delegation=on nfs
+yjh@openindiana:/home/yjh$ sudo sharectl get  nfs
+servers=16
+lockd_listen_backlog=32
+lockd_servers=20
+lockd_retransmit_timeout=5
+grace_period=90
+server_versmin=2
+server_versmax=4
+client_versmin=2
+client_versmax=4
+server_delegation=on
+nfsmapid_domain=
+max_connections=-1
+protocol=ALL
+listen_backlog=32
+device=
+mountd_listen_backlog=64
+mountd_max_threads=16
+yjh@openindiana:/home/yjh$ 
 ```
