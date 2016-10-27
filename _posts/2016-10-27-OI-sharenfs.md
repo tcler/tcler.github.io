@@ -11,7 +11,6 @@ title: openindiana nfs export
 ## Configure
 ### create fs and set sharenfs property
 The right way:
-ref: https://openindiana.org/pipermail/openindiana-discuss/2012-August/009091.html
 
 ```
 $ sudo zfs create rpool/nfsshare
@@ -98,4 +97,12 @@ device=
 mountd_listen_backlog=64
 mountd_max_threads=16
 yjh@openindiana:/home/yjh$ 
+```
+
+
+ref:
+
+```
+https://wiki.openindiana.org/oi/Using+OpenIndiana+as+a+storage+server
+https://openindiana.org/pipermail/openindiana-discuss/2012-August/009091.html
 ```
