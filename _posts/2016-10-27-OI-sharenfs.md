@@ -9,7 +9,9 @@ title: openindiana nfs export
 好记性不如烂笔头，记录一下配置步骤
 
 ## Configure
+
 ### create fs and set sharenfs property
+
 The right way:
 
 ```
