@@ -10,6 +10,7 @@ title: openindiana nfs export
 
 The right way:
 ref: https://openindiana.org/pipermail/openindiana-discuss/2012-August/009091.html
+
 ```
 $ sudo zfs create rpool/nfsshare
 $ sudo zfs set sharenfs="rw=*,root=@10.0.0.0/8" rpool/nfsshare
@@ -30,6 +31,7 @@ $ cat /etc/dfs/sharetab
 
 
 The invalid usage come from solaris document and most google result:
+
 ```
 $ sudo zfs create rpool/nfsshare_rootclient
 $
