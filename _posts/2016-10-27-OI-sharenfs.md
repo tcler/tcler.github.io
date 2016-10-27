@@ -15,7 +15,9 @@ $ sudo zfs create rpool/nfsshare
 $ sudo zfs set sharenfs="rw=*,root=@10.0.0.0/8" rpool/nfsshare
 $ cat /etc/dfs/sharetab
 /rpool/nfsshare      -       nfs     sec=sys,rw,root=@10.0.0.0/8
-$ sudo zfs umount rpool/nfsshare
+$ sudo zfs umount  rpool/nfsshare  #umount
+$ sudo zfs moutn   rpool/nfsshare  #mount again, need set sharenfs again to add it in /etc/dfs/sharetab
+$ sudo zfs destroy rpool/nfsshare  #destroy dataset/filesystem
 $
 $ sudo zfs create rpool/nfs_pub
 $ sudo zfs set sharenfs="rw=*,root=@0.0.0.0/0" rpool/nfs_pub  #same as no_root_squash in linux
