@@ -108,3 +108,20 @@ yjh@openindiana:/home/yjh$
 https://wiki.openindiana.org/oi/Using+OpenIndiana+as+a+storage+server
 https://openindiana.org/pipermail/openindiana-discuss/2012-August/009091.html
 ```
+
+### *sshd service
+
+```
+To check if the service is online or offline:
+# svcs -v ssh
+online - 12:23:17 115 svc:/network/ssh:default
+
+To stop the service:
+#svcadm disable network/ssh
+
+To start the service:
+#svcadm enable network/ssh
+
+To restart the service:
+# svcadm restart network/ssh 
+```
