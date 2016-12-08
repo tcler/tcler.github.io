@@ -1,6 +1,6 @@
 ---
 layout: post
-title: rdesktop fail: Failed to connect, CredSSP required by server.
+title: "rdesktop fail: Failed to connect, CredSSP required by server."
 ---
 
 
@@ -16,4 +16,8 @@ Failed to connect, CredSSP required by server.
 
 ```
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /t REG_DWORD /d 0 /f
+```
+
+```
+x
 ```
