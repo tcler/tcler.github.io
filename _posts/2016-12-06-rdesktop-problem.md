@@ -19,5 +19,5 @@ reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\Win
 ```
 
 ```
-x
+rdesktop 10.10.10.10 -u administrator -p '123!@#' -a 16 -g 1280x1024
 ```
