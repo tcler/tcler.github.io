@@ -15,6 +15,7 @@ Each frame of gif (想查看gif图的每一帧怎么办呢):
 
 ```
 $ #http://askubuntu.com/questions/101526/how-can-i-split-an-animated-gif-file-into-its-component-frames
+$ yum install -y ImageMagick
 $ wget https://raw.githubusercontent.com/tcler/bkr-client-improved/master/img/demo.gif
 $ convert demo.gif target.png
 ```
