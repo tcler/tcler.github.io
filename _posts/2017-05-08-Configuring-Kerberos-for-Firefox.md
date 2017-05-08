@@ -50,3 +50,16 @@ the same goal using some kind of click through interface. It should also be
 possible to configure it using system management tools and scripts. 
 ```
 
+
+## more info: 在windows上配置 kerberos 客户端
+```
+http://doc.mapr.com/display/MapR/Configuring+Kerberos+Authentication+for+Windows
+http://web.mit.edu/kerberos/dist/
+http://web.mit.edu/kerberos/dist/kfw/4.1/kfw-4.1-amd64.msi #latest release for now(2017-05-08)
+
+步骤:
+1. 安装完成 kfw-4.1 后
+2. 拷贝Linux上的 /etc/krb5.conf 到 windows 的 C/ProgramData/MIT/Kerberos5/krb5.ini #可能需要 unix2dos
+   并删除/注释掉 default_ccache_name 的设置，重启系统
+3. "MIT Kerberos Ticket Manager" -> "Get Ticket" # 或者按照上面文档里说的使用类似 linux 下的命令行
+```
