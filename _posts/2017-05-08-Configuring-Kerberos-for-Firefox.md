@@ -38,8 +38,11 @@ your own kerberos domain, including the preceding period (.):
 changes instead:
 
       network.negotiate-auth.trusted-uris  .example.com
-      network.auth.use-sspi false
       network.negotiate-auth.delegation-uris  .example.com
+      network.auth.use-sspi false
+
+      #经测试还需要下面这步:
+      network.negotiate-auth.gsslib: C:\Program Files\MIT\Kerberos\bin\gssapiXX.dll (where XX is 32 or 64 depending on the Firefox platform)
 
 5. In Firefox, navigate to the kerberos protected web site and ensure that
 there are no Kerberos authentication errors, and that you can see and interact
