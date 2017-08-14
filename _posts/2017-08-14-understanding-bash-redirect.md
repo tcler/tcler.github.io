@@ -8,10 +8,10 @@ title: "深入理解 bash 重定向"
 ```
 # 如果试着把 2>&1 写成 2<&1 ，会发现效果是一样的:
 ls not_exist >/dev/null 2>&1
-ls not_exist >/dev/null 2<&1
+ls not_exist >/dev/null 2<&1   # mark xzhou@
 
-左值 右值已经表明 "流向" 了, 如果再用 < > 表示流向，这样的设计是非正交的；
-真相如下:
+# 左值 右值已经表明 "流向" 了, 如果再用 < > 表示流向，这样的设计是非正交的；
+# 那么，到底是怎么回事呢，，继续往下看:
 ```
 
 ## 真相
@@ -86,4 +86,12 @@ foo
 abc
 xyz
 foo
+```
+
+以上是偏向于使用黑盒的观察方法,也可以使用strace -f进行观察涉及到的 syscall 的细节:
+```
+strace -f bash -c 'ls 2>&1'   2>&1 | egrep 'dup2|execv'
+strace -f bash -c 'ls 2<&1'   2>&1 | egrep 'dup2|execv'
+strace -f bash -c 'sort file.tmp >>file.tmp'   2>&1 | egrep 'open|dup2|execv'
+strace -f bash -c 'sort file.tmp >file.tmp'   2>&1 | egrep 'open|dup2|execv'
 ```
