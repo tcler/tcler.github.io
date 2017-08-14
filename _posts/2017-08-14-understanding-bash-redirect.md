@@ -95,3 +95,52 @@ strace -f bash -c 'ls 2<&1'   2>&1 | egrep 'dup2|execv'
 strace -f bash -c 'sort file.tmp >>file.tmp'   2>&1 | egrep 'open|dup2|execv'
 strace -f bash -c 'sort file.tmp >file.tmp'   2>&1 | egrep 'open|dup2|execv'
 ```
+
+```
+$ strace -f bash -c "cat <<<abc"  2>&1 | egrep '^.pid.*(open|dup2|write|close|unlink|execv)'
+[pid 22095] open("/tmp/sh-thd-1502691205", O_WRONLY|O_CREAT|O_EXCL|O_TRUNC, 0600) = 3
+[pid 22095] write(3, "abc", 3)          = 3
+[pid 22095] write(3, "\n", 1)           = 1
+[pid 22095] open("/tmp/sh-thd-1502691205", O_RDONLY) = 4
+[pid 22095] close(3)                    = 0
+[pid 22095] unlink("/tmp/sh-thd-1502691205") = 0
+[pid 22095] dup2(4, 0)                  = 0
+[pid 22095] close(4)                    = 0
+[pid 22095] execve("/usr/bin/cat", ["cat"], [/* 37 vars */]) = 0
+[pid 22095] open("/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+[pid 22095] close(3)                    = 0
+[pid 22095] open("/lib64/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+[pid 22095] close(3)                    = 0
+[pid 22095] open("/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+[pid 22095] close(3)                    = 0
+[pid 22095] write(1, "abc\n", 4abc
+[pid 22095] close(0)                    = 0
+[pid 22095] close(1)                    = 0
+[pid 22095] close(2)                    = 0
+```
+
+```
+$ strace -f bash -c 'cat <<FOO
+> abc
+> xyz
+> FOO' 2>&1 | egrep '^.pid.*(open|dup2|write|close|unlink|execv)'
+[pid 24272] open("/tmp/sh-thd-1502697508", O_WRONLY|O_CREAT|O_EXCL|O_TRUNC, 0600) = 3
+[pid 24272] write(4, "abc\nxyz\n", 8)   = 8
+[pid 24272] close(4)                    = 0
+[pid 24272] open("/tmp/sh-thd-1502697508", O_RDONLY) = 4
+[pid 24272] close(3)                    = 0
+[pid 24272] unlink("/tmp/sh-thd-1502697508") = 0
+[pid 24272] dup2(4, 0)                  = 0
+[pid 24272] close(4)                    = 0
+[pid 24272] execve("/usr/bin/cat", ["cat"], [/* 37 vars */]) = 0
+[pid 24272] open("/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+[pid 24272] close(3)                    = 0
+[pid 24272] open("/lib64/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+[pid 24272] close(3)                    = 0
+[pid 24272] open("/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+[pid 24272] close(3)                    = 0
+[pid 24272] write(1, "abc\nxyz\n", 8abc
+[pid 24272] close(0)                    = 0
+[pid 24272] close(1)                    = 0
+[pid 24272] close(2)                    = 0
+```
