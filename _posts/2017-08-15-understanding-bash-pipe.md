@@ -29,9 +29,9 @@ lr-x------ 1 yjh yjh 0 Aug 15 08:01 3 -> /proc/31/fd
 除了 '|' 外，还有另外一类(两种) '<()'  '>()' 
 ```
 # cmd1 >(cmd2)
-# 创建一个管道 pipe，然后将 cmd2 的 stdin 重定向到 pipe; cmd1 以写方式打开 pipe
+# 创建一个管道 pipe，然后将 cmd2 的 stdin 重定向到 pipe; cmd1 不做任何重定向操作
 # cmd1 <(cmd2)
-# 创建一个管道 pipe，然后将 cmd2 的 stdin 重定向到 pipe; cmd1 以读方式打开 pipe
+# 创建一个管道 pipe，然后将 cmd2 的 stdout 重定向到 pipe; cmd1 不做任何重定向操作
 
 $ cat <(ls -l /dev/fd/)
 total 0
@@ -47,8 +47,7 @@ lrwx------ 1 yjh yjh 0 Aug 15 08:22 1 -> /dev/tty1
 lrwx------ 1 yjh yjh 0 Aug 15 08:22 2 -> /dev/tty1
 lr-x------ 1 yjh yjh 0 Aug 15 08:22 3 -> /proc/52/fd
 
-
-## 注意1 这时管道文件是命令行的一个参数,*除了权限被限定(只读或只写)跟普通文件用法没有区别*
+## 注意1 这时管道文件是命令行的一个参数,*除了权限被限定(只读或只写) 跟普通文件用法没有区别*
 $ echo <(:)
 /dev/fd/63
 $ ls -l <(:)
