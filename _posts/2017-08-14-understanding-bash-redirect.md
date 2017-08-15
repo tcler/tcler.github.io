@@ -144,3 +144,39 @@ $ strace -f bash -c 'cat <<FOO
 [pid 24272] close(1)                    = 0
 [pid 24272] close(2)                    = 0
 ```
+
+## 检查一下学习效果
+```
+# 想想执行下面这些语句，分别会得到什么结果；然后实际运行看看；然后用 strace -f 看看
+cat 0>file.tmp
+cat 0>>file.tmp
+
+grep ^ 0>file.tmp
+grep ^ 0>>file.tmp
+```
+
+```
+$ LANG=C strace -f bash -c 'grep a 0>>README.md' 2>&1 | egrep '^.pid.*(open|dup2|read|write|close|unlink|execv)'
+[pid 14052] open("README.md", O_WRONLY|O_CREAT|O_APPEND, 0666) = 3
+[pid 14052] dup2(3, 0)                  = 0
+[pid 14052] close(3)                    = 0
+[pid 14052] execve("/usr/bin/grep", ["grep", "a"], [/* 57 vars */]) = 0
+[pid 14052] open("/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+[pid 14052] close(3)                    = 0
+[pid 14052] open("/lib64/libpcre.so.1", O_RDONLY|O_CLOEXEC) = 3
+[pid 14052] read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\320\26\0\0\0\0\0\0"..., 832) = 832
+[pid 14052] close(3)                    = 0
+[pid 14052] open("/lib64/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+[pid 14052] read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\240\6\2\0\0\0\0\0"..., 832) = 832
+[pid 14052] close(3)                    = 0
+[pid 14052] open("/lib64/libpthread.so.0", O_RDONLY|O_CLOEXEC) = 3
+[pid 14052] read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\300`\0\0\0\0\0\0"..., 832) = 832
+[pid 14052] close(3)                    = 0
+[pid 14052] read(0, 0x55faf1f51000, 32768) = -1 EBADF (Bad file descriptor)
+[pid 14052] write(2, "grep: ", 6grep: )       = 6
+[pid 14052] write(2, "(standard input)", 16(standard input)) = 16
+[pid 14052] write(2, ": Bad file descriptor", 21: Bad file descriptor) = 21
+[pid 14052] write(2, "\n", 1
+[pid 14052] close(1)                    = 0
+[pid 14052] close(2)                    = 0
+```
