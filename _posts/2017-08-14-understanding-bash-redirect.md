@@ -18,24 +18,24 @@ ls not_exist >/dev/null 2<&1   # mark xzhou@
 left<&right 和 left>&right
 这两种写法，在内核都是将:
 ```
-  PCB.fd[left] = PCB.fd[right]
+PCB.fd[left] = PCB.fd[right]
 ```
 
 '<' 和 '>' 对左右值的影响，只在于两方面:
 ```
-    # 伪代码(python style)
-    if left == nil:        #对左值的影响，如果左值为 nil
-        if op == '<':
-            left = 0
-        if op == '>':
-            left = 1
-    elif not isFD(right):  #对右值的影响，如果右值不是 fd
-        if op == '<':
-            right = open(right, r)
-        if op == '>':
-            right = open(right, w)
-    else:    #如果左值 右值都是 fd， '>' '<' 没有区别
-        #nothing to do
+# 伪代码(python style)
+if left == nil:       #如果左值为 nil
+    if op == '<':
+        left = 0
+    if op == '>':
+        left = 1
+elif not isFD(right): #如果右值不是 fd
+    if op == '<':
+        right = open(right, r)
+    if op == '>':
+        right = open(right, w)
+else:                 #如果左值 右值都是 fd， '>' '<' 没有区别
+    #nothing to do
 ```
 
 Linux 系统最佳观察方法: 'ls -l /dev/fd/'
