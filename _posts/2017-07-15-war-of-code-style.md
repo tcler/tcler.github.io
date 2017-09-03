@@ -47,8 +47,9 @@ title: "令人厌倦的宗教战争 -- code sytle"
         注: 如果有两个强迫症的maintainer，都不愿意做妥协让步，那就某规范条款 在各自负责的模块内使用不同的标准,,
 
 
-## 再举个例子
+##
 ```
+# linus 对network子系统注释风格的意见,和处理结果
 https://developers.slashdot.org/story/16/07/12/2036201/linus-torvalds-in-sweary-rant-about-punctuation-in-kernel-comments
 https://www.kernel.org/doc/html/v4.10/process/coding-style.html#commenting
 ```
