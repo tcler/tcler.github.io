@@ -6,7 +6,7 @@ title: "systemtap 修改系统调用输出参数"
 折腾了半天，终于搞明白怎么用 systemtap 修改函数出参了，总结一下学到的东西:
 1. probe 是 function() , 可以直接用 $varname 获取参数或当前上下文中的变量值
 2. probe 是 function().return , 没有办法获取参数和变量的值, 只能直接修改 $return
-3. 但是可以利用全局变量 在 probe function() 上下文中将 想要修改的参数地址保存, 然后在 function.return 中修改
+3. 但是可以利用全局变量 在 probe function() 上下文中将 想要修改的参数地址保存, 然后在 function().return 中修改
 4. tip: 字符串参数无法直接打印, 需要 kernel_string()/user_string() 转换
 5. tip: 类型无法知道, 可以用 @cast(var, "type") 做转换
 6. tip: @cast(var, "char *") 不可用, 还是用 kernel_string()/user_string() 吧
