@@ -116,6 +116,42 @@ END
 Pass 5: run completed in 10usr/30sys/390real ms.
 ```
 
+上面是学习调试过程产生的充满注释、验证代码、debug代码的例子，简化后的:
+```
+[yjh@ws nfs]$ cat statfs.stp
+#!/usr/bin/stap -vg
+
+global testpath = @1
+global intestpath = ""
+global statfs_buf
+
+probe syscall.statfs {
+        if (kernel_string($pathname) == testpath) {
+                intestpath = testpath;
+                statfs_buf = @var("buf");
+        }
+}
+probe syscall.statfs.return {
+        if (intestpath == testpath) {
+                @cast(statfs_buf, "struct statfs")->f_blocks = $2;
+                @cast(statfs_buf, "struct statfs")->f_bavail = 0;
+                @cast(statfs_buf, "struct statfs")->f_bfree = 0;
+                intestpath = "";
+        }
+}
+[yjh@ws nfs]$ groovy -e 'println new BigInteger(2).pow(64)'
+18446744073709551616
+[yjh@ws nfs]$ LANG=C sudo stap -g ./statfs.stp /mnt/image 18446744073709551615  -c 'df /mnt/image'
+Filesystem                1K-blocks  Used Available Use% Mounted on
+10.66.12.250:/nfs_nospace         -     -         0    - /mnt/image
+[yjh@ws nfs]$ LANG=C sudo stap -g ./statfs.stp /mnt/image 18446744073709551614  -c 'df /mnt/image'
+Filesystem                1K-blocks  Used Available Use% Mounted on
+10.66.12.250:/nfs_nospace         -     -         0    - /mnt/image
+[yjh@ws nfs]$ LANG=C sudo stap -g ./statfs.stp /mnt/image 18446744073709551613  -c 'df /mnt/image'
+Filesystem                              1K-blocks                    Used Available Use% Mounted on
+10.66.12.250:/nfs_nospace 18889465931478580851712 18889465931478580851712         0 100% /mnt/image
+```
+
 Tips: Groovy 进制转换, BigInteger() 处理超过 2^64 的大数
 ```
     groovy -e 'println new BigInteger("18889465931478580851712").toString(2)' #?
