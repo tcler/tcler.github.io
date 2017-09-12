@@ -35,8 +35,8 @@ title: "systemtap 修改系统调用输出参数"
 
 # because can not printf pointer_arg() as string
 # `-> I've solved this problem by use kernel_string()
-function printstr (name, var) %{
-        STAP_PRINTF("Embedded C STAP_PRINTF: %s = %s\n", STAP_ARG_name, STAP_ARG_var);
+function printstr (indent, name, var) %{
+        STAP_PRINTF("%sEmbedded C STAP_PRINTF: %s = %s\n", STAP_ARG_indent, STAP_ARG_name, STAP_ARG_var);
 %}
 
 #global testpath = "/mnt/image"
@@ -56,21 +56,21 @@ probe syscall.statfs
         if (path_str == testpath) {
                 intestpath = testpath
 
-                printf("-------- Start --------\n")
+                printf("Start ----------------\n")
                 statfs_buf = @var("buf");
 
                 # @var("varname") vs pointer_arg(position)
-                printf("@var(\"pathname\")=%d pointer_arg(1)=%d\n", @var("pathname"), pointer_arg(1))
+                printf("  [debug]@var(\"pathname\")=%d pointer_arg(1)=%d\n", @var("pathname"), pointer_arg(1))
 
                 # output pathname as string
-                printstr("$pathname", $pathname)
-                printf("kernel_string($pathname) = %s\n", kernel_string($pathname))
+                printstr("  [debug]", "$pathname", $pathname)
+                printf("  [debug]systemtap printf: kernel_string($pathname) = %s\n", kernel_string($pathname))
         }
 }
 probe syscall.statfs.return
 {
         if (intestpath == testpath) {
-                printf("Modify statfs(%s) at return point\n", kernel_string(statfs_path));
+                printf("  return: Modify statfs(%s) at return point\n", kernel_string(statfs_path));
                 #@cast(statfs_buf, "struct statfs")->f_blocks = 9223372036854775807; #2^63-1
                 #@cast(statfs_buf, "struct statfs")->f_blocks = 18446744073709551615; #2^64-1
                 @cast(statfs_buf, "struct statfs")->f_blocks = $2;
@@ -82,24 +82,38 @@ probe syscall.statfs.return
 }
 ```
 ```
+[yjh@ws nfs]$ LANG=C sudo stap -g ./statfs.stp /mnt/image 18446744073709551615  -c 'df /mnt/image'
+Filesystem                1K-blocks  Used Available Use% Mounted on
+10.66.12.250:/nfs_nospace         -     -         0    - /mnt/image
+
+statfs begin: $$vars$(pathname=140726166415397 buf=140726166408800 ret=137)
+statfs begin: $$parms$(pathname=140726166415397 buf=140726166408800)
+Start ----------------
+  [debug]@var("pathname")=140726166415397 pointer_arg(1)=140726166415397
+  [debug]Embedded C STAP_PRINTF: $pathname = /mnt/image
+  [debug]systemtap printf: kernel_string($pathname) = /mnt/image
+  return: Modify statfs(/mnt/image) at return point
+END
+```
+```
 [yjh@ws nfs]$ LANG=C sudo ./statfs.stp /mnt/image 18446744073709551615  -c 'df /mnt/image'
-Pass 1: parsed user script and 473 library scripts using 138512virt/47804res/7104shr/41020data kb, in 80usr/10sys/92real ms.
-Pass 2: analyzed script: 5 probes, 15 functions, 6 embeds, 6 globals using 325504virt/236344res/8464shr/228012data kb, in 1140usr/140sys/1308real ms.
-Pass 3: translated to C into "/tmp/stap7rBhJu/stap_633fda5af4e0b5a0a750becf0868e530_22269_src.c" using 325504virt/236536res/8656shr/228012data kb, in 0usr/0sys/5real ms.
-Pass 4: compiled C into "stap_633fda5af4e0b5a0a750becf0868e530_22269.ko" in 1610usr/220sys/1805real ms.
+Pass 1: parsed user script and 473 library scripts using 138512virt/47712res/7012shr/41020data kb, in 90usr/10sys/99real ms.
+Pass 2: analyzed script: 5 probes, 15 functions, 6 embeds, 6 globals using 325588virt/236280res/8388shr/228096data kb, in 1150usr/140sys/1326real ms.
+Pass 3: using cached /root/.systemtap/cache/82/stap_82b979c3e159cdbe9e88995301d158c6_22624.c
+Pass 4: using cached /root/.systemtap/cache/82/stap_82b979c3e159cdbe9e88995301d158c6_22624.ko
 Pass 5: starting run.
 Filesystem                1K-blocks  Used Available Use% Mounted on
 10.66.12.250:/nfs_nospace         -     -         0    - /mnt/image
 
-statfs begin: $$vars$(pathname=140735221229618 buf=140735221222176 ret=137)
-statfs begin: $$parms$(pathname=140735221229618 buf=140735221222176)
--------- Start --------
-pathname: @var("pathname")=140735221229618 pointer_arg(1)=140735221229618
-print string: /mnt/image
-pathname === /mnt/image
-Modify statfs(/mnt/image) at return point
+statfs begin: $$vars$(pathname=140730627438659 buf=140730627434544 ret=137)
+statfs begin: $$parms$(pathname=140730627438659 buf=140730627434544)
+Start ----------------
+  [debug]@var("pathname")=140730627438659 pointer_arg(1)=140730627438659
+  [debug]Embedded C STAP_PRINTF: $pathname = /mnt/image
+  [debug]systemtap printf: kernel_string($pathname) = /mnt/image
+  return: Modify statfs(/mnt/image) at return point
 END
-Pass 5: run completed in 10usr/40sys/375real ms.
+Pass 5: run completed in 10usr/30sys/390real ms.
 ```
 
 Tips: Groovy 进制转换, BigInteger() 处理超过 2^64 的大数
