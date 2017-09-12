@@ -4,6 +4,7 @@ title: "systemtap 修改系统调用输出参数"
 ---
 
 折腾了半天，终于搞明白怎么用 systemtap 修改函数出参了，总结一下学到的东西:
+0. yum install yum-utils dnf-utils && debuginfo-install kernel
 1. probe 是 function() , 可以直接用 $varname 获取参数或当前上下文中的变量值
 2. probe 是 function().return , 没有办法获取参数和变量的值, 只能直接修改 $return
 3. 但是可以利用全局变量 在 probe function() 上下文中将 想要修改的参数地址保存, 然后在 function().return 中修改
@@ -14,6 +15,7 @@ title: "systemtap 修改系统调用输出参数"
 8. 命令行参数：数值型 $1 $2 $3 ..., 字符串型 @1 @2 @3 ...;  $  @ 只表示类型
 9. -G NAME=VALUE 命令行定义全局变量
 10. -c 直接调用测试用的命令
+11. 疑问: 笔误写成 printf("%s\n", path)  竟然没有报错，还打印出了 pathname 的字符串值(外面多了"") ???
 
 下面是最终折腾出来的例子(修改特定 mountpoint statfs() 的返回值,看df输出值边界)
 ```
