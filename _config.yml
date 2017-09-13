@@ -10,7 +10,7 @@ tagline:             '--- 其实我是一个程序员'
 description:         'tcler''s blog, based on <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme <a href="http://jekyllthemes.io/theme/15489219/lanyon">Lanyon</a>'
 url:                 https://tcler.github.io
 baseurl:             ''
-paginate:            5
+paginate:            8
 gems: [jekyll-paginate]
 
 # About/contact
