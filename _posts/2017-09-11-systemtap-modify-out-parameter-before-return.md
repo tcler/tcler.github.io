@@ -155,6 +155,35 @@ Filesystem                              1K-blocks                    Used Availa
 10.66.12.250:/nfs_nospace 18889465931478580851712 18889465931478580851712         0 100% /mnt/image
 ```
 
+这次的例子只尝试了 kernel.function() 和 kernel.function().return; 只尝试了修改结构体参数;
+
+还没有解决的问题:
+1. 如何修改 char * 参数，比如把 statfs() 第一个参数 pathname 替换掉
+2. 如何读取/修改 局部/栈 变量
+3. etc.
+
+所有探测点类型:
+```
+kernel.function(PATTERN)
+kernel.function(PATTERN).call
+kernel.function(PATTERN).return
+kernel.function(PATTERN).return.maxactive(VALUE)
+kernel.function(PATTERN).inline
+kernel.function(PATTERN).label(LPATTERN)
+module(MPATTERN).function(PATTERN)
+module(MPATTERN).function(PATTERN).call
+module(MPATTERN).function(PATTERN).return.maxactive(VALUE)
+module(MPATTERN).function(PATTERN).inline
+kernel.statement(PATTERN)
+kernel.statement(ADDRESS).absolute
+module(MPATTERN).statement(PATTERN)
+process(PROCESSPATH).function(PATTERN)
+process(PROCESSPATH).function(PATTERN).call
+process(PROCESSPATH).function(PATTERN).return
+process(PROCESSPATH).function(PATTERN).inline
+process(PROCESSPATH).statement(PATTERN)
+```
+
 Tips: Groovy 进制转换, BigInteger() 处理超过 2^64 的大数
 ```
     groovy -e 'println new BigInteger("18889465931478580851712").toString(2)' #?
@@ -165,7 +194,7 @@ Tips: Groovy 进制转换, BigInteger() 处理超过 2^64 的大数
 
 Tips: Google bug: (18889465931478580854784 - 18889465931478580851712) 结果是 0
 
-ref:
+Ref: 这个总结的比较全面
 ```
 SystemTap使用技巧
 https://segmentfault.com/a/1190000010774974
