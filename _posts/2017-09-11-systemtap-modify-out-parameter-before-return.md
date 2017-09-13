@@ -164,3 +164,9 @@ Tips: Groovy 进制转换, BigInteger() 处理超过 2^64 的大数
 ```
 
 Tips: Google bug: (18889465931478580854784 - 18889465931478580851712) 结果是 0
+
+ref:
+```
+SystemTap使用技巧
+https://segmentfault.com/a/1190000010774974
+```
