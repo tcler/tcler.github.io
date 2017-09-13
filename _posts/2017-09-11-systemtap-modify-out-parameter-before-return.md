@@ -7,8 +7,18 @@ title: "systemtap 修改系统调用输出参数"
 1. 依赖: yum install yum-utils dnf-utils && debuginfo-install kernel
 2. 如果 probe 是 function() , 可以直接用 $varname 获取参数或当前上下文中的变量值
 3. ~~如果 probe 是 function().return , 没有办法获取参数和变量的值, 只能直接修改 $return~~
-4. 但是可以利用全局变量 在 probe function() 上下文中将 想要修改的参数地址保存, 然后在 function().return 中修改
+4. ~~ 但是可以利用全局变量 在 probe function() 上下文中将 想要修改的参数地址保存, 然后在 function().return 中修改 ~~
 5. 更正: 经过验证上面 3 的说法是错的, 发现其实是 return probe 里写法不同,需要写成 @entry($var) @entry($$vars->$)
+``` 
+probe syscall.statfs.return {
+        if (kernel_string(@entry($pathname)) == @1) {
+                printf("end: $$vars$ = %s\n", @entry($$vars->$))
+                @cast(@entry($buf), "struct statfs")->f_blocks = $2;
+                @cast(@entry($buf), "struct statfs")->f_bavail = 0;
+                @cast(@entry($buf), "struct statfs")->f_bfree = 0;
+        }
+}
+```
 6. tip: 字符串参数无法直接打印, 需要 kernel_string()/user_string() 转换
 7. tip: 类型无法知道, 可以用 @cast(var, "type") 做转换
 8. tip: @cast(var, "char *") 不可用, 还是用 kernel_string()/user_string() 吧
@@ -119,27 +129,19 @@ END
 Pass 5: run completed in 10usr/30sys/390real ms.
 ```
 
-上面是学习调试过程产生的充满注释、验证代码、debug代码的例子，简化后的:
+上面是学习调试过程产生的充满注释、验证代码、debug代码的例子，简化后的代码:
+
+修改出参 struct statfs \*buf
 ```
 [yjh@ws nfs]$ cat statfs.stp
 #!/usr/bin/stap -vg
 
-global testpath = @1
-global intestpath = ""
-global statfs_buf
-
-probe syscall.statfs {
-        if (kernel_string($pathname) == testpath) {
-                intestpath = testpath;
-                statfs_buf = @var("buf");
-        }
-}
 probe syscall.statfs.return {
-        if (intestpath == testpath) {
-                @cast(statfs_buf, "struct statfs")->f_blocks = $2;
-                @cast(statfs_buf, "struct statfs")->f_bavail = 0;
-                @cast(statfs_buf, "struct statfs")->f_bfree = 0;
-                intestpath = "";
+        if (kernel_string(@entry($pathname)) == @1) {
+                #printf("end: $$vars$ = %s\n", @entry($$vars->$))
+                @cast(@entry($buf), "struct statfs")->f_blocks = $2;
+                @cast(@entry($buf), "struct statfs")->f_bavail = 0;
+                @cast(@entry($buf), "struct statfs")->f_bfree = 0;
         }
 }
 [yjh@ws nfs]$ groovy -e 'println new BigInteger(2).pow(64)'
@@ -155,10 +157,33 @@ Filesystem                              1K-blocks                    Used Availa
 10.66.12.250:/nfs_nospace 18889465931478580851712 18889465931478580851712         0 100% /mnt/image
 ```
 
-这次的例子只尝试了 kernel.function() 和 kernel.function().return; 只尝试了修改结构体参数;
+修改入参 char \*pathname
+```
+[yjh@ws nfs]$ cat statfs2.stp
+#!/usr/bin/stap -vg
 
-还没有解决的问题:
-1. 如何修改 char * 参数，比如把 statfs() 第一个参数 pathname 替换掉
+function newpath(opath, npath) %{
+        char *p = (char *)STAP_ARG_opath;
+        strcpy(p, STAP_ARG_npath);
+%}
+probe syscall.statfs {
+        if (kernel_string($pathname) == @1) {
+                newpath($pathname, @2);
+        }
+}
+[yjh@ws nfs]$ LANG=C sudo stap -g ./statfs2.stp /mnt/image  /boot  -c 'df -Th /mnt/image'
+Filesystem                Type  Size  Used Avail Use% Mounted on
+10.66.12.250:/nfs_nospace nfs4   23G   11G   11G  51% /mnt/image
+                          #^^^ 奇怪,这里fstype没有受影响,但是
+[yjh@ws nfs]$ LANG=C df -Th /boot
+Filesystem              Type  Size  Used Avail Use% Mounted on
+/dev/mapper/fedora-root ext4   23G   11G   11G  51% /
+```
+
+这次的例子只尝试了 kernel.function() 和 kernel.function().return; 只尝试了修改参数;
+
+还没有尝试过/解决的问题: (等试过后再更新)
+1. 如何修改 errno 值
 2. 如何读取/修改 局部/栈 变量
 3. etc.
 
