@@ -188,6 +188,30 @@ Filesystem              Type  Size  Used Avail Use% Mounted on
 /dev/mapper/fedora-root ext4   23G   11G   11G  51% /
 ```
 
+增加一个查看stat返回结构体数据的例子
+```
+#!/usr/bin/stap -vg
+/*
+ * usage:
+ * file=new
+ * sudo stap -g ./stat.stp  $file  -c "ls -l $file"
+ * sudo stap -g ./stat.stp  $file  -c "du -s $file"
+ */
+
+probe syscall.lstat.return {
+    if (kernel_string(@entry($filename)) == @1) {
+        printf("end: $$vars$ = %s\n", @entry($$vars->$))
+        printf("%s\n", @cast(@entry($statbuf), "struct stat")$$)
+    }
+}
+probe syscall.fstatat.return {
+    if (kernel_string(@entry($filename)) == @1) {
+        printf("end: $$vars$ = %s\n", @entry($$vars->$))
+        printf("%s\n", @cast(@entry($statbuf), "struct stat")$$)
+    }
+}
+```
+
 这次的例子只尝试了 kernel.function() 和 kernel.function().return; 只尝试了修改参数;
 
 遗留问题: (等试过后再更新)
