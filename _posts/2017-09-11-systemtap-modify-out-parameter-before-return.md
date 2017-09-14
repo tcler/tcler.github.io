@@ -182,10 +182,11 @@ Filesystem              Type  Size  Used Avail Use% Mounted on
 
 这次的例子只尝试了 kernel.function() 和 kernel.function().return; 只尝试了修改参数;
 
-还没有尝试过/解决的问题: (等试过后再更新)
+遗留问题: (等试过后再更新)
 1. 如何修改 errno 值
 2. 如何读取/修改 局部/栈 变量
-3. etc.
+3. .call .inline .label return.maxactive 等 probe 都是什么含义??
+4. etc.
 
 Tips: 所有探测点类型
 ```
