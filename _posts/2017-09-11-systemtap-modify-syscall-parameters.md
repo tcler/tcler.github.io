@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "systemtap 修改系统调用输出参数"
+title: "systemtap 修改系统调用参数"
 ---
 
 折腾了半天，终于搞明白怎么用 systemtap 修改函数出参了，总结一下学到的东西:
