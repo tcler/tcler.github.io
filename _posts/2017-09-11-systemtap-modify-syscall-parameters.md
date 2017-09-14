@@ -264,4 +264,7 @@ Ref: 这个总结的比较全面
 ```
 SystemTap使用技巧
 https://segmentfault.com/a/1190000010774974
+
+Many examples
+https://sourceware.org/systemtap/examples/
 ```
