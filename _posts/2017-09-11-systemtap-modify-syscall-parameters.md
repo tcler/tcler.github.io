@@ -225,9 +225,10 @@ stap -l 'module("nfs").function("*")'
 stap -l 'module("nfs").function("*"), module("nfsd").function("*")'
 stap -l 'module("nfs*").function("*")
 stap -l 'syscall.*'
-sudo debuginfo-install cifs-utils nfs-utils
+# sudo debuginfo-install cifs-utils nfs-utils
 stap -l 'process("/usr/sbin/mount.cifs").function("*")'
 stap -l 'process("/usr/sbin/rpc.nfsd").function("*")'
+* -L 选项可以看到更多信息 *
 ```
 
 Tips: stap -l 'syscall.\*' 只能看到系统调用名, 怎么看对应的函数定义呢?
