@@ -27,6 +27,14 @@ probe syscall.statfs.return {
 11. -G NAME=VALUE 命令行定义全局变量
 12. -c 直接调用测试用的命令
 13. 疑问: 笔误写成 printf("%s\n", path)  竟然没有报错，还打印出了 pathname 的字符串值(外面多了"") ???
+```
+经同事提醒path是 script-level local variable; 不会在 $$vers$ 里显示
+[yjh@ws nfs]$ man stap
+       -L PROBE
+              Similar to "-l", but list probe points and script-level local variables.
+[yjh@ws nfs]$ stap -L syscall.statfs
+syscall.statfs name:string buf_uaddr:long path:string argstr:string $pathname:long int $buf:long int
+```
 
 下面是最终折腾出来的例子(修改特定 mountpoint statfs() 的返回值,看df输出值边界)
 ```
@@ -174,7 +182,7 @@ probe syscall.statfs {
 [yjh@ws nfs]$ LANG=C sudo stap -g ./statfs2.stp /mnt/image  /boot  -c 'df -Th /mnt/image'
 Filesystem                Type  Size  Used Avail Use% Mounted on
 10.66.12.250:/nfs_nospace nfs4   23G   11G   11G  51% /mnt/image
-                          #^^^ 奇怪,这里fstype没有受影响,但是
+                          #^^^ 奇怪,这里fstype没有受影响,但是f_blocks等数据确实是 /boot 的
 [yjh@ws nfs]$ LANG=C df -Th /boot
 Filesystem              Type  Size  Used Avail Use% Mounted on
 /dev/mapper/fedora-root ext4   23G   11G   11G  51% /
