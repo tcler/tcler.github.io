@@ -213,8 +213,31 @@ Tips: 查看所有的函数探测点
 ```
 stap -l 'kernel.function("*")'
 stap -l 'module("nfs").function("*")'
+stap -l 'module("nfs").function("*"), module("nfsd").function("*")'
+stap -l 'module("nfs*").function("*")
 stap -l 'syscall.*'
-...
+sudo debuginfo-install cifs-utils nfs-utils
+stap -l 'process("/usr/sbin/mount.cifs").function("*")'
+stap -l 'process("/usr/sbin/rpc.nfsd").function("*")'
+```
+
+Tips: stap -l 'syscall.\*' 只能看到系统调用名, 怎么看对应的函数定义呢?
+```
+[yjh@ws nfs]$ stap -l 'kernel.function("*")' | egrep -i '"(compat_)?sys_' | grep statfs
+kernel.function("SyS_fstatfs64@fs/statfs.c:203")
+kernel.function("SyS_fstatfs@fs/statfs.c:194")
+kernel.function("SyS_statfs64@fs/statfs.c:182")
+kernel.function("SyS_statfs@fs/statfs.c:173")
+kernel.function("SyS_ustat@fs/statfs.c:229")
+kernel.function("compat_SyS_fstatfs64@fs/statfs.c:347")
+kernel.function("compat_SyS_fstatfs@fs/statfs.c:291")
+kernel.function("compat_SyS_statfs64@fs/statfs.c:333")
+kernel.function("compat_SyS_statfs@fs/statfs.c:282")
+kernel.function("compat_SyS_ustat@fs/statfs.c:366")
+[yjh@ws nfs]$ find /usr/src -name statfs.c
+/usr/src/debug/kernel-4.12.fc26/linux-4.12.9-300.fc26.x86_64/fs/statfs.c
+[yjh@ws nfs]$ rpm -qf /usr/src/debug/kernel-4.12.fc26/linux-4.12.9-300.fc26.x86_64/fs/statfs.c
+kernel-debuginfo-common-x86_64-4.12.9-300.fc26.x86_64
 ```
 
 Tips: Groovy 进制转换, BigInteger() 处理超过 2^64 的大数
