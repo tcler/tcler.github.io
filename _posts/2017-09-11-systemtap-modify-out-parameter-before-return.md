@@ -187,7 +187,7 @@ Filesystem              Type  Size  Used Avail Use% Mounted on
 2. 如何读取/修改 局部/栈 变量
 3. etc.
 
-所有探测点类型:
+Tips: 所有探测点类型
 ```
 kernel.function(PATTERN)
 kernel.function(PATTERN).call
@@ -207,6 +207,14 @@ process(PROCESSPATH).function(PATTERN).call
 process(PROCESSPATH).function(PATTERN).return
 process(PROCESSPATH).function(PATTERN).inline
 process(PROCESSPATH).statement(PATTERN)
+```
+
+Tips: 查看所有的函数探测点
+```
+stap -l 'kernel.function("*")'
+stap -l 'module("nfs").function("*")'
+stap -l 'syscall.*'
+...
 ```
 
 Tips: Groovy 进制转换, BigInteger() 处理超过 2^64 的大数
