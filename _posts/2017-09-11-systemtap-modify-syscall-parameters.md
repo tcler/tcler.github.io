@@ -188,7 +188,7 @@ Filesystem              Type  Size  Used Avail Use% Mounted on
 /dev/mapper/fedora-root ext4   23G   11G   11G  51% /
 ```
 
-增加一个查看stat返回结构体数据的例子
+增加一个查看stat返回结构体数据的例子 @cast(@entry($statbuf), "struct stat")$$
 ```
 #!/usr/bin/stap -vg
 /*
@@ -215,7 +215,20 @@ probe syscall.fstatat.return {
 这次的例子只尝试了 kernel.function() 和 kernel.function().return; 只尝试了修改参数;
 
 遗留问题: (等试过后再更新)
-1. 如何修改 errno 值
+1. ~~如何修改 errno 值~~
+```
+#经调查发现 kernel.syscall 的返回值其实就是userspace看到的 errno; 所以修改 $return 就可以了
+#!/usr/bin/stap -vg
+# stap -g lstat_errno.stp file -c 'ls -l file' -- 0
+probe syscall.lstat.return {
+        if (kernel_string(@entry($filename)) == @1) {
+                %( $# >= 2 %? $return = $2 %)
+                for (i=0; i<5000; i++) ;
+                printf("returnval()=%d, errno_str(returnval())=%s\n", returnval(), errno_str(returnval()))
+                printf("returnstr(returnval())=%s\n", returnstr(returnval()))
+        }
+}
+```
 2. 如何读取/修改 局部/栈 变量
 3. .call .inline .label return.maxactive 等 probe 都是什么含义??
 4. etc.
