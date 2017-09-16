@@ -287,12 +287,14 @@ kernel.function("compat_SyS_ustat@fs/statfs.c:366")
 kernel-debuginfo-common-x86_64-4.12.9-300.fc26.x86_64
 ```
 
-Tips: Groovy 进制转换, BigInteger() 处理超过 2^64 的大数
+Tips: 进制转换 超过 2^64 的大数; (Groovy BigInteger vs bc)
 ```
-    groovy -e 'println new BigInteger("18889465931478580851712").toString(2)' #?
-    groovy -e 'println new BigInteger(2).pow(74).toString()'
-    groovy -e 'println new BigInteger(2).pow(74).subtract(new BigInteger("18889465931478580851712"))' #3072
-    groovy -e 'println Long.toString(184467440737095516, 16)' #different
+groovy -e 'println new BigInteger("18889465931478580851712").toString(2)' #?
+groovy -e 'println new BigInteger(2).pow(74).toString()'
+groovy -e 'println new BigInteger(2).pow(74).subtract(new BigInteger("18889465931478580851712"))' #3072
+  groovy -e 'println Long.toString(184467440737095516, 16)' #different
+bc <<<"2^74"
+bc <<<"obase=2; 2^74"
 ```
 
 Tips: Google bug: (18889465931478580854784 - 18889465931478580851712) 结果是 0
