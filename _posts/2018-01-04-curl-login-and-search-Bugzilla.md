@@ -8,7 +8,7 @@ title: "Bugzilla curl login and search - how to"
 还需要在 webUI 里搜索；这样我们就不好通过脚本自动化这部分工作。
 
 ### 解决
-1. 向 python-bugzilla-cli 提需求(根据以往经验 相应可能会很/非常慢)
+1. 向 python-bugzilla-cli 提需求(根据以往经验 响应可能会很/非常慢)
 
 2. 自己先调研一下：发现 curl 可以方便的实现基本功能，下面是踩过的坑和最后的结果：
 
