@@ -56,4 +56,11 @@ curl "https://bugzilla.site.com/buglist.cgi?query_format=specific&order=Importan
 -H "Upgrade-Insecure-Requests: 1" -b cookie.txt
 ```
 
+tips
+```
+命令行处理 html 的缺点就是 html 信息太乱；可以试用 w3m -dump
+w3m -dump $url
+w3m -dump -T text/html < <(sh curl-search.txt)
+```
+
 以上。
