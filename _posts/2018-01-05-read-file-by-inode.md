@@ -50,11 +50,26 @@ extents=$(awk -F'[0-9]:' '/u.bmx/{for(i=2;i<=NF;i++){print $i}}' <<<"$INODE")
 
 #output file content to stdout
 left=$fsize
-while read line; do
-        read startoff startblock blockcount extentflag  <<< ${line//[,\][]/ }
-        copysize=$((blockcount * blocksize))
-        [[ $copysize > $left ]] && copysize=$left
+while read extent; do
+        echo "extent: $extent" >&2
+        read startoff startblock blockcount extentflag  <<< ${extent//[,\][]/ }
+        ddcount=$blockcount
 
-        dd if=$dev bs=1 skip=$((startblock * blocksize)) count=$copysize 2>/dev/null && ((left-=copysize))
+        if [[ $((ddcount * blocksize)) -gt $left ]]; then
+                ddcount=$((left/blocksize))
+                mod=$((left%blocksize))
+
+                echo "left=$left, extentSize=$((ddcount * blocksize)); ddcount=$ddcount, mod=$mod" >&2
+                dd if=$dev bs=$blocksize skip=$startblock count=$ddcount
+                dd if=$dev bs=1 skip=$(((startblock+ddcount)*blocksize)) count=$mod
+
+                left=0
+                break
+        else
+                dd if=$dev bs=$blocksize skip=$startblock count=$ddcount
+        fi
+        ((left-=(ddcount*blocksize)))
 done <<< "$extents"
+
+echo "left: $left" >&2
 ```
