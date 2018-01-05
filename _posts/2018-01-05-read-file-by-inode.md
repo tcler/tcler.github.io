@@ -46,7 +46,7 @@ eval "$SB"
 #get inode info: file size and extents list
 INODE=$(xfs_db -r $dev -c "inode $inum" -c "type inode" -c print)
 fsize=$(awk '/core.size/{print $NF}' <<<"$INODE")
-extents=$(awk -F: '/u.bmx/{print $2}' <<<"$INODE")
+extents=$(awk -F'[0-9]:' '/u.bmx/{for(i=2;i<=NF;i++){print $i}}' <<<"$INODE")
 
 #output file content to stdout
 left=$fsize
