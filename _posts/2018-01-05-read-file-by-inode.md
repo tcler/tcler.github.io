@@ -66,7 +66,7 @@ while read extent; do
                 break
         else
                 dd if=$dev bs=$blocksize skip=$startblock count=$ddcount
-                echo
+                echo >&2
         fi
 
         ((left-=(ddcount*blocksize)))
