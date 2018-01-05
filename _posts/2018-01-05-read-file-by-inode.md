@@ -53,23 +53,22 @@ left=$fsize
 while read extent; do
         echo "extent: $extent" >&2
         read startoff startblock blockcount extentflag  <<< ${extent//[,\][]/ }
+        extentSize=$((ddcount * blocksize))
         ddcount=$blockcount
 
-        if [[ $((ddcount * blocksize)) -gt $left ]]; then
+        if [[ $extentSize -gt $left ]]; then
                 ddcount=$((left/blocksize))
                 mod=$((left%blocksize))
 
-                echo "left=$left, extentSize=$((ddcount * blocksize)); ddcount=$ddcount, mod=$mod" >&2
+                echo "left=$left, extentSize=$extentSize; ddcount=$ddcount, mod=$mod" >&2
                 dd if=$dev bs=$blocksize skip=$startblock count=$ddcount
                 dd if=$dev bs=1 skip=$(((startblock+ddcount)*blocksize)) count=$mod
-
-                left=0
                 break
         else
                 dd if=$dev bs=$blocksize skip=$startblock count=$ddcount
+                echo
         fi
+
         ((left-=(ddcount*blocksize)))
 done <<< "$extents"
-
-echo "left: $left" >&2
 ```
