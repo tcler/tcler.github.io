@@ -39,20 +39,19 @@ inum=$2
         echo "Usage: sudo xfs_icat <dev> <inum>" >&2
 }
 
-#get super block info: blocksize
-SB=$(xfs_db -r $dev -c "inode 0" -c "type sb" -c print | sed -nr '/dblocks|blocksize|inodesize/{s/ //g;p}')
-eval "$SB"
-
-#get inode info: file size and extents list
-INODE=$(xfs_db -r $dev -c "inode $inum" -c "type inode" -c print)
-fsize=$(awk '/core.size/{print $NF}' <<<"$INODE")
-extents=$(awk -F'[0-9]:' '/u.bmx/{for(i=2;i<=NF;i++){print $i}}' <<<"$INODE")
+#get super block info: blocksize, $inum core.size and extents list
+INFO=$(xfs_db -r $dev -c "inode 0" -c "type sb" -c 'print blocksize' -c "inode $inum" -c "type inode" -c "print core.size u.bmx")
+{
+read k eq blocksize
+read k eq fsize
+read k eq sum extents
+} <<< "$INFO"
 
 #output file content to stdout
 left=$fsize
-while read extent; do
+for extent in $extents; do
         echo "extent: $extent" >&2
-        read startoff startblock blockcount extentflag  <<< ${extent//[,\][]/ }
+        read idx startoff startblock blockcount extentflag  <<< ${extent//[:,\][]/ }
         extentSize=$((ddcount * blocksize))
         ddcount=$blockcount
 
@@ -70,5 +69,5 @@ while read extent; do
         fi
 
         ((left-=(ddcount*blocksize)))
-done <<< "$extents"
+done
 ```
