@@ -71,3 +71,12 @@ for extent in $extents; do
         ((left-=(ddcount*blocksize)))
 done
 ```
+
+```
+# 经同事提醒，目前这个脚本只能处理 core.format = 2 (extents) 的情况
+另外两种情况
+    core.format = 3 (btree)
+    core.format = 1 (local)
+还有 core.version 的值不同，相应的 field 名字也不一样，需要做判断处理
+-可能需要借助 expect ? 以交互式方式执行
+```
