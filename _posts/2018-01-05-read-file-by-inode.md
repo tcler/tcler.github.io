@@ -79,4 +79,9 @@ done
     core.format = 1 (local)
 还有 core.version 的值不同，相应的 field 名字也不一样，需要做判断处理
 -可能需要借助 expect ? 以交互式方式执行
+具体 xfs_db example 可以参考: https://github.com/djwong/xfs-documentation
+
+(tip: 制作 core.format 为 "3 (btree)" 的方法，可以创建一个 xfs.image，
+  然后在里面写满4k大小的文件，然后每隔一个删除，然后再创建一个大文件 
+  就可以得到一个 btree 格式的 inode 了)
 ```
