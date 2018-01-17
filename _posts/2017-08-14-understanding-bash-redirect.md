@@ -28,17 +28,17 @@ PCB.fd[left] = PCB.fd[right]
 '<' 和 '>' 对左右值的影响，只在于两方面:
 ```
 # 伪代码(python style)
-if left == nil:       #如果左值为 nil
+if left == nil:       # 如果左值为空, 影响的是左值的默认值
     if op == '<':
         left = 0
     if op == '>':
         left = 1
-elif not isFD(right): #如果右值不是 fd
+elif not isFD(right): # 如果右值不是 fd, 影响的是 "open flag" (读/写)
     if op == '<':
         right = open(right, r)
     if op == '>':
         right = open(right, w)
-else:                 #如果左值 右值都是 fd， '>' '<' 没有区别
+else:                 # 如果左值 右值都是 fd， '>' '<' 没有区别
     #nothing to do
 ```
 
@@ -47,12 +47,14 @@ Linux 系统最佳观察方法: 'ls -l /dev/fd/'
 [yjh@nfs]$ LANG=C ls -l /dev/fd/ 0>test.txt
 total 0
 l-wx------. 1 yjh yjh 64 Aug 10 08:24 0 -> /home/yjh/ws/case.repo/kernel/filesystems/nfs/test.txt
+  ^ w(写)方式打开
 lrwx------. 1 yjh yjh 64 Aug 10 08:24 1 -> /dev/pts/0
 lrwx------. 1 yjh yjh 64 Aug 10 08:24 2 -> /dev/pts/0
 lr-x------. 1 yjh yjh 64 Aug 10 08:24 3 -> /proc/5393/fd
 [yjh@nfs]$ LANG=C ls -l /dev/fd/ 0<test.txt
 total 0
 lr-x------. 1 yjh yjh 64 Aug 10 08:24 0 -> /home/yjh/ws/case.repo/kernel/filesystems/nfs/test.txt
+ ^ r(读)方式打开
 lrwx------. 1 yjh yjh 64 Aug 10 08:24 1 -> /dev/pts/0
 lrwx------. 1 yjh yjh 64 Aug 10 08:24 2 -> /dev/pts/0
 lr-x------. 1 yjh yjh 64 Aug 10 08:24 3 -> /proc/5410/fd
