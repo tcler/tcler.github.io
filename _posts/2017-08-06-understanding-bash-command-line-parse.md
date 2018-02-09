@@ -15,6 +15,12 @@ IFS    The  Internal  Field Separator that is used for word splitting after expa
        The default value is ``<space><tab><newline>''.
 ```
 
+```
+[yjh@test kernel]$ echo -n "$IFS" | hexdump -C
+00000000  20 09 0a                                          | ..|
+00000003
+```
+
 ### 如果我的参数里本身就有 IFS 里的字符比如'空格'怎么办?
 ```
 [yjh@ws tmp]$ ls
