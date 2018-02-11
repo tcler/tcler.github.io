@@ -13,7 +13,7 @@ import java.io.*;
 import java.security.*;
 
 public class FileDigest {
-        private static String getFileChecksum(File file, String type) throws IOException
+        public static String getFileChecksum(File file, String type) throws IOException
         {
                 MessageDigest digest = null;
 
