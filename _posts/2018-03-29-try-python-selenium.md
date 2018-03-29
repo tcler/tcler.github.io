@@ -62,3 +62,20 @@ display.stop()
 [jianhong@test nfs]$ python selen.py $URL | w3m -T text/html -dump
 ...
 ```
+
+
+Tips
+```
+测试脚本的名字不要用 selenium.py ，会命名空间冲突
+```
+
+```
+安装 python-xvfbwrapper pyvirtualdisplay 的目的是为了可以在远程 console 里运行 firefox driver
+```
+
+```
+如果不想依赖 xvfb pyvirtualdisplay ，可以选用 headless browser : phantomJS
+https://thief.one/2017/03/01/Phantomjs%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/
+https://www.jianshu.com/p/9d408e21dc3a
+http://www.infoq.com/cn/news/2015/01/phantomjs-webkit-javascript-api
+```
