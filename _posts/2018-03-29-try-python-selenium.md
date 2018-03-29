@@ -52,15 +52,15 @@ url=sys.argv[1]
 display = Display(visible=0, size=(1024, 768))
 display.start()
 
-profile = webdriver.FirefoxProfile(os.path.expanduser('~/.mozilla/firefox/bcjf2kfo.default'))
-'''
-profile.set_preference('javascript.enabled', True)
-profile.set_preference('network.negotiate-auth.trusted-uris', '.redhat.com')
-profile.set_preference('network.negotiate-auth.delegation-uris', '.redhat.com')
-profile.update_preferences()
-'''
+fp = webdriver.FirefoxProfile(os.path.expanduser('~/.mozilla/firefox/bcjf2kfo.default'))
+fp.set_preference('network.negotiate-auth.trusted-uris', '.redhat.com')
+fp.set_preference('network.negotiate-auth.delegation-uris', '.redhat.com')
+fp.set_preference("network.cookie.cookieBehavior", 2)
+fp.set_preference('javascript.enabled', True)
+fp.update_preferences()
 
-wd = webdriver.Firefox(profile)
+wd = webdriver.Firefox(fp)
+
 wd.get(url)
 print(wd.page_source)
 wd.close()
