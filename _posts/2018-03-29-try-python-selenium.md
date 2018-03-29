@@ -68,9 +68,11 @@ fp.update_preferences()
 wd = webdriver.Firefox(fp)
 
 wd.get(url)
-wd.find_element_by_partial_link_text('click here to log in').click()
-
 print(wd.page_source)
+
+wd.find_element_by_partial_link_text('click here to log in').click()
+print(wd.page_source)
+
 wd.close()
 wd.quit()
 
