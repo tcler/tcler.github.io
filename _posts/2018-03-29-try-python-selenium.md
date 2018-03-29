@@ -37,46 +37,64 @@ Safari:	https://webkit.org/blog/6900/webdriver-support-in-safari-10/
 [jianhong@test nfs]$ cat selen.py
 #!/usr/bin/python
 
-import sys
+import sys, os
+import shutil
+from glob import glob
+import traceback
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from pyvirtualdisplay import Display
+from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+#from pyvirtualdisplay import Display
 try:
     reload(sys)
     sys.setdefaultencoding('utf8')
 except NameError:
     pass; #do nothing
 
+prevProfile = '/tmp/prevFirefoxProfile'
 url=sys.argv[1]
 
-display = Display(visible=0, size=(1024, 768))
-display.start()
+#display = Display(visible=0, size=(1024, 768))
+#display.start()
 
-fp = webdriver.FirefoxProfile(os.path.expanduser('~/.mozilla/firefox/bcjf2kfo.default'))
+fp = FirefoxProfile(profile_directory=os.path.expanduser('~/.mozilla/firefox/bcjf2kfo.default'))
+#fp = FirefoxProfile(profile_directory=prevProfile)
 fp.set_preference('network.negotiate-auth.trusted-uris', '.redhat.com')
 fp.set_preference('network.negotiate-auth.delegation-uris', '.redhat.com')
 fp.set_preference("network.cookie.cookieBehavior", 2)
+fp.set_preference("network.cookie.prefsMigrated", True)
 fp.set_preference('javascript.enabled', True)
 fp.update_preferences()
 
-#fopt = webdriver.FirefoxOptions()
-#fopt.set_headless()
-#print(fopt.to_capabilities())
-#print(fopt.preferences)
+if os.path.exists(prevProfile):
+    shutil.rmtree(prevProfile)
+shutil.copytree(fp.path, prevProfile)
+print(fp.path)
 
-#wd = webdriver.Firefox(firefox_profile=fp, firefox_options=fopt)
-wd = webdriver.Firefox(fp)
+fopt = FirefoxOptions()
+fopt.set_headless()
+print(fopt.to_capabilities())
+print(fopt.preferences)
 
-wd.get(url)
-print(wd.page_source)
 
-wd.find_element_by_partial_link_text('click here to log in').click()
-print(wd.page_source)
+wd = webdriver.Firefox(firefox_profile=fp, firefox_options=fopt)
+try:
+    print(fp.path)
+    wd.get(url)
+    print(wd.page_source)
+    wd.find_element_by_partial_link_text('click here to log in').click()
+    print(wd.page_source)
+except Exception as e:
+    print(traceback.format_exc())
 
+topdir=os.path.dirname(os.path.dirname(fp.path))
+for e in [topdir + '/tmp*', topdir + '/rust_mozprofile.*']:
+    for f in glob(e):
+        shutil.rmtree(f)
 wd.close()
-wd.quit()
-
-display.stop()
+#wd.quit()
+#display.stop()
 
 [jianhong@test nfs]$ python selen.py $URL | w3m -T text/html -dump
 ...
@@ -90,10 +108,11 @@ Tips
 
 ```
 安装 python-xvfbwrapper pyvirtualdisplay 的目的是为了可以在远程 console 里运行 firefox driver
+如果浏览器选项支持 set_headless 的话，就不需要了 
 ```
 
 ```
-如果不想依赖 xvfb pyvirtualdisplay ，可以选用 headless browser : phantomJS
+^^ 如果浏览器不支持 headless 选项 ，还可以选用专门的 headless browser : phantomJS
 https://thief.one/2017/03/01/Phantomjs%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/
 https://www.jianshu.com/p/9d408e21dc3a
 http://www.infoq.com/cn/news/2015/01/phantomjs-webkit-javascript-api
