@@ -59,6 +59,12 @@ fp.set_preference("network.cookie.cookieBehavior", 2)
 fp.set_preference('javascript.enabled', True)
 fp.update_preferences()
 
+#fopt = webdriver.FirefoxOptions()
+#fopt.set_headless()
+#print(fopt.to_capabilities())
+#print(fopt.preferences)
+
+#wd = webdriver.Firefox(firefox_profile=fp, firefox_options=fopt)
 wd = webdriver.Firefox(fp)
 
 wd.get(url)
