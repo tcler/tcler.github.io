@@ -64,6 +64,7 @@ wd = webdriver.Firefox(profile)
 wd.get(url)
 print(wd.page_source)
 wd.close()
+wd.quit()
 
 display.stop()
 
