@@ -117,3 +117,17 @@ https://thief.one/2017/03/01/Phantomjs%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/
 https://www.jianshu.com/p/9d408e21dc3a
 http://www.infoq.com/cn/news/2015/01/phantomjs-webkit-javascript-api
 ```
+
+遗留问题
+```
+firefox 上，如下设置好像不起作用，
+fp.set_preference("network.cookie.cookieBehavior", 2)
+fp.set_preference('javascript.enabled', True)
+
+'''
+Note: Your browser may have JavaScript or Cookies disabled. You must press the
+Continue Login button to proceed.
+
+Please enable Cookies to continue login.
+'''
+```
