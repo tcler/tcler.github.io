@@ -20,7 +20,7 @@ sudo oc cluster up   #fail, need docker # (yum 依赖是不是得加上?)
 sudo yum install docker
 sudo systemctl start docker
 
-sudo oc cluster up   #still fail, 可能是网络问题，
+sudo oc cluster up   #still fail, 可能是网络问题，镜像下载总是超时
     #Error: Error: No such image: openshift/origin:v3.9.0
 sudo oc cluster up --version=latest   #still fail
     #docker pull timeout
@@ -60,4 +60,11 @@ To login as administrator:
 ### 创建 project
 ```
 未完待续
+```
+
+
+### tips
+```
+#openshift 提供了一个在线学习/练习的站点
+https://learn.openshift.com/playgrounds/openshift37/
 ```
