@@ -57,6 +57,25 @@ To login as administrator:
     oc login -u system:admin
 ```
 
+没有网络连接的话，出现的错误
+```
+[root@localhost ~]# oc cluster up --image=registry.access.redhat.com/openshift3/ose --version=v3.9
+Deleted existing OpenShift container
+error: FAIL
+   Error: Cannot get TCP port information from Kubernetes host
+   Caused By:
+     Error: cannot start container d0b49d9b20b84a6e47e15b6951efa9041d739ccd109be15ed1f3bb02296a430c
+     Caused By:
+       Error: Error response from daemon: {"message":"could not copy source resolv.conf file /etc/resolv.conf to /var/lib/docker/containers/d0b49d9b20b84a6e47e15b6951efa9041d739ccd109be15ed1f3bb02296a430c/resolv.conf: open /etc/resolv.conf: no such file or directory"}
+[root@localhost ~]# ls /etc/resolv.conf 
+/etc/resolv.conf
+[root@localhost ~]# ls /etc/resolv.conf  -l
+lrwxrwxrwx. 1 root root 35 4月  19 17:30 /etc/resolv.conf -> /var/run/NetworkManager/resolv.conf
+# /var/run/NetworkManager/resolv.conf 不存在
+# 联网后，问题解决；
+# 疑问: all in one 还需要联网吗？这个处理是否需要改进一下？
+```
+
 ### 创建 project
 ```
 未完待续
