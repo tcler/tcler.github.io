@@ -172,7 +172,8 @@ Info:
 
 View details with 'oc describe <resource>/<name>' or list everything with 'oc get all'.
 
-#遗留问题: 为什么出现 "deployment # failed"
+#遗留问题1: 为什么出现 "deployment # failed" ???
+#遗留问题2: 怎么添加 volume ???
 ```
 
 ### tips
