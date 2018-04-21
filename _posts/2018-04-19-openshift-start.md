@@ -86,4 +86,7 @@ lrwxrwxrwx. 1 root root 35 4月  19 17:30 /etc/resolv.conf -> /var/run/NetworkMa
 ```
 #openshift 提供了一个在线学习/练习的站点
 https://learn.openshift.com/playgrounds/openshift37/
+
+#openshift docs
+https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md
 ```
