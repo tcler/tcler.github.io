@@ -78,9 +78,102 @@ lrwxrwxrwx. 1 root root 35 4月  19 17:30 /etc/resolv.conf -> /var/run/NetworkMa
 
 ### 创建 project
 ```
-未完待续
+# oc cluster up 之后会有一个默认的 project: myprojec""
+[yjh@localhost ~]$ oc login -u developer -p developer
+Login successful.
+
+You have one project on this server: "myproject"
+
+Using project "myproject".
+[yjh@localhost ~]$ oc project
+Using project "myproject" on server "https://localhost:8443".
+[yjh@localhost ~]$ oc get project
+NAME        DISPLAY NAME   STATUS
+myproject   My Project     Active
 ```
 
+```
+# 在 https://learn.openshift.com/playgrounds/openshift37/ 提供的环境上
+# 没有默认 project , 自己创建一个
+$ oc login -u developer -p developer
+Login successful.
+
+You don't have any projects. You can try to create a new project, by running
+
+    oc new-project <projectname>
+    
+$ oc new-project myproject
+Now using project "myproject" on server "https://172.17.0.67:8443".
+
+You can add applications to this project with the 'new-app' command. For example, try:
+
+    oc new-app centos/ruby-22-centos7~https://github.com/openshift/ruby-ex.git
+    
+to build a new example application in Ruby.
+$ oc new-app centos/ruby-22-centos7~https://github.com/openshift/ruby-ex.git
+--> Found Docker image <snip>
+
+<snip>
+
+    Run 'oc status' to view you app.
+```
+
+```
+# 本地环境 log
+[yjh@localhost ~]$ oc project myproject
+Already on project "myproject" on server "https://localhost:8443".
+[yjh@localhost ~]$ oc new-app --docker-image=registry.access.redhat.com/openshift3/jenkins-2-rhel7
+--> Found Docker image 4d943d5 (2 weeks old) from registry.access.redhat.com for "registry.access.redhat.com/openshift3/jenkins-2-rhel7"
+
+    Jenkins 2 
+    --------- 
+    Jenkins is a continuous integration server
+
+    Tags: jenkins, jenkins2, ci
+
+    * An image stream will be created as "jenkins-2-rhel7:latest" that will track this image
+    * This image will be deployed in deployment config "jenkins-2-rhel7"
+    * Ports 50000/tcp, 8080/tcp will be load balanced by service "jenkins-2-rhel7"
+      * Other containers can access this service through the hostname "jenkins-2-rhel7"
+    * This image declares volumes and will default to use non-persistent, host-local storage.
+      You can add persistent volumes later by running 'volume dc/jenkins-2-rhel7 --add ...'
+
+--> Creating resources ...
+    imagestream "jenkins-2-rhel7" created
+    deploymentconfig "jenkins-2-rhel7" created
+    service "jenkins-2-rhel7" created
+--> Success
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose svc/jenkins-2-rhel7' 
+    Run 'oc status' to view your app.
+[yjh@localhost ~]$ oc status
+In project My Project (myproject) on server https://localhost:8443
+
+svc/jenkins-2-rhel7 - 172.30.171.103 ports 8080, 50000
+  dc/jenkins-2-rhel7 deploys istag/jenkins-2-rhel7:latest 
+    deployment #1 failed about a minute ago: config change
+
+
+3 infos identified, use 'oc status -v' to see details.
+[yjh@localhost ~]$ oc status -v
+In project My Project (myproject) on server https://localhost:8443
+
+svc/jenkins-2-rhel7 - 172.30.171.103 ports 8080, 50000
+  dc/jenkins-2-rhel7 deploys istag/jenkins-2-rhel7:latest 
+    deployment #1 failed 2 minutes ago: config change
+
+Info:
+  * pod/jenkins-2-rhel7-1-deploy has no liveness probe to verify pods are still running.
+    try: oc set probe pod/jenkins-2-rhel7-1-deploy --liveness ...
+  * dc/jenkins-2-rhel7 has no readiness probe to verify pods are ready to accept traffic or ensure deployment is successful.
+    try: oc set probe dc/jenkins-2-rhel7 --readiness ...
+  * dc/jenkins-2-rhel7 has no liveness probe to verify pods are still running.
+    try: oc set probe dc/jenkins-2-rhel7 --liveness ...
+
+View details with 'oc describe <resource>/<name>' or list everything with 'oc get all'.
+
+#遗留问题: 为什么出现 "deployment # failed"
+```
 
 ### tips
 ```
