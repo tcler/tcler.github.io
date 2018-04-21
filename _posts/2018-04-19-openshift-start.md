@@ -174,6 +174,7 @@ View details with 'oc describe <resource>/<name>' or list everything with 'oc ge
 
 #遗留问题1: 为什么出现 "deployment # failed" ???
 #遗留问题2: 怎么添加 volume ???
+#遗留问题3: image imagestream 区别 ???
 ```
 
 ### tips
