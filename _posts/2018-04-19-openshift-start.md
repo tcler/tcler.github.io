@@ -83,21 +83,6 @@ lrwxrwxrwx. 1 root root 35 4月  19 17:30 /etc/resolv.conf -> /var/run/NetworkMa
 
 ### 创建 project
 ```
-# oc cluster up 之后会有一个默认的 project: myprojec""
-[yjh@localhost ~]$ oc login -u developer -p developer
-Login successful.
-
-You have one project on this server: "myproject"
-
-Using project "myproject".
-[yjh@localhost ~]$ oc project
-Using project "myproject" on server "https://localhost:8443".
-[yjh@localhost ~]$ oc get project
-NAME        DISPLAY NAME   STATUS
-myproject   My Project     Active
-```
-
-```
 # 在 https://learn.openshift.com/playgrounds/openshift37/ 提供的环境上
 # 没有默认 project , 自己创建一个
 $ oc login -u developer -p developer
@@ -125,9 +110,22 @@ $ oc new-app centos/ruby-22-centos7~https://github.com/openshift/ruby-ex.git
 
 ```
 # 本地环境 log
-[yjh@localhost ~]$ oc project myproject
-Already on project "myproject" on server "https://localhost:8443".
-[yjh@localhost ~]$ oc new-app --docker-image=registry.access.redhat.com/openshift3/jenkins-2-rhel7
+[root@localhost ~]# oc new-project fs-ci
+Now using project "fs-ci" on server "https://127.0.0.1:8443".
+
+You can add applications to this project with the 'new-app' command. For example, try:
+
+    oc new-app centos/ruby-22-centos7~https://github.com/openshift/ruby-ex.git
+
+to build a new example application in Ruby.
+[root@localhost ~]# oc project fs-ci 
+Already on project "fs-ci" on server "https://127.0.0.1:8443".
+[root@localhost ~]# vim /etc/containers/registries.conf 
+[root@localhost ~]# docker search  jenkins-2
+# <snip>
+[root@localhost ~]# docker pull registry.access.redhat.com/openshift3/jenkins-2-rhel7
+# <snip>
+[root@localhost ~]# oc new-app --docker-image=registry.access.redhat.com/openshift3/jenkins-2-rhel7
 --> Found Docker image 4d943d5 (2 weeks old) from registry.access.redhat.com for "registry.access.redhat.com/openshift3/jenkins-2-rhel7"
 
     Jenkins 2 
@@ -151,21 +149,29 @@ Already on project "myproject" on server "https://localhost:8443".
     Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
      'oc expose svc/jenkins-2-rhel7' 
     Run 'oc status' to view your app.
-[yjh@localhost ~]$ oc status
-In project My Project (myproject) on server https://localhost:8443
+[root@localhost ~]# oc expose svc/jenkins-2-rhel7
+route "jenkins-2-rhel7" exposed
+[root@localhost ~]# oc status 
+In project fs-ci on server https://127.0.0.1:8443
 
-svc/jenkins-2-rhel7 - 172.30.171.103 ports 8080, 50000
+http://jenkins-2-rhel7-fs-ci.127.0.0.1.nip.io to pod port 8080-tcp (svc/jenkins-2-rhel7)
   dc/jenkins-2-rhel7 deploys istag/jenkins-2-rhel7:latest 
-    deployment #1 failed about a minute ago: config change
+    deployment #1 running for 29 seconds
 
+Errors:
+  * route/jenkins-2-rhel7 is routing traffic to svc/jenkins-2-rhel7, but either the administrator has not installed a router or the router is not selecting this route.
 
-3 infos identified, use 'oc status -v' to see details.
-[yjh@localhost ~]$ oc status -v
-In project My Project (myproject) on server https://localhost:8443
+1 error, 3 infos identified, use 'oc status -v' to see details.
+[root@localhost ~]# oc status -v
+In project fs-ci on server https://127.0.0.1:8443
 
-svc/jenkins-2-rhel7 - 172.30.171.103 ports 8080, 50000
+http://jenkins-2-rhel7-fs-ci.127.0.0.1.nip.io to pod port 8080-tcp (svc/jenkins-2-rhel7)
   dc/jenkins-2-rhel7 deploys istag/jenkins-2-rhel7:latest 
-    deployment #1 failed 2 minutes ago: config change
+    deployment #1 failed 35 seconds ago: config change
+
+Errors:
+  * route/jenkins-2-rhel7 is routing traffic to svc/jenkins-2-rhel7, but either the administrator has not installed a router or the router is not selecting this route.
+    try: oc adm router -h
 
 Info:
   * pod/jenkins-2-rhel7-1-deploy has no liveness probe to verify pods are still running.
@@ -176,12 +182,87 @@ Info:
     try: oc set probe dc/jenkins-2-rhel7 --liveness ...
 
 View details with 'oc describe <resource>/<name>' or list everything with 'oc get all'.
+[root@localhost ~]# oc get pod
+NAME                       READY     STATUS    RESTARTS   AGE
+jenkins-2-rhel7-1-deploy   0/1       Error     0          3m
+[root@localhost ~]# oc describe po/jenkins-2-rhel7-1-deploy
+Name:         jenkins-2-rhel7-1-deploy
+Namespace:    fs-ci
+Node:         localhost/10.210.8.237
+Start Time:   Mon, 23 Apr 2018 17:42:29 +0800
+Labels:       openshift.io/deployer-pod-for.name=jenkins-2-rhel7-1
+Annotations:  openshift.io/deployment-config.name=jenkins-2-rhel7
+              openshift.io/deployment.name=jenkins-2-rhel7-1
+              openshift.io/scc=restricted
+Status:       Failed
+IP:           172.17.0.2
+Containers:
+  deployment:
+    Container ID:   docker://9274c2969f01c57b219917575898be043331a62d7ba9a30c1b6c615b69aee947
+    Image:          registry.access.redhat.com/openshift3/ose-deployer:v3.9
+    Image ID:       docker-pullable://registry.access.redhat.com/openshift3/ose-deployer@sha256:02cb0ca8588da26d8f1dfd44e0affc2945e66457bdfba7842b06f194e357d252
+    Port:           <none>
+    State:          Terminated
+      Reason:       Error
+      Exit Code:    1
+      Started:      Mon, 23 Apr 2018 17:42:30 +0800
+      Finished:     Mon, 23 Apr 2018 17:43:00 +0800
+    Ready:          False
+    Restart Count:  0
+    Environment:
+      KUBERNETES_MASTER:  https://127.0.0.1:8443
+      OPENSHIFT_MASTER:   https://127.0.0.1:8443
+      BEARER_TOKEN_FILE:  /var/run/secrets/kubernetes.io/serviceaccount/token
+      OPENSHIFT_CA_DATA:  -----BEGIN CERTIFICATE-----
+MIIC6jCCAdKgAwIBAgIBATANBgkqhkiG9w0BAQsFADAmMSQwIgYDVQQDDBtvcGVu
+c2hpZnQtc2lnbmVyQDE1MjQxMjM4ODUwHhcNMTgwNDE5MDc0NDQ1WhcNMjMwNDE4
+MDc0NDQ2WjAmMSQwIgYDVQQDDBtvcGVuc2hpZnQtc2lnbmVyQDE1MjQxMjM4ODUw
+ggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDYlgNn3GogeaEKQ5PYtoVz
+w5QMeRzBmzbgnnteB3E1zESGPhEXYqgVcZl5pygmqNoLSZYCIRSi1AlVYDK74koW
+UwSJtnFHaIIV76UaNBxsgqO0+rVK2x6xEPA8bAGrOI2KAZnmDw4k8w/LRY3/N/BV
+TfbH3iQDr5AG36F4xg4qOGbYS7aA9SuPyzTbCMp9rAN7MRvy0CowdaWk2sfiV8jc
+lcDe4CxBFzjm3dyAnUKpH9iIAem83Hb4Upi8cGezboQjooWcoA0sKQlOjkpxrzgL
+uUdHolZQ5cyP3obQPqEO1abVjnmSxFdNWUGA/NzQ3K8vdUKG8/l6Xdzm9oVLC21P
+AgMBAAGjIzAhMA4GA1UdDwEB/wQEAwICpDAPBgNVHRMBAf8EBTADAQH/MA0GCSqG
+SIb3DQEBCwUAA4IBAQAGcAerQ53cI2JDk074llddQYWQ3FP5bG00je9CuTGI5HLA
+TwI9FbBqD0tP43NjpF9NE1Pgb0vlkapuwCMv8RR0jmDUH/gRpOHCKg46kjxV/KJn
+4RKZKRhhrP+78QzViuanBEnw0J5c3SL9MtTCPXOy+MgJSiV4RicnWSmaJ52VakfU
+Eo/sqA7OVVlR+BVtWpJstjf4PYMowwHNLQFSArnq/FBEq7U4BbyNYlqJ6MLehKOe
+6AHP0E5EclBUecKZ9faxgu+yJ1zbsP8unyimYUeCeuHfCBuw6wiheSNVqhfbdFHn
+cCEwYnHd2cTNCCuaqUxjSOKQyjz1Qe7cB+FCyuzM
+-----END CERTIFICATE-----
 
-#遗留问题1: 为什么出现 "deployment # failed" ???
-#遗留问题2: 怎么添加 volume ???
-#遗留问题3: image imagestream 区别 ???
+      OPENSHIFT_DEPLOYMENT_NAME:       jenkins-2-rhel7-1
+      OPENSHIFT_DEPLOYMENT_NAMESPACE:  fs-ci
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from deployer-token-k6dzr (ro)
+Conditions:
+  Type           Status
+  Initialized    True 
+  Ready          False 
+  PodScheduled   True 
+Volumes:
+  deployer-token-k6dzr:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  deployer-token-k6dzr
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     <none>
+Events:
+  Type    Reason                 Age   From                Message
+  ----    ------                 ----  ----                -------
+  Normal  Scheduled              3m    default-scheduler   Successfully assigned jenkins-2-rhel7-1-deploy to localhost
+  Normal  SuccessfulMountVolume  3m    kubelet, localhost  MountVolume.SetUp succeeded for volume "deployer-token-k6dzr"
+  Normal  Pulled                 3m    kubelet, localhost  Container image "registry.access.redhat.com/openshift3/ose-deployer:v3.9" already present on machine
+  Normal  Created                3m    kubelet, localhost  Created container
+  Normal  Started                3m    kubelet, localhost  Started container
+
+#遗留问题1: 怎么添加 volume ???
+#   You can add persistent volumes later by running 'volume dc/jenkins-2-rhel7 --add ...'
+#遗留问题2: 啥意思，怎么改这个 route ???
+#   * route/jenkins-2-rhel7 is routing traffic to svc/jenkins-2-rhel7, but either the administrator has not installed a router or the router is not selecting this route. try: 'oc adm router -h'
 ```
-
 
 ### tips
 ```
