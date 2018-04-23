@@ -10,6 +10,11 @@ Redhat Openshift-3 开始基于 Kubernetes 实现；那 Kubernetes 和 Openshift
 
 所以使用的话直接上 Openshift 就可以了(当然内部的基本概念和 Kubernetes 是一样的，因为就是基于 K8s 嘛~)
 
+### 概念
+```
+google or 官方文档
+```
+
 ### 搭建 all in one 环境 on Fedora-28 (好多坑)
 ```
 sudo yum install -y origin  #Openshift 的社区版
@@ -177,6 +182,7 @@ View details with 'oc describe <resource>/<name>' or list everything with 'oc ge
 #遗留问题3: image imagestream 区别 ???
 ```
 
+
 ### tips
 ```
 #openshift 提供了一个在线学习/练习的站点
@@ -184,4 +190,32 @@ https://learn.openshift.com/playgrounds/openshift37/
 
 #openshift docs
 https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md
+```
+
+### 权限
+默认 admin, developer 用户没有足够权限，如要提升 system:admin 才有权限
+```
+# use: '--config=${OPENSHIFT_DIR}/admin.kubeconfig'
+$ oc get user --config=/var/lib/origin/openshift.local.config/master/admin.kubeconfig
+
+# use: 'export KUBECONFIG='
+$ export KUBECONFIG=/var/lib/origin/openshift.local.config/master/admin.kubeconfig
+$ oc get user
+
+# use: 'oc config use-context <context>' to switch context
+$ oc config view
+$ oc config use-context default/127-0-0-1:8443/system:admin
+$ oc get user
+```
+
+### 查看状态
+```
+$ oc get pod
+$ oc describe pod/<podname>
+```
+
+### 删除
+```
+$ oc delete project <project>
+$ oc delete dc <name>
 ```
