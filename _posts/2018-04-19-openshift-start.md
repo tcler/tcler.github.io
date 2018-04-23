@@ -120,6 +120,8 @@ You can add applications to this project with the 'new-app' command. For example
 to build a new example application in Ruby.
 [root@localhost ~]# oc project fs-ci 
 Already on project "fs-ci" on server "https://127.0.0.1:8443".
+
+# 为了排除docker镜像无法下载导致的错误，最好先用 docker pull 把镜像下载下来 在 oc new-app
 [root@localhost ~]# vim /etc/containers/registries.conf 
 [root@localhost ~]# docker search  jenkins-2
 # <snip>
