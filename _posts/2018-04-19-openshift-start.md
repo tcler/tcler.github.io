@@ -258,7 +258,26 @@ Events:
   Normal  SuccessfulMountVolume  3m    kubelet, localhost  MountVolume.SetUp succeeded for volume "deployer-token-k6dzr"
   Normal  Pulled                 3m    kubelet, localhost  Container image "registry.access.redhat.com/openshift3/ose-deployer:v3.9" already present on machine
   Normal  Created                3m    kubelet, localhost  Created container
-  Normal  Started                3m    kubelet, localhost  Started container
+  Normal  Started                3m    kubelet, localhost  Started containr
+#
+# 尝试重新 deplpy (rollout)
+[yjh@localhost ~]$ oc rollout latest jenkins-2-rhel7
+#
+# 查看 log ，看为啥 deploy fail
+[yjh@localhost ~]$ oc logs jenkins-2-rhel7-1-deploy 
+error: couldn't get deployment jenkins-2-rhel7-1: Get https://172.30.0.1:443/api/v1/namespaces/fs-ci/replicationcontrollers/jenkins-2-rhel7-1: dial tcp 172.30.0.1:443: getsockopt: no route to host
+#
+# 关闭 firewalld ，重新 rollout :
+[yjh@localhost ~]$ sudo systemctl stop firewalld
+[yjh@localhost ~]$ oc rollout latest jenkins-2-rhel7
+deploymentconfig "jenkins-2-rhel7" rolled out
+[yjh@localhost ~]$ oc get po
+NAME                       READY     STATUS    RESTARTS   AGE
+jenkins-2-rhel7-1-deploy   0/1       Error     0          24m
+jenkins-2-rhel7-2-deploy   0/1       Error     0          20m
+jenkins-2-rhel7-3-deploy   0/1       Error     0          19m
+jenkins-2-rhel7-4-tv7n4    1/1       Running   0          8m
+# 终于 deploy 成功                    ^^^^
 
 #遗留问题1: 怎么添加 volume ???
 #   You can add persistent volumes later by running 'volume dc/jenkins-2-rhel7 --add ...'
