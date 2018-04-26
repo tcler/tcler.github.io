@@ -15,7 +15,7 @@ Redhat Openshift-3 开始基于 Kubernetes 实现；那 Kubernetes 和 Openshift
 google or 官方文档
 ```
 
-### 搭建 all in one 环境 on Fedora-28 (好多坑)
+### 启动 all in one (oc cluster up \[options])   #on Fedora-28 (好多坑)
 ```
 sudo yum install -y origin  #Openshift 的社区版
 oc cluster up        #fail, must run as root user
@@ -342,6 +342,7 @@ $ oc get user
 
 ### 查看状态
 ```
+$ oc status  # or:
 $ oc get pod
 $ oc describe pod/<podname>
 ```
@@ -349,5 +350,6 @@ $ oc describe pod/<podname>
 ### 删除
 ```
 $ oc delete project <project>
-$ oc delete dc <name>
+$ oc delete dc <dc name>
+$ oc delete route <route name>
 ```
