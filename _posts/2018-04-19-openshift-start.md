@@ -278,11 +278,38 @@ jenkins-2-rhel7-2-deploy   0/1       Error     0          20m
 jenkins-2-rhel7-3-deploy   0/1       Error     0          19m
 jenkins-2-rhel7-4-tv7n4    1/1       Running   0          8m
 # 终于 deploy 成功                    ^^^^
+#
+# 然后 route 的问题，需要 oc login system:admin
+[yjh@localhost ~]$ sudo oc login -u system:admin
+[yjh@localhost ~]$ sudo oc adm router router --replicas=1 --service-account=router
+error: router could not be created; service account "router" is not allowed to access the host network on nodes, grant access with oc adm policy add-scc-to-user hostnetwork -z router
+[yjh@localhost ~]$ sudo oc adm policy add-scc-to-user hostnetwork -z router 
+scc "hostnetwork" added to: ["system:serviceaccount:fs-ci:router"]
+[yjh@localhost ~]$ sudo oc adm router router --replicas=1 --service-account=router
+info: password for stats user admin has been set to 2xUkefGNJs
+--> Creating router router ...
+    serviceaccount "router" created
+    warning: clusterrolebindings "router-router-role" already exists
+    deploymentconfig "router" created
+    service "router" created
+--> Success
+[yjh@localhost ~]$ sudo oc get route 
+NAME              HOST/PORT                                PATH      SERVICES          PORT       TERMINATION   WILDCARD
+jenkins-2-rhel7   jenkins-2-rhel7-fs-ci.127.0.0.1.nip.io             jenkins-2-rhel7   8080-tcp                 None
+[yjh@localhost ~]$ sudo oc get po
+NAME                       READY     STATUS    RESTARTS   AGE
+jenkins-2-rhel7-1-deploy   0/1       Error     0          2h
+jenkins-2-rhel7-2-deploy   0/1       Error     0          2h
+jenkins-2-rhel7-3-deploy   0/1       Error     0          2h
+jenkins-2-rhel7-4-tv7n4    1/1       Running   0          2h
+router-1-9gxjw             0/1       Pending   0          12s
+router-1-deploy            1/1       Running   0          13s
+# ^^^ yoho!
+# 再 执行 oc status 会发现关于 route 的报错没有了 ~
+
 
 #遗留问题1: 怎么添加 volume ???
 #   You can add persistent volumes later by running 'volume dc/jenkins-2-rhel7 --add ...'
-#遗留问题2: 啥意思，怎么改这个 route ???
-#   * route/jenkins-2-rhel7 is routing traffic to svc/jenkins-2-rhel7, but either the administrator has not installed a router or the router is not selecting this route. try: 'oc adm router -h'
 ```
 
 ### tips
