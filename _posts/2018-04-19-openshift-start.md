@@ -36,6 +36,8 @@ sudo oc cluster up --image=registry.access.redhat.com/openshift3/ose --version=v
 sudo vim /etc/sysconfig/docker #OPTIONS+=--insecure-registry 172.30.0.0/16
 sudo service docker restart
 
+#---------------------------------------------------------------------------------
+# 2018-04-26: latest Fedora-28 has fixed this problem in(systemd-238-7.fc28.1)
 oc cluster up --image=registry.access.redhat.com/openshift3/ose --version=v3.9
 # 终于好像成功了，可是 oc 好长时间 hang 在那里
 sudo docker ps # 获取 CONTAINER ID
@@ -43,6 +45,7 @@ sudo docker logs ${CONTAINER_ID}
 #It's bug caused by systemd on Fedora-28, by google warning string in $(docker logs)
 #https://github.com/kubernetes/kubernetes/issues/61474
 sudo dnf downgrade -y systemd --releasever=27 && sudo service docker restart
+#---------------------------------------------------------------------------------
 
 # 终于启动成功了
 [root@localhost ~]# oc cluster up --image=registry.access.redhat.com/openshift3/ose --version=v3.9
