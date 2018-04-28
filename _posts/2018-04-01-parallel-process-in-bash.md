@@ -29,5 +29,7 @@ Use GNU/parallel command
 ```
 parallel -j 4 wget -q {} < list.txt
 
-# 缺点: 有些 OS 好像默认没有这个包，RHEL/CentOS 需要加 epel 源
+# 缺点: 有些 OS 好像默认没有这个包，RHEL/CentOS 需要加 epel 源:
+# yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+# yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
 ```
