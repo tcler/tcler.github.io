@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Fedora-28 glibc/regex 一个 早有预谋的 更改"
+title: "Fedora-28 glibc/regex 一个 早有预谋的 更新?"
 ---
 
 ### 问题
@@ -94,5 +94,20 @@ a
 [:print:], [:punct:], [:space:], [:upper:], and [:xdigit:] 来代替 [start-end] 用法;
 或者保证自己的程序在 LC_ALL=C 环境下执行~
 
-*如果上游想向后兼容 [a-z]，并希望匹配 "â" 类的字符，字典顺序估计得改成
+*如果上游想向后兼容 [a-z]，并希望匹配 "â" 类的字符，字典顺序估计还得改成
 AÀ .. ZZ`  ->   aâ .. zz`; 目前还没有定论
+
+---
+*补充:
+实测 RHEL-7 上的结果(LANG=zh_CN.UTF-8):
+```
+[yjh@ws ~]$ lsb_release -sir
+RedHatEnterpriseWorkstation 7.2
+[yjh@ws ~]$ echo "AaÀâ"|grep -o [A-Z]|xargs
+A À
+[yjh@ws ~]$ echo "AaÀâ"|grep -o [a-z]|xargs
+a â
+```
+
+说了半天 你问我 上游好好的为啥要改字典顺序!? 还是不清楚~ 继续等开发具体解释吧；
+但是以后写正则匹配大小写还是用 [[:upper:]] [[:lower:]] 吧~
