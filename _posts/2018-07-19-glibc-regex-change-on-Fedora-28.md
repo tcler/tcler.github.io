@@ -99,14 +99,16 @@ AÀ .. ZZ`  ->   aâ .. zz`; 目前还没有定论
 
 ---
 *补充:
-实测 RHEL-7 上的结果(LANG=zh_CN.UTF-8):
+letter with breve (带短音符号的字符集) 的测试结果对比(LANG=zh_CN.UTF-8):
 ```
-[yjh@ws ~]$ lsb_release -sir
-RedHatEnterpriseWorkstation 7.2
-[yjh@ws ~]$ echo "AaÀâ"|grep -o [A-Z]|xargs
-A À
-[yjh@ws ~]$ echo "AaÀâ"|grep -o [a-z]|xargs
-a â
+[yjh@rhel7 ~]$ echo "ĂăĄąȀȁȂȃaA" | grep -o [a-z] | xargs
+ă ą ȁ ȃ a
+[yjh@rhel7 ~]$ echo "ĂăĄąȀȁȂȃaA" | grep -o [A-Z] | xargs
+Ă Ą Ȁ Ȃ A
+[yjh@F-28 ~]$  echo "ĂăĄąȀȁȂȃaA" | grep -o [a-z] | xargs
+Ă ă Ą ą Ȁ ȁ Ȃ ȃ a A
+[yjh@F-28 ~]$  echo "ĂăĄąȀȁȂȃaA" | grep -o [A-Z] | xargs
+Ă ă Ą ą Ȁ ȁ Ȃ ȃ A
 ```
 
 说了半天 你问我 上游好好的为啥要改字典顺序!? 还是不清楚~ 继续等开发具体解释吧；
