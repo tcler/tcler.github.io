@@ -95,7 +95,7 @@ a
 或者保证自己的程序在 LC_ALL=C 环境下执行~
 
 *如果上游想向后兼容 [a-z]，并希望匹配 "â" 类的字符，字典顺序估计还得改成
-AÀ .. ZZ`  ->   aâ .. zz`; 目前还没有定论
+AÀ .. ZZ`  ->   aâ .. zz`;  目前大家还在讨论中~
 
 ---
 *补充:
@@ -105,6 +105,10 @@ letter with breve (带短音符号的字符集) 的测试结果对比(LANG=zh_CN
 ă ą ȁ ȃ a
 [yjh@rhel7 ~]$ echo "ĂăĄąȀȁȂȃaA" | grep -o [A-Z] | xargs
 Ă Ą Ȁ Ȃ A
+[yjh@rhel7 ~]$ echo "ĂăĄąȀȁȂȃaA" | grep -o [[=a=]] | xargs
+Ă ă Ą ą Ȁ ȁ Ȃ ȃ a A
+[yjh@rhel7 ~]$ echo "ĂăĄąȀȁȂȃaA" | grep -o [[=A=]] | xargs
+Ă ă Ą ą Ȁ ȁ Ȃ ȃ a A
 [yjh@F-28 ~]$  echo "ĂăĄąȀȁȂȃaA" | grep -o [a-z] | xargs
 Ă ă Ą ą Ȁ ȁ Ȃ ȃ a A
 [yjh@F-28 ~]$  echo "ĂăĄąȀȁȂȃaA" | grep -o [A-Z] | xargs
@@ -113,3 +117,8 @@ letter with breve (带短音符号的字符集) 的测试结果对比(LANG=zh_CN
 
 说了半天 你问我 上游好好的为啥要改字典顺序!? 还是不清楚~ 继续等开发具体解释吧；
 但是以后写正则匹配大小写还是用 [[:upper:]] [[:lower:]] 吧~
+
+---
+最新进展，上游意识到影响面太大，开始尝试向后兼容了:
+https://www.sourceware.org/ml/libc-alpha/2018-07/msg00620.html
+
