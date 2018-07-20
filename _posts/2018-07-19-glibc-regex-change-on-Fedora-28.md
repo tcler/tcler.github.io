@@ -26,7 +26,7 @@ a
 然后翻看 man page 才发现不止最新的 Fedora-28, 甚至 RHEL-6 系统的 man grep 都有相同的描述
 ```
 [root@bkr-host ~]# lsb_release -sir
-RedHatEnterpriseWorkstation 6.10
+RedHatEnterpriseWorkstation 6.6
 [root@bkr-host ~]# man grep | col -bx | grep 'Character Classes and Bracket Expressions' -A 17
    Character Classes and Bracket Expressions
        A bracket expression is a list of characters enclosed by [ and  ].   It
@@ -109,10 +109,16 @@ letter with breve (带短音符号的字符集) 的测试结果对比(LANG=zh_CN
 Ă ă Ą ą Ȁ ȁ Ȃ ȃ a A
 [yjh@rhel7 ~]$ echo "ĂăĄąȀȁȂȃaA" | grep -o [[=A=]] | xargs
 Ă ă Ą ą Ȁ ȁ Ȃ ȃ a A
+# RHEL-6 跟 RHEL-7 测试结果相同
+
 [yjh@F-28 ~]$  echo "ĂăĄąȀȁȂȃaA" | grep -o [a-z] | xargs
 Ă ă Ą ą Ȁ ȁ Ȃ ȃ a A
 [yjh@F-28 ~]$  echo "ĂăĄąȀȁȂȃaA" | grep -o [A-Z] | xargs
 Ă ă Ą ą Ȁ ȁ Ȃ ȃ A
+[yjh@F-28 ~]$  grep -o [[=a=]] <<< "ĂăĄąȀȁȂȃaA" | xargs
+Ă ă Ą ą Ȁ ȁ Ȃ ȃ a A
+[yjh@F-28 ~]$  grep -o [[=A=]] <<< "ĂăĄąȀȁȂȃaA" | xargs
+Ă ă Ą ą Ȁ ȁ Ȃ ȃ a A
 ```
 
 说了半天 你问我 上游好好的为啥要改字典顺序!? 还是不清楚~ 继续等开发具体解释吧；
@@ -122,3 +128,10 @@ letter with breve (带短音符号的字符集) 的测试结果对比(LANG=zh_CN
 最新进展，上游意识到影响面太大，开始尝试向后兼容了:
 https://www.sourceware.org/ml/libc-alpha/2018-07/msg00620.html
 
+方便测试直接拷贝运行，测试脚本放这里吧
+```
+echo 'grep -o [[=a=]] <<< "ĂăĄąȀȁȂȃaA" | xargs
+grep -o [[=A=]] <<< "ĂăĄąȀȁȂȃaA" | xargs
+grep -o [a-z] <<< "ĂăĄąȀȁȂȃaA" | xargs
+grep -o [A-Z] <<< "ĂăĄąȀȁȂȃaA" | xargs' | LD_LIBRARY_PATH=/usr/lib bash -i
+```
