@@ -99,6 +99,7 @@ AÀ .. ZZ`  ->   aâ .. zz`;  目前大家还在讨论中~
 
 ---
 *补充:
+
 letter with breve (带短音符号的字符集) 的测试结果对比(LANG=zh_CN.UTF-8):
 ```
 [yjh@rhel7 ~]$ echo "ĂăĄąȀȁȂȃaA" | grep -o [a-z] | xargs
@@ -135,3 +136,11 @@ grep -o [[=A=]] <<< "ĂăĄąȀȁȂȃaA" | xargs
 grep -o [a-z] <<< "ĂăĄąȀȁȂȃaA" | xargs
 grep -o [A-Z] <<< "ĂăĄąȀȁȂȃaA" | xargs' | LD_LIBRARY_PATH=/usr/lib bash -i
 ```
+
+---
+*more infomation
+
+在之前的调查中，曾发现 gawk 并没有受这次修改的影响: 不管什么 Locale 设置，都能得到预期的结果。今天(2018-07-24) yoyang 在 gawk 手册里找到了原因，标题很形象的描述出了这个问题导致的困惑和混乱:  A Long .. Sad .. Story  :)
+
+A.8 Regexp Ranges and Locales: A Long Sad Story:
+https://www.gnu.org/software/gawk/manual/html_node/Ranges-and-Locales.html 
