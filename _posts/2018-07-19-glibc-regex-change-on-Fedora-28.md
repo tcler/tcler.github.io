@@ -55,7 +55,7 @@ RedHatEnterpriseWorkstation 6.6
 a b c d A B C
 ```
 
-### 更近一步调查验证
+### 近一步调查验证
 根据 man page 描述 "Many locales sort characters in dictionary order, ", 所以我们可以
 猜测关于这次修改: 至少我们用到的 en_US.utf8 zh_CN.utf8 的字符字典顺序被修改了:
 
@@ -63,8 +63,8 @@ a b c d A B C
 
 再结合 "Fedora 28 Update: glibc-2.27-30.fc28"[1] 中的 bug 1582229[2] 的描述，我们猜测排序里不止包含 aA
 而是更多 比如 "aAÀâ" "bBB`" ... , 验证如下:
-- [1] https://www.spinics.net/lists/fedora-package-announce/msg247214.html
-- [2] https://bugzilla.redhat.com/show_bug.cgi?id=1582229
+- [1] <https://www.spinics.net/lists/fedora-package-announce/msg247214.html>
+- [2] <https://bugzilla.redhat.com/show_bug.cgi?id=1582229>
 ```
 [yjh@test nfs]$ echo "AaÀâ"|grep -o [[=a=]]
 A
@@ -127,7 +127,7 @@ letter with breve (带短音符号的字符集) 的测试结果对比(LANG=zh_CN
 
 ---
 (2018-07-20)最新进展，经过邮件讨论上游意识到影响面太大，开始尝试向后兼容了:
-https://www.sourceware.org/ml/libc-alpha/2018-07/msg00620.html
+<https://www.sourceware.org/ml/libc-alpha/2018-07/msg00620.html>
 
 BTW: 为了方便测试直接拷贝运行，测试脚本放这里吧
 ```
@@ -143,4 +143,4 @@ grep -o [A-Z] <<< "ĂăĄąȀȁȂȃaA" | xargs' | LD_LIBRARY_PATH=/usr/lib bash 
 在之前的调查中，曾发现 gawk 并没有受这次修改的影响: 不管什么 Locale 设置，都能得到预期的结果。今天(2018-07-24) yoyang 在 gawk 手册里找到了原因，标题很形象的描述出了这个问题导致的困惑和混乱:  A Long .. Sad .. Story  :)
 
 A.8 Regexp Ranges and Locales: A Long Sad Story:
-https://www.gnu.org/software/gawk/manual/html_node/Ranges-and-Locales.html 
+<https://www.gnu.org/software/gawk/manual/html_node/Ranges-and-Locales.html>
