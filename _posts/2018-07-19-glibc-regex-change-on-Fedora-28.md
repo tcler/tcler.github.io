@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Fedora-28 glibc/regex 一个 早有预谋的 更新?"
+title: "Fedora-28 glibc/regex 库更新导致问题 早有预谋?"
 ---
 
 ### 问题
