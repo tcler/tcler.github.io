@@ -23,28 +23,27 @@ D
 a
 ```
 
-然后翻看 man page 才发现不止最新的 Fedora-28, 甚至 RHEL-6 系统的 man grep 都有相同的描述
+然后翻看 man page 才发现不止最新的 Fedora-28, 甚至 RHEL-4 系统的 man grep 都有相同的描述
 ```
 [root@bkr-host ~]# lsb_release -sir
-RedHatEnterpriseWorkstation 6.6
-[root@bkr-host ~]# man grep | col -bx | grep 'Character Classes and Bracket Expressions' -A 17
-   Character Classes and Bracket Expressions
-       A bracket expression is a list of characters enclosed by [ and  ].   It
-       matches  any  single  character in that list; if the first character of
-       the list is the caret ^ then it matches any character not in the  list.
-       For  example,  the  regular  expression [0123456789] matches any single
+RedHatEnterpriseAS 4
+[root@bkr-host ~]# man grep | col -bx | grep 'A bracket expression' -A 16
+       A bracket expression is a list of characters enclosed by [ and ].   It
+       matches  any  single character in that list; if the first character of
+       the list is the caret ^ then it matches any character not in the list.
+       For  example,  the  regular expression [0123456789] matches any single
        digit.
 
-       Within a  bracket  expression,  a  range  expression  consists  of  two
-       characters separated by a hyphen.  It matches any single character that
-       sorts  between  the  two  characters,  inclusive,  using  the  locale’s
-       collating  sequence  and  character set.  For example, in the default C
-       locale, [a-d] is equivalent to [abcd].  Many locales sort characters in
-       dictionary   order,  and  in  these  locales  [a-d]  is  typically  not
-       equivalent to [abcd]; it might be equivalent to [aBbCcDd], for example.
-       To  obtain  the  traditional interpretation of bracket expressions, you
-       can use the C locale by setting the LC_ALL environment variable to  the
-       value C.
+       Within a bracket expression, a range expression consists of two  char-
+       acters  separated  by  a hyphen.  It matches any single character that
+       sorts between the two characters, inclusive, using the  locale’s  col-
+       lating  sequence  and  character  set.   For example, in the default C
+       locale, [a-d] is equivalent to [abcd].  Many locales  sort  characters
+       in  dictionary  order,  and  in  these  locales [a-d] is typically not
+       equivalent to [abcd]; it might be equivalent to [aBbCcDd],  for  exam-
+       ple.  To obtain the traditional interpretation of bracket expressions,
+       you can use the C locale by setting the LC_ALL environment variable to
+       the value C.
 ```
 
 原来这次的 glibc 修改是 "早有预谋" 的 ...
