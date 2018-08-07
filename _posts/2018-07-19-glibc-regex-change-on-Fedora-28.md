@@ -23,11 +23,11 @@ D
 a
 ```
 
-然后翻看 man page 才发现不止最新的 Fedora-28, 甚至 RHEL-4 系统的 man grep 都有相同的描述
+然后翻看 man page 才发现不止最新的 Fedora-28, 甚至 RHEL-3 系统的 man grep 都有相同的描述
 ```
 [root@bkr-host ~]# lsb_release -sir
-RedHatEnterpriseAS 4
-[root@bkr-host ~]# man grep | col -bx | grep 'A bracket expression' -A 16
+CentOS 3.9
+[root@bkr-host ~]# man grep | col -bx | grep -i 'A bracket expression' -A 16
        A bracket expression is a list of characters enclosed by [ and ].   It
        matches  any  single character in that list; if the first character of
        the list is the caret ^ then it matches any character not in the list.
