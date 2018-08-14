@@ -53,7 +53,7 @@ nohup bash ./run.sh &
 ps axf | grep  [o]rg.jibble.jbouncer.JBouncerMain
 ```
 
-### Script to send irc message through JBouncer
+### A script to send irc message through JBouncer
 ```
 wget https://raw.githubusercontent.com/tcler/bkr-client-improved/master/utils/ircmsg.sh
 chmod +x ircmsg.sh
@@ -62,8 +62,6 @@ PROXY_SERVER=$ProxyServerAddress
 PROXY_PORT=6667
 CONF
 ./ircmsg.sh -n ircBot -P ircBotTest:irc.devel.redhat.com -L ircBot:ircBot -C "#beaker" "Hello all"
-
-# or open an IRC client, connect to the IRC Proxy $ProxyServerAddress:6667
 ```
 
 ### Create a simple irc robot
@@ -74,3 +72,10 @@ CONF
   echo "00  *  *  *  *    /path/ircmsg.sh -n ircBot -P ircBotTest:irc.devel.redhat.com -L ircBot:ircBot -C "#fs-qe" "整点报时"
 ) | crontab -
 ```
+
+### Question
+Q: Could I connect to JBouncer by using common IRC client(HexChat)
+
+A: see: http://hexchat.readthedocs.io/en/latest/faq.html#how-do-i-connect-through-a-proxy
+
+   and http://hexchat.readthedocs.io/en/latest/tips.html#tor
