@@ -37,27 +37,31 @@ wget http://www.jibble.org/files/JBouncer-1.0.zip
 unzip JBouncer-1.0.zip
 
 # config: add account and passwd
-echo -e "testBot testBot" >>accounts.ini
+echo -e "ircBot ircBot" >>accounts.ini
 
 # config: port and log setup
-cat <<<EOF >config.ini
+cat <<EOF >config.ini
 Port: 6667
 HistoryLimit: 100
 TakeLogs: true
 EOF
 
 # start
-nohup ./run.sh
+nohup bash ./run.sh &
 ps axf | grep  [o]rg.jibble.jbouncer.JBouncerMain
 ```
 
 ### 验证
 ```
-wget https://github.com/tcler/bkr-client-improved/blob/master/utils/ircmsg.sh
+wget https://raw.githubusercontent.com/tcler/bkr-client-improved/master/utils/ircmsg.sh
 chmod +x ircmsg.sh
-./ircmsg.sh -s localhost -p 6667 -n testBot -P rhqerobot:irc.devel.redhat.com -L testBot:testBot -C "#fschan" "Hello all"
+cat <<CONF > ~/.ircmsg/ircmsg.rc
+PROXY_SERVER=$ProxyServerAddress
+PROXY_PORT=6667
+CONF
+./ircmsg.sh -n ircBot -P ircBotTest:irc.devel.redhat.com -L ircBot:ircBot -C "#beaker" "Hello all"
 
-# 开启一个 IRC 客户端，设置连接到该代理 localhost:6667
+# 开启一个 IRC 客户端，设置连接到该代理 $ProxyServerAddress:6667
 ```
 
 
@@ -66,6 +70,6 @@ chmod +x ircmsg.sh
 (
   echo "SHELL=/bin/bash"
   echo "PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin"
-  echo "00  *  *  *  *    ircmsg.sh -s ircProxy -n testBot -P sessiona:ircServer -L testBot:testBot -C "#chan" "整点报时"
+  echo "00  *  *  *  *    /path/ircmsg.sh -n ircBot -P ircBotTest:irc.devel.redhat.com -L ircBot:ircBot -C "#fs-qe" "整点报时"
 ) | crontab -
 ```
