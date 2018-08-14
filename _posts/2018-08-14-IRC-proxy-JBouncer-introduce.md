@@ -4,10 +4,11 @@ title: "IRC proxy JBouncer 介绍"
 ---
 
 ### What is IRC
-see https://zh.wikipedia.org/wiki/IRC
+see https://en.wikipedia.org/wiki/Internet_Relay_Chat
+
+or: https://zh.wikipedia.org/wiki/IRC  #in chinese
 
 简单说 IRC 是一个公开协议，用于 "群聊" 当然也可以一对一 "私聊"，类似 ICQ O-ICQ(QQ)；
-
 ```
 IRC（Internet Relay Chat的缩写，“因特网中继聊天”）是一种透过网络的即时聊天方式。其主要用于群体聊天，
 但同样也可以用于个人对个人的聊天。IRC使用的服务器端口有6667（明文传输，如irc://irc.freenode.net）、
@@ -18,8 +19,9 @@ IRC（Internet Relay Chat的缩写，“因特网中继聊天”）是一种透�
 
 ### IRC proxy: https://www.irc.wiki/Jbouncer
 IRC proxy 故名思意就是一个 IRC 客户端 "代理" ，“代理” 可以常驻后台，替用户保持跟 irc server 的连接会话、
-在用户下线后，仍然替用户接收消并记录 群聊或私聊的消息。代理还有一个重要用途就是实现 IRC Robot (IRC 机器人)
+在用户下线后，仍然替用户接收消并记录 群聊或私聊的消息。
 
+代理还有一个重要用途就是实现 IRC Robot (IRC 机器人)，
 IRC Robot 可以用来自动回复特定消息，或者通知用户(比如给用户推送天气信息、给管理员推送系统告警、等等)。
 
 Jbouncer 是一个 java 实现的跨平台的 IRC proxy。
