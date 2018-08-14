@@ -3,11 +3,11 @@ layout: post
 title: "IRC proxy JBouncer 介绍"
 ---
 
-### 先简单介绍一下啥是 IRC
+### What is IRC
+see https://zh.wikipedia.org/wiki/IRC
 
 简单说 IRC 是一个公开协议，用于 "群聊" 当然也可以一对一 "私聊"，类似 ICQ O-ICQ(QQ)；
 
-https://zh.wikipedia.org/wiki/IRC
 ```
 IRC（Internet Relay Chat的缩写，“因特网中继聊天”）是一种透过网络的即时聊天方式。其主要用于群体聊天，
 但同样也可以用于个人对个人的聊天。IRC使用的服务器端口有6667（明文传输，如irc://irc.freenode.net）、
@@ -25,7 +25,7 @@ IRC Robot 可以用来自动回复特定消息，或者通知用户(比如给用
 Jbouncer 是一个 java 实现的跨平台的 IRC proxy。
 
 
-### 用法
+### How to install and start Jbouncer
 ```
 # see http://www.jibble.org/jbouncer/
 
@@ -51,7 +51,7 @@ nohup bash ./run.sh &
 ps axf | grep  [o]rg.jibble.jbouncer.JBouncerMain
 ```
 
-### 验证
+### Script to send irc message through JBouncer
 ```
 wget https://raw.githubusercontent.com/tcler/bkr-client-improved/master/utils/ircmsg.sh
 chmod +x ircmsg.sh
@@ -61,11 +61,10 @@ PROXY_PORT=6667
 CONF
 ./ircmsg.sh -n ircBot -P ircBotTest:irc.devel.redhat.com -L ircBot:ircBot -C "#beaker" "Hello all"
 
-# 开启一个 IRC 客户端，设置连接到该代理 $ProxyServerAddress:6667
+# or open an IRC client, connect to the IRC Proxy $ProxyServerAddress:6667
 ```
 
-
-### 写一个 irc robot
+### Create a simple irc robot
 ```
 (
   echo "SHELL=/bin/bash"
