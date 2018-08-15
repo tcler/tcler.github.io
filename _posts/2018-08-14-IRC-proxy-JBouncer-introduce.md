@@ -19,13 +19,15 @@ IRC（Internet Relay Chat的缩写，“因特网中继聊天”）是一种透�
 
 ### IRC proxy: https://www.irc.wiki/Jbouncer
 IRC proxy 故名思意就是一个 IRC 客户端 "代理" ，“代理” 可以常驻后台，替用户保持跟 irc server 的连接会话、
-在用户下线后，仍然替用户接收消并记录 群聊或私聊的消息。
+在用户下线后，仍然替用户接收消并记录 群聊或私聊的消息，不过通用的 IRC 客户端也可以。
 
-代理还有一个重要用途就是实现 IRC Robot (IRC 机器人)，
+代理最重要用途其实是实现 IRC Robot (IRC 机器人)，
 IRC Robot 可以用来自动回复特定消息，或者通知用户(比如给用户推送天气信息、给管理员推送系统告警、等等)。
 
-Jbouncer 是一个 java 实现的跨平台的 IRC proxy。
+* 如果不使用代理，直接从程序推送 IRC 消息也可以，但是每次发消息都需要 login 发完再 logout，这回在 IRC 客户端产生额外的垃圾消息；
+这也是促使我研究 IRC proxy 的根本原因
 
+Jbouncer 是一个 java 实现的跨平台的 IRC proxy。后面就重点介绍一下使用安装使用 Jbouncer
 
 ### How to install and start Jbouncer
 ```
