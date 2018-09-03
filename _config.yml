@@ -6,7 +6,8 @@ permalink:           pretty
 
 # Setup
 title:               'tcler''s blog'
-tagline:             '--- 其实我是一个程序员'
+tagline:             '--- 其实我是一个程序员
+Show me your flowcharts and conceal your tables, and I shall continue to be mystified. Show me your tables, and I won’t usually need your flowcharts; they’ll be obvious.'
 description:         'tcler''s blog, based on <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme <a href="http://jekyllthemes.io/theme/15489219/lanyon">Lanyon</a>'
 url:                 https://tcler.github.io
 baseurl:             ''
