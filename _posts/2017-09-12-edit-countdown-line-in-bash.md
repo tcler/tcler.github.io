@@ -13,5 +13,5 @@ ed/ex: it doesn't matter, we can!
 #没有关系我们还有古老的 ed/ex 可以完美解决
 
 ```
-ex -s <(seq 1 10)  <<< $'1,-5 s/$/,/ \n 1,$p \n'
+ex -s <(seq 7)  <<< $'1,-5 s/$/,/ \n 1,$p \n'
 ```
