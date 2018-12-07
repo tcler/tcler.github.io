@@ -1,3 +1,8 @@
+---
+layout: post
+title: "keyrings and nfsidmap"
+---
+
 ```
 * key retention 服务简介
   Linux 密钥保留服务(Linux key retention service) 是在 Linux-2.6 中引入的一个特性
