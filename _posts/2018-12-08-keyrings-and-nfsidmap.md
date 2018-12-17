@@ -99,7 +99,14 @@ title: "keyrings and nfsidmap"
   
   # The NFSv4 client instead uses nfsidmap(8), and only falls back to rpc.idmapd
     if there was a problem running the nfsidmap(8) program.
-  ? 为啥 NFSv4 server 不用 nfsidmap(8) ?? //问问开发去
+
+  ? 为啥 NFSv4 server 不用 nfsidmap(8) ?? //开发回复:
+    > I don't remember if there was a real reason.  Possibly nobody got around
+    > to it.
+    >
+    > In retrospect it's a relief, given the container issues.  (We don't
+    > currently have any way to invoke a usermodehelper (like nfsidmap) in a
+    > given container.)
 
   '''
   $ sed -rn '/struct key_type key_type_id_resolver = /,/^};/ p' nfs/nfs4idmap.c
