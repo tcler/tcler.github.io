@@ -307,3 +307,77 @@ https://segmentfault.com/a/1190000010774974
 Many examples
 https://sourceware.org/systemtap/examples/
 ```
+
+
+--------
+Update: 2019-02-21
+
+添加两个例子
+
+```
+#!/usr/bin/stap -vg
+/*
+ * usage:
+ * sudo stap ./chmod.stp  /opt/test  # -c "chmod 644 /opt/test"
+ */
+
+probe syscall.fchmodat {
+    if (kernel_string($filename) == @1) {
+        printf("syscall=%s, path=%s\n", name, pathname)   #stap -L syscall.fchmodat
+        printf("pid=%d, ppid=%d, cmd=%s\n\n", pid(), ppid(), execname())
+    }
+}
+probe syscall.chmod {
+    if (kernel_string($filename) == @1) {
+        printf("syscall=%s, path=%s\n", name, path)       #stap -L syscall.chmod
+        printf("pid=%d, ppid=%d, cmd=%s\n\n", pid(), ppid(), execname())
+    }
+}
+[root@servera ~]# cat stat.stp 
+#!/usr/bin/stap -vg
+/*
+ * usage:
+ * sudo stap ./stat.stp /opt/test  # -c "chmod 644 /opt/test"
+ */
+
+probe syscall.stat {
+    if (kernel_string($filename) == @1) {
+        printf("syscall=%s, path=%s\n", name, filename)
+        printf("pid=%d, ppid=%d, cmd=%s\n\n", pid(), ppid(), execname())
+    }
+}
+```
+
+```
+#!/usr/bin/stap -vg
+/*
+ * usage:
+ * sudo stap ./chmod.stp  /opt/test  # -c "chmod 644 /opt/test"
+ */
+
+probe syscall.fchmodat {
+    if (kernel_string($filename) == @1) {
+        printf("syscall=%s, path=%s\n", name, pathname)
+        printf("pid=%d, ppid=%d, cmd=%s\n\n", pid(), ppid(), execname())
+    }
+}
+probe syscall.chmod {
+    if (kernel_string($filename) == @1) {
+        printf("syscall=%s, path=%s\n", name, path)
+        printf("pid=%d, ppid=%d, cmd=%s\n\n", pid(), ppid(), execname())
+    }
+}
+[root@servera ~]# cat stat.stp 
+#!/usr/bin/stap -vg
+/*
+ * usage:
+ * sudo stap ./stat.stp /opt/test  # -c "chmod 644 /opt/test"
+ */
+
+probe syscall.stat {
+    if (kernel_string($filename) == @1) {
+        printf("syscall=%s, path=%s\n", name, filename)
+        printf("pid=%d, ppid=%d, cmd=%s\n\n", pid(), ppid(), execname())
+    }
+}
+```
