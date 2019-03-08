@@ -37,3 +37,6 @@ gen_ifcfg  $ifname  192.168.0.1
 nmcli co reload /etc/sysconfig/network-scripts/ifcfg-$ifname
 nmcli co up $ifname
 ```
+
+
+ref: https://unix.stackexchange.com/questions/39370/how-to-reload-udev-rules-without-reboot
