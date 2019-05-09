@@ -17,6 +17,7 @@ Remove-Item  -Path  $env:localappdata/lxss/  -Force
 # 浏览器下载 Fedora Remix 最新的 appx 包
 https://github.com/WhitewaterFoundry/Fedora-Remix-for-WSL/releases/download/1.0.28/DistroLauncher-Appx_1.0.28.0_x64.appx
 
+
 # 安装 appx 包
 # 双击安装，或 Powsershell 命令:
 Add-AppPackage DistroLauncher-Appx_1.0.28.0_x64.appx
@@ -60,6 +61,7 @@ COMM
 
 kinit <krb5 id>
 
+
 # 安装/配置 beaker-client
 sudo yum install -y bash-completion.noarch
 sudo yum install -y wget
@@ -80,5 +82,6 @@ update-ca-trust
 
 bkr whoami
 ```
+
 
 还有一点要注意: 不要试图修改 App 安装的路径，会导致 WSL 不能工作
