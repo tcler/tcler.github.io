@@ -8,6 +8,7 @@ L 尝试在 apache php 里调用 bkr 命令时发现总是报错: 找不到 "FIL
 相差很多。猜测 apache 启动时使用了类似 docker 镜像的机制把 /tmp 覆盖了，但是并没有 docker 启动，，然后想到一个 workaround:
 
     修改 krb5.conf 把默认的 cache 类型改为 KEYRING "default_ccache_name = KEYRING:persistent:%{uid}"
+    # man krb5.conf 
 
 问题暂时解决了，但是 apache 到底怎么把 /tmp 给覆盖了的? google 发现是一个叫做 PrivateTmp=true #systemd.exec(5) 的配置决定的；而且
 在 /tmp 目录下看到这样的目录:
