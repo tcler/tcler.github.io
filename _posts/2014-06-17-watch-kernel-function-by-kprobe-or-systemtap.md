@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  使用 kprobe / SystemTap 观察内核函数
+title:  "[转] 使用 kprobe / SystemTap 观察内核函数"
 tags:   [kprobe,SystemTap]
 author: github.com/ceyes
 ---
