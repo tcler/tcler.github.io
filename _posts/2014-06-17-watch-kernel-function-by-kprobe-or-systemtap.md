@@ -10,8 +10,6 @@ author: github.com/ceyes
 接下来以`ip_rcv`为实例，用两种方法实现“如果调用了这个函数，则打印'Hit it'”  
 (arch=x86_64)
 
-<!-- more -->
-
 Kprobe
 ------
 
