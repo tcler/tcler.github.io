@@ -22,7 +22,7 @@ lrwx------ 1 yjh yjh 0 Aug 15 08:01 1 -> /dev/tty1
 lrwx------ 1 yjh yjh 0 Aug 15 08:01 2 -> /dev/tty1
 lr-x------ 1 yjh yjh 0 Aug 15 08:01 3 -> /proc/31/fd
 
-##注意 cmd2 作为前台进程组首进程(命令执行结束 $? 是 cmd2 的返回值)
+##注意 cmd2 作为前台进程组首进程(命令执行结束 $? 默认是 cmd2 的返回值；see also: 'set -o pipefail')
 ```
 
 ### '<()' '>()'
