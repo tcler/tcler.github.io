@@ -63,5 +63,5 @@ l-wx------ 1 yjh yjh 0 Aug 15 08:19 /dev/fd/63 -> pipe:[105]
 ```
 
 ```
-## 注意2  cmd1 >(cmd2) 中 cmd1 为前台进程, cmd2 为后台进程 (命令执行结束 $? 是 cmd1 的返回值，不受 set -o pipefail 影响)
+## 注意2 cmd1 >(cmd2) 中 cmd1 为前台进程, cmd2 为后台进程 (命令执行结束 $? 是 cmd1 的返回值，不受 set -o pipefail 影响)
 ```
