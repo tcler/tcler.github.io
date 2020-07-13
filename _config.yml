@@ -11,7 +11,7 @@ Show me your flowcharts and conceal your tables, and I shall continue to be myst
 description:         'tcler''s blog, based on <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme <a href="http://jekyllthemes.io/theme/15489219/lanyon">Lanyon</a>'
 url:                 https://tcler.github.io
 baseurl:             ''
-paginate:            8
+paginate:            64
 gems: [jekyll-paginate]
 
 # About/contact
