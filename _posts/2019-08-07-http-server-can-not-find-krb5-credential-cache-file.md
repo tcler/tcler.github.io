@@ -13,13 +13,13 @@ L 尝试在 apache php 里调用 bkr 命令时发现总是报错: 找不到 "FIL
 问题暂时解决了，但是 apache 到底怎么把 /tmp 给覆盖了的? google 发现是一个叫做 PrivateTmp=true #systemd.exec(5) 的配置决定的；而且
 在 /tmp 目录下看到这样的目录:
 
-    /tmp/systemd-private-ecb0e9707ae64d7e94ee7bf8e9cc8db6-httpd.service-GrrBZk/
+    /tmp/systemd-private-292b2e39e2974392ad5567d198270cb6-httpd.service-8NhA4y/tmp
 
 那它的工作机制是什么呢? 查看 mount / findmnt 执行结果，也没有找到 bind mount 的痕迹；继续猜测跟 cgroup 命名空间有关 然后修改关键字
 继续 google 终于找到线索 nsenter :
 
-    $ LANG=C sudo nsenter -t 28448 --mount findmnt | grep -- -/tmp
-    |-/tmp                           /dev/mapper/rhel_ibm--x3250m4--06-root[/tmp/systemd-private-ecb0e9707ae64d7e94ee7bf8e9cc8db6-httpd.service-GrrBZk/tmp]     xfs         rw,relatime,attr2,inode64,noquota
+    $ LANG=C sudo nsenter -t 23980 --mount findmnt --list -o +PROPAGATION | grep ^/tmp
+    /tmp                            /dev/vda3[/tmp/systemd-private-292b2e39e2974392ad5567d198270cb6-httpd.service-8NhA4y/tmp]     xfs        rw,relatime,seclabel,attr2,inode64,logbufs=8,logbsize=32k,noquota                                                shared,slave
 
 
 确实是 mount --bind 过去的 :) 有点成就感，
