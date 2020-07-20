@@ -54,3 +54,13 @@ clone(Process 12194 attached
 1 号进程是 systemd ，都是它干的: 接收到 systemctl 发的请求 执行 mkdir, clone --> mount --bind, execve
 
 顺便想到一个区别：原来传统的 init 进程的儿子都是收养的孤儿，现在 systemd 的儿子都是亲生的 :)
+
+---
+2020-07-20
+## one more thing: mount namespace
+为了使 Apache/httpd 进程内的 bind mount 对外不可见，还有一个步骤 unshare(2)
+```
+[root@jianhong-rhel-830-20200715n0 ~]# grep NEWNS strace.txt 
+[pid 49971] unshare(CLONE_NEWNS <unfinished ...>
+```
+
