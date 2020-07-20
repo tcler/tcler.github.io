@@ -19,7 +19,7 @@ L 尝试在 apache php 里调用 bkr 命令时发现总是报错: 找不到 "FIL
 继续 google 终于找到线索 nsenter :
 
     $ LANG=C sudo nsenter -t 23980 --mount findmnt --list -o +PROPAGATION | grep ^/tmp
-    /tmp                            /dev/vda3[/tmp/systemd-private-292b2e39e2974392ad5567d198270cb6-httpd.service-8NhA4y/tmp]     xfs        rw,relatime,seclabel,attr2,inode64,logbufs=8,logbsize=32k,noquota                                                shared,slave
+    /tmp  /dev/vda3[/tmp/systemd-private-292b2e39e2974392ad5567d198270cb6-httpd.service-8NhA4y/tmp]  xfs  rw,relatime,seclabel,attr2,inode64,logbufs=8,logbsize=32k,noquota  shared,slave
 
 
 确实是 mount --bind 过去的 :) 有点成就感，
