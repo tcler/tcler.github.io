@@ -41,7 +41,37 @@ mount --make-private /var/lib/docker/devicemapper
 
 https://cloud.tencent.com/developer/article/1518101
 
-
+Apache/httpd 的 mount-namespace 和 init 的 mount-namespace 比较:
+```
+[root@jianhong-rhel-830-20200715n0 ~]# nsenter -t 23980 --mount  cat /proc/self/mountinfo | sed 's/ - .*//' | sort -k5 | egrep -v '/proc/|/sys/'
+5995 5451 252:3 / / rw,relatime shared:2738 master:1
+6027 5995 252:2 / /boot/efi rw,relatime shared:2770 master:32
+6018 5995 0:6 / /dev rw,nosuid shared:2761 master:23
+6021 6018 0:41 / /dev/hugepages rw,relatime shared:2764 master:28
+6022 6018 0:18 / /dev/mqueue rw,relatime shared:2765 master:29
+6020 6018 0:22 / /dev/pts rw,nosuid,noexec,relatime shared:2763 master:25
+6019 6018 0:21 / /dev/shm rw,nosuid,nodev shared:2762 master:24
+6025 5995 0:4 / /proc rw,nosuid,nodev,noexec,relatime shared:2768 master:27
+6023 5995 0:23 / /run rw,nosuid,nodev shared:2766 master:26
+260 6023 0:45 / /run/user/0 rw,nosuid,nodev,relatime shared:140 master:139
+5997 5995 0:20 / /sys rw,nosuid,nodev,noexec,relatime shared:2740 master:3
+6539 5995 252:3 /tmp/systemd-private-292b2e39e2974392ad5567d198270cb6-httpd.service-8NhA4y/tmp /tmp rw,relatime shared:3282 master:1
+5996 5995 0:39 / /var/lib/nfs/rpc_pipefs rw,relatime shared:2739 master:2
+6540 5995 252:3 /var/tmp/systemd-private-292b2e39e2974392ad5567d198270cb6-httpd.service-aCwRq5/tmp /var/tmp rw,relatime shared:3283 master:1
+[root@jianhong-rhel-830-20200715n0 ~]# cat /proc/self/mountinfo | sed 's/ - .*//' | sort -k5 | egrep -v '/proc/|/sys/'
+97 0 252:3 / / rw,relatime shared:1
+49 97 252:2 / /boot/efi rw,relatime shared:32
+22 97 0:6 / /dev rw,nosuid shared:23
+45 22 0:41 / /dev/hugepages rw,relatime shared:28
+46 22 0:18 / /dev/mqueue rw,relatime shared:29
+25 22 0:22 / /dev/pts rw,nosuid,noexec,relatime shared:25
+24 22 0:21 / /dev/shm rw,nosuid,nodev shared:24
+21 97 0:4 / /proc rw,nosuid,nodev,noexec,relatime shared:27
+26 97 0:23 / /run rw,nosuid,nodev shared:26
+258 26 0:45 / /run/user/0 rw,nosuid,nodev,relatime shared:139
+20 97 0:20 / /sys rw,nosuid,nodev,noexec,relatime shared:3
+100 97 0:39 / /var/lib/nfs/rpc_pipefs rw,relatime shared:2
+```
 
 ---
 以上
