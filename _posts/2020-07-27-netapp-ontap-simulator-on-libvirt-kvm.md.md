@@ -3,12 +3,16 @@ layout: post
 title: "Netapp ONTAP simulator on libvirt/KVM"
 ---
 
+This solution is currently only verified on Fedora-32 and Fedora-33.
+
 ### 1. download ONTAP simulator image and license file
 ```
 # download url: https://mysupport.netapp.com/site/tools/tool-eula/simulate-ontap
 # BTW: need log in to the NetApp Support Site athttp://mysupport-beta.netapp.com/ before download
 [yjh@ws ONTAP-Simulator]$ ls
 CMode_licenses_9.7.txt  Simulate_ONTAP_97_Installation_and_Setup_Guide.pdf  Simulate_ONTAP_97_Quick_Start_Guide.pdf  vsim-netapp-DOT9.7-cm_nodar.ova
+[yjh@ws ~]$ lsb_release -sir
+Fedora 33
 ```
 
 
@@ -19,7 +23,7 @@ CMode_licenses_9.7.txt  Simulate_ONTAP_97_Installation_and_Setup_Guide.pdf  Simu
 ```
 
 
-### 3. install kiss-vm from https://github.com/tcler/kiss-vm-ns
+### 3. install *kiss-vm* from https://github.com/tcler/kiss-vm-ns
 ```
 [yjh@ws ~]$ git clone https://github.com/tcler/kiss-vm-ns; sudo make -C kiss-vm-ns; sudo vm --prepare
 
@@ -28,11 +32,14 @@ CMode_licenses_9.7.txt  Simulate_ONTAP_97_Installation_and_Setup_Guide.pdf  Simu
 ```
 
 
-### 4. create virtual network/switch for cluster internal connect
+### 4. create virtual network/switch for cluster internal connect (by using *kiss-vm*)
 ```
-[yjh@ws ~]$ lsb_release -sir
-Fedora 33
 [yjh@ws ~]$ vm netcreate netname=ontap-isolate brname=br-ontap subnet=100
+```
+
+
+### 5. start ONTAP simulator in KVM (by using *kiss-vm*)
+```
 [yjh@ws ~]$ vm -n ontap-single ONTAP-simulator -i vsim-NetAppDOT-simulate-disk1.qcow2 --bus=ide \
     --disk=vsim-NetAppDOT-simulate-disk{2..4}.qcow2,bus=ide \
     --net ontap-isolate,e1000  --net ontap-isolate,e1000 \
