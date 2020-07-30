@@ -28,7 +28,7 @@ Fedora 33
 [yjh@ws ~]$ git clone https://github.com/tcler/kiss-vm-ns; sudo make -C kiss-vm-ns; sudo vm --prepare
 
 #tips: now kiss-vm only support Fedora-29|CentOS-7|RHEL-7 and later; will support debian in future.
-#command lines in Step4 has been verified on Fedora-33
+#command lines in Step4,Step5 has been verified on Fedora-32 and Fedora-33
 ```
 
 
