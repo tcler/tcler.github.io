@@ -66,3 +66,8 @@ Fedora 33
 ```
 #ref: https://www.underkube.com/posts/trident-ontap-ocp4/
 ```
+
+---
+Update(2020-08-02):  
+I‘ve also automated the installation and configuration process that must be done in VNC session.  
+see here: https://github.com/tcler/ontap-simulator-in-kvm
