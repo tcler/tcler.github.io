@@ -23,7 +23,7 @@ Fedora 33
 ```
 
 
-### 3. install *kiss-vm* from https://github.com/tcler/kiss-vm-ns
+### 3. install *kiss-vm* from [kiss-vm-ns](https://github.com/tcler/kiss-vm-ns "kiss-vm-ns")
 ```
 [yjh@ws ~]$ git clone https://github.com/tcler/kiss-vm-ns; sudo make -C kiss-vm-ns; sudo vm --prepare
 
@@ -63,11 +63,9 @@ Fedora 33
  ```
 
 ---
-```
-#ref: https://www.underkube.com/posts/trident-ontap-ocp4/
-```
+ref: [trident-ontap-ocp4](https://www.underkube.com/posts/trident-ontap-ocp4/)
 
 ---
 Update(2020-08-02):  
 I‘ve also automated the installation and configuration process that must be done in VNC session.  
-see here: https://github.com/tcler/ontap-simulator-in-kvm
+see: [ontap-simulator-in-kvm project](https://github.com/tcler/ontap-simulator-in-kvm)
