@@ -8,7 +8,7 @@ This solution is currently only verified on Fedora-32 and Fedora-33.
 ### 1. download ONTAP simulator image and license file
 ```
 # download url: https://mysupport.netapp.com/site/tools/tool-eula/simulate-ontap
-# BTW: need log in to the NetApp Support Site athttp://mysupport-beta.netapp.com/ before download
+# note: need log in to the NetApp Support Site athttp://mysupport-beta.netapp.com/ before download
 [yjh@ws ONTAP-Simulator]$ ls
 CMode_licenses_9.7.txt  Simulate_ONTAP_97_Installation_and_Setup_Guide.pdf  Simulate_ONTAP_97_Quick_Start_Guide.pdf  vsim-netapp-DOT9.7-cm_nodar.ova
 [yjh@ws ~]$ lsb_release -sir
