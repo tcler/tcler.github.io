@@ -49,17 +49,17 @@ Fedora 33
 
 ```
 : <<COMMENT
-#exit from virsh console by press 'ctrl + ]' and vm will show you the vnc port info
-#then connect from remote by using: vncviewer $server:$vncport
-#complete configure in vnc client window
+#after vm command exit, you will see the vnc port info like:
+'''
+{VM:INFO} you can try login ontap-single again by using:
+  $ vm login ontap-node1          #from host
+  $ vncviewer dhcp-12-228.xxx.redhat.com:5905    #from remote
+'''
+then login the VM through VNC to complete the remaining install/configuration steps.
+(Simulator OS does not redirect the configuring prompt to console, so must login through VNC)
 
-#note: in this example, I used macvtap interface as the management/data port(e0c e0d),
+#note: in above example, I used macvtap interface as the default node management port(e0c),
  must find those ip addresses that has not been used by lab dhcp server.
-
- if don't want expose the port in our lab, please create another virtual network by
-   vm netcreate netname=net-xx brname=br-xx subnet=$NN
- and replace /--net-macvtap=-,e1000 --net-macvtap=-,e1000/ with /--net=net-xx,e1000 --net=net-xx,e1000/
- COMMENT
  ```
 
 ---
