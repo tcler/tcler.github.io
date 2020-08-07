@@ -57,8 +57,30 @@ read key eq fsize
 read key eq iver
 read key eq fsver
 } < <(xfs_db -r $dev -c "inode $inum" -c "type inode" -c "print core.format core.mode core.size core.version" -c "version")
-ftype=${ftypes[$(printf %d ${mode%????})]}
+ftypenum=${mode%????}
+ftypenum=$((8#$ftypenum))
+
+inode_v3() {
+        local _dev=$1
+        local _inum=$2
+        IFS=' ()' read ioffsetX ioffsetD < <(xfs_db -r $_dev -c "convert inode $_inum fsbyte" -c "inode $_inum")
+
+	local _mode=$(dd status=none if=$_dev bs=1 skip=$((ioffsetD+2)) count=2 | hexdump -e '1/1 "%02x"')
+	local _ftypenum=${_mode%???}
+	local _fsize=$(dd status=none if=$dev bs=1 skip=$((ioffsetD+56)) count=8 | hexdump -e '8/1 "%02x"')
+	echo ftypenum = $((16#$_ftypenum))
+	echo fsize = $((16#$_fsize))
+}
+[[ "$iver" = 3 ]] && {
+	{
+	read key eq ftypenum
+	read key eq fsize
+	} < <(inode_v3 $dev $inum)
+}
+
+ftype=${ftypes[$ftypenum]}
 echo -e "core.format: $coreformat, ftype: $ftype, fsize: $fsize, iver: $iver, fsver: $fsver" >&2
+echo >&2
 
 extents_cat() {
         local _fsize=$1
