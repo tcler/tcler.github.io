@@ -79,7 +79,7 @@ inode_v3() {
 }
 
 ftype=${ftypes[$ftypenum]}
-echo -e "core.format: $coreformat, ftype: $ftype, fsize: $fsize, iver: $iver, fsver: $fsver" >&2
+echo -e "core.format: $coreformat, ftype: $ftype($ftypenum), fsize: $fsize, iver: $iver, fsver: $fsver" >&2
 echo >&2
 
 extents_cat() {
