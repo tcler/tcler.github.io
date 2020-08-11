@@ -226,7 +226,7 @@ echo >&2
 # 目前这个脚本只能处理 core.format = 1(local) 和 2(extents) 的情况
 另外一种情况
     core.format = 3 (btree)
-还有 core.version 的值不同，相应的 field 名字也不一样，需要做判断处理.
+极少出现，暂不支持.
 
 具体 xfs_db example 可以参考: https://github.com/djwong/xfs-documentation
 
