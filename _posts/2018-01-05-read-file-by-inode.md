@@ -31,6 +31,7 @@ But seems there's no function like debugfs->cat in xfs_* tools,
 ```
 #!/bin/bash
 #auth: yin-jianhong@163.com
+#just for learn xfs and funny
 
 dev=$1
 inum=$2
@@ -44,10 +45,12 @@ ftypes[8]=file
 ftypes[10]=symlink
 ftypes[12]=socket
 bmxField=u.bmx
+dataForkOffset=100
+
 inode_ver() {
 	local _dev=$1
 	local _inum=$2
-	IFS=' ()' read ioffsetX ioffsetD < <(xfs_db -r $_dev -c "convert inode $_inum fsbyte" -c "inode $_inum")
+	IFS=' ()' read ioffsetX ioffsetD < <(xfs_db -r $_dev -c "convert inode $_inum fsbyte")
 	local _iver=$(dd status=none if=$_dev bs=1 skip=$((ioffsetD+4)) count=1 | hexdump -e '1/1 "%02x"')
 	echo -n $((16#$_iver))
 }
@@ -62,9 +65,56 @@ g_iver=$(inode_ver $dev $inum)
 test -n "$debug" && echo "core.version = $g_iver" >&2
 [[ "$g_iver" = 3 ]] && {
 	bmxField=u3.bmx
+	dataForkOffset=176
 }
 
-[[ "$g_iver" = 3 ]] && {
+inode_extent_array() {
+	#ref: https://xfs.org/docs/xfsdocs-xml-dev/XFS_Filesystem_Structure/tmp/en-US/html/Data_Extents.html
+	local _dev=$1
+	local _inum=$2
+
+	local agblocks=
+	local sbINFO=$(xfs_db -r $_dev -c "inode 0" -c "type sb" -c 'print agblocks')
+	read key eq agblocks < <(grep agblocks <<<"$sbINFO")
+	local _agblocksB=$(echo "obase=2;$agblocks"|bc)
+	local agshift=${#_agblocksB}
+
+	IFS=' ()' read ioffsetX ioffsetD < <(xfs_db -r $_dev -c "convert inode $_inum fsbyte")
+	local _extentNum=$(dd status=none if=$_dev bs=1 skip=$((ioffsetD+76)) count=4 | hexdump -e '4/1 "%02x"')
+	_extentNum=$((16#$_extentNum))
+
+	echo "BMX[0-$((_extentNum-1))] = [startoff,startblock,blockcount,extentflag]"
+	local extentX= extent1B= flag= startoff= startblock= blockcount=
+	for ((i=0; i<_extentNum; i++)); do
+		extentX=$(dd status=none if=$_dev bs=1 skip=$((ioffsetD+dataForkOffset+i*16)) count=16 | hexdump -e '16/1 "%02x"')
+		extent1B=$(echo "ibase=16;obase=2;1${extentX^^}"|BC_LINE_LENGTH=256 bc)
+
+		flag=${extent1B:1:1}
+
+		startoff=$(echo "ibase=2;obase=A;${extent1B:2:54}"|bc)
+
+		startblockB=${extent1B:56:52}
+		startblock=$(echo "ibase=2;obase=A;${startblockB}"|bc)
+
+		blockcount=$(echo "ibase=2;obase=A;${extent1B:108:21}"|bc)
+
+		[[ "${g_iver:-3}" = 3 ]] && {
+			agnumLen=$((52-agshift))
+			agnum=$(echo "ibase=2;obase=A;${startblockB:0:${agnumLen}}"|bc)
+			relativeblock=$(echo "ibase=2;obase=A;${startblockB:${agnumLen}:${agshift}}"|bc)
+			echo " ${i}:[$startoff,$((agnum*agblocks+relativeblock)),$blockcount,$flag,$startblock]"
+
+			test -n "$debug" && echo "agshift: $agshift" >&2
+			test -n "$debug" && echo "agnumLen: $agnumLen" >&2
+			test -n "$debug" && echo "agnum: $agnum" >&2
+			test -n "$debug" && echo "relativeblock: $relativeblock" >&2
+		} || {
+			echo " ${i}:[$startoff,$startblock,$blockcount,$flag]"
+		}
+	done
+}
+
+[[ "${g_iver:-3}" = 3 ]] && {
 	INFO=$(xfs_db -r $dev -c "inode $inum"                 -c "print core.format core.mode core.size" -c "version")
 } || {
 	INFO=$(xfs_db -r $dev -c "inode $inum" -c "type inode" -c "print core.format core.mode core.size" -c "version")
@@ -84,7 +134,7 @@ test -n "$debug" && echo "$INFO" >&2
 inode_dump() {
 	local _dev=$1
 	local _inum=$2
-	IFS=' ()' read ioffsetX ioffsetD < <(xfs_db -r $_dev -c "convert inode $_inum fsbyte" -c "inode $_inum")
+	IFS=' ()' read ioffsetX ioffsetD < <(xfs_db -r $_dev -c "convert inode $_inum fsbyte")
 	dd status=none if=$_dev bs=1 skip=$((ioffsetD)) count=256 | hexdump -e '16/1 "%02x " "\n"'
 }
 
@@ -92,7 +142,7 @@ inode_dump() {
 inode_info() {
 	local _dev=$1
 	local _inum=$2
-	IFS=' ()' read ioffsetX ioffsetD < <(xfs_db -r $_dev -c "convert inode $_inum fsbyte" -c "inode $_inum")
+	IFS=' ()' read ioffsetX ioffsetD < <(xfs_db -r $_dev -c "convert inode $_inum fsbyte")
 
 	local _mode=$(dd status=none if=$_dev bs=1 skip=$((ioffsetD+2)) count=2 | hexdump -e '1/1 "%02x"')
 	local _ftypenum=${_mode%???}
@@ -112,46 +162,39 @@ extents_cat() {
 	local _fsize=$2
 	shift 2
 
+	local sbINFO=$(xfs_db -r $_dev -c "inode 0" -c "type sb" -c 'print blocksize')
+	read key eq blocksize < <(grep blocksize <<<"$sbINFO")
+
 	local left=$_fsize
 	for extent; do
 		test -n "$debug" && echo "{extexts_cat} extent: $extent" >&2
-		read idx startoff startblock blockcount extentflag  <<< "${extent//[:,\][]/ }"
-		extentSize=$((blockcount * g_blocksize))
+		read idx startoff startblock blockcount extentflag orig_startblock <<< "${extent//[:,\][]/ }"
+		extentSize=$((blockcount * blocksize))
 		ddcount=$blockcount
-		#[[ $g_iver = 3 ]] && startblock=$((startblock - 12288))
 
 		if [[ $extentSize -gt $left ]]; then
-			ddcount=$((left/g_blocksize))
-			mod=$((left%g_blocksize))
+			ddcount=$((left/blocksize))
+			mod=$((left%blocksize))
 
 			test -n "$debug" && echo "{extexts_cat} left=$left, extentSize=$extentSize; ddcount=$ddcount, mod=$mod" >&2
-			echo dd status=none if=$_dev bs=$g_blocksize skip=$startblock count=$ddcount >&2
-			dd status=none if=$_dev bs=$g_blocksize skip=$startblock count=$ddcount
-			echo dd status=none if=$_dev bs=1 skip=$(((startblock+ddcount)*g_blocksize)) count=$mod >&2
-			dd status=none if=$_dev bs=1 skip=$(((startblock+ddcount)*g_blocksize)) count=$mod
+			echo dd status=none if=$_dev bs=$blocksize skip=$startblock count=$ddcount >&2
+			dd status=none if=$_dev bs=$blocksize skip=$startblock count=$ddcount
+			echo dd status=none if=$_dev bs=1 skip=$(((startblock+ddcount)*blocksize)) count=$mod >&2
+			dd status=none if=$_dev bs=1 skip=$(((startblock+ddcount)*blocksize)) count=$mod
 			break
 		else
-			dd status=none if=$_dev bs=$g_blocksize skip=$startblock count=$ddcount
+			dd status=none if=$_dev bs=$blocksize skip=$startblock count=$ddcount
 		fi
 
-		((left-=(ddcount*g_blocksize)))
+		((left-=(ddcount*blocksize)))
 	done
 }
 
 case $coreformat in
 2)
-	[[ "$g_iver" = 3 ]] && {
-		INFO=$(xfs_db -r $dev \
-			-c "inode 0" -c "type sb" -c 'print blocksize' \
-			-c "inode $inum"                  -c "print $bmxField")
-	} || {
-		INFO=$(xfs_db -r $dev \
-			-c "inode 0" -c "type sb" -c 'print blocksize' \
-			-c "inode $inum" -c "type inode" -c "print $bmxField")
-	}
-	read key eq g_blocksize < <(grep blocksize <<<"$INFO")
-	read key eq sum extents < <(sed -n '/bmx/,${p}' <<<"$INFO"|xargs)
-	test -n "$debug" && echo "$INFO" >&2
+	extentINFO=$(inode_extent_array $dev $inum)
+	read key eq sum extents < <(sed -rn '/bmx|BMX/,${p}' <<<"$extentINFO"|xargs)
+	test -n "$debug" && echo "$extentINFO" >&2
 
 	#output file content to stdout
 	case $ftype in
@@ -162,14 +205,13 @@ case $coreformat in
 	esac
 	;;
 1)
-	case $g_iver in (1) localoffset=100;; (2) localoffset=100;; (3) localoffset=176;; esac
-	INFO=$(xfs_db -r $dev -c "convert inode $inum fsbyte" -c "inode $inum")
+	INFO=$(xfs_db -r $dev -c "convert inode $inum fsbyte")
 	IFS=' ()' read ioffsetX ioffsetD <<<"$INFO"
 	case $ftype in
 	dir)
-		dd status=none if=$dev bs=1 skip=$((ioffsetD+localoffset)) count=$((fsize)) | hexdump -C;;
+		dd status=none if=$dev bs=1 skip=$((ioffsetD+dataForkOffset)) count=$((fsize)) | hexdump -C;;
 	file|symlink)
-		dd status=none if=$dev bs=1 skip=$((ioffsetD+localoffset)) count=$((fsize));;
+		dd status=none if=$dev bs=1 skip=$((ioffsetD+dataForkOffset)) count=$((fsize));;
 	symlink2)
 		xfs_db -r $dev -c "inode $inum" -c "type inode" -c "print u.symlink";;
 	*)
@@ -181,11 +223,11 @@ echo >&2
 ```
 
 ```
-# 经同事提醒，目前这个脚本只能处理 core.format = 1(local) 和 2(extents) 的情况
+# 目前这个脚本只能处理 core.format = 1(local) 和 2(extents) 的情况
 另外一种情况
     core.format = 3 (btree)
-还有 core.version 的值不同，相应的 field 名字也不一样，需要做判断处理
--可能需要借助 expect ? 以交互式方式执行
+还有 core.version 的值不同，相应的 field 名字也不一样，需要做判断处理.
+
 具体 xfs_db example 可以参考: https://github.com/djwong/xfs-documentation
 
 (tip: 制作 core.format 为 "3 (btree)" 的方法，可以创建一个 xfs.image，
