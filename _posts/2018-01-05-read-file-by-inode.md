@@ -132,7 +132,7 @@ inode_extent_btree() {
 	local _inum=$2
 
 	local fsblocks
-	btree_node=$(xfs_db -r $_dev -c inode\ $_inum -c p\ u3.bmbt 2>/dev/null)
+	btree_node=$(xfs_db -r $_dev -c inode\ $_inum -c p 2>/dev/null)
 	read key eq fsblocks < <(egrep 'ptrs\[[0-9-]+] =' <<<"$btree_node")
 
 	walkbtree() {
@@ -255,8 +255,7 @@ echo >&2
 ```
 
 ```
-# core.format = 3 (btree) 的场景目前只支持了 inode v3 的情况，手头没有可用的
-inode v2 的系统， 稍后添加
+# core.format = 3 (btree) 的场景目前只在了 inode v3 的系统做了测试
 
 具体 xfs_db example 可以参考: https://github.com/djwong/xfs-documentation
 
