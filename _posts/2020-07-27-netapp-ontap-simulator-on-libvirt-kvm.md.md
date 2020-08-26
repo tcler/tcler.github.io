@@ -3,7 +3,7 @@ layout: post
 title: "Netapp ONTAP simulator on libvirt/KVM"
 ---
 
-This solution is currently only verified on Fedora-32 and Fedora-33.
+This solution has been verified on Fedora-32/Fedora-33,RHEL-8.2/RHEL-8.3 and RHEL-7.8/RHEL-7.9
 
 ### 1. download ONTAP simulator image and license file
 ```
@@ -44,7 +44,7 @@ Fedora 33
     --disk=vsim-NetAppDOT-simulate-disk{2..4}.qcow2,bus=ide \
     --net ontap-isolate,e1000  --net ontap-isolate,e1000 \
     --net-macvtap=-,e1000 --net-macvtap=-,e1000 \
-    --noauto --force --nocloud --osv freebsd11.2 --msize $((6*1024)) --cpus 2
+    --noauto --force --nocloud --osv freebsd11.2 --msize $((6*1024)) --cpus 2,cores=2
 ```
 
 ```
