@@ -3,6 +3,8 @@ layout: post
 title: "Install FreeBSD-12.1 in libvirt/KVM"
 ---
 
+Install FreeBSD-12.1 in libvirt/KVM automatically  
+
 ### 1. install *kiss-vm* from [kiss-vm-ns](https://github.com/tcler/kiss-vm-ns "kiss-vm-ns")
 ```
 [yjh@ws ~]$ git clone https://github.com/tcler/kiss-vm-ns; sudo make -C kiss-vm-ns; sudo vm --prepare
