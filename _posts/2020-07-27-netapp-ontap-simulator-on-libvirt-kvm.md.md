@@ -5,10 +5,19 @@ title: "Netapp ONTAP simulator on libvirt/KVM"
 
 This solution has been verified on Fedora-32/Fedora-33,RHEL-8.2/RHEL-8.3 and RHEL-7.8/RHEL-7.9
 
+### 0. HOST machine requires:
+Host OS: As mentioned above, recommend to use latest Fedora or RHEL/CentOS (Fedora-32, RHEL-8.2.0/CentOS-8.2.0 for now:07/2020)  
+Ram size: >= 16G for two node simulator; and >= 8G for single node simulator  
+Disk size: >= 400G for two node simulator; and >= 200G for single node simulator  
+
+
 ### 1. download ONTAP simulator image and license file
 ```
 # download url: https://mysupport.netapp.com/site/tools/tool-eula/simulate-ontap
-# note: need log in to the NetApp Support Site athttp://mysupport-beta.netapp.com/ before download
+# note1: need log in to the NetApp Support Site at http://mysupport-beta.netapp.com/ before download
+         (Sorry, I can’t leak my account password here, because there is a legal risk)
+# note2: please also download the licenses file besides simulator image file， you might need licenses to enable some features
+
 [yjh@ws ONTAP-Simulator]$ ls
 CMode_licenses_9.7.txt  Simulate_ONTAP_97_Installation_and_Setup_Guide.pdf  Simulate_ONTAP_97_Quick_Start_Guide.pdf  vsim-netapp-DOT9.7-cm_nodar.ova
 [yjh@ws ~]$ lsb_release -sir
@@ -66,6 +75,6 @@ then login the VM through VNC to complete the remaining install/configuration st
 ref: [trident-ontap-ocp4](https://www.underkube.com/posts/trident-ontap-ocp4/)
 
 ---
-Update(2020-08-02):  
+### Big Update(2020-08-08):  
 I‘ve also automated the installation and configuration process that must be done in VNC session.  
 see: [ontap-simulator-in-kvm project](https://github.com/tcler/ontap-simulator-in-kvm)
