@@ -18,7 +18,7 @@ and they don't redirect tty to console and disable sshd by default. this means
 I also can not use expect to automate the install and configure steps..
 
 Should we always install and configure these systems **manually** in VNC ??!!   
-does VNC support text mode ?  see no [VNC](https://en.wikipedia.org/wiki/Virtual_Network_Computing)   
+does VNC support text mode ? no, see [VNC](https://en.wikipedia.org/wiki/Virtual_Network_Computing)   
 ```
 In computing, Virtual Network Computing (VNC) is a graphical desktop-sharing system that uses the 
 Remote Frame Buffer protocol (RFB) to remotely control another computer. 
