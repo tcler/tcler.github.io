@@ -343,3 +343,7 @@ exit
   然后在里面写满4k大小的文件，然后每隔一个删除，然后再创建一个大文件 
   就可以得到一个 btree 格式的 inode 了)
 ```
+
+```
+see also: ext4magic, xfs_irecover
+```
