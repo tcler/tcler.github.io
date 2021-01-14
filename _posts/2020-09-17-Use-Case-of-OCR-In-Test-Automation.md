@@ -15,7 +15,7 @@ doesn't support any mechanism to auto install and configure. e.g:
 -  cloud-init &emsp;&emsp;&emsp;&emsp;&emsp;#for cloud image of many linux distributions. see: [kiss-vm -I](https://github.com/tcler/kiss-vm-ns)   
 
 and they don't redirect tty to console and disable sshd by default. this means   
-I also can not use expect to automate the install and configure steps..
+I can not automate the install and configuration steps by using expect(1) ..
 
 Should we always install and configure these systems **manually** in VNC ??!!   
 does VNC support text mode ? no, see [VNC](https://en.wikipedia.org/wiki/Virtual_Network_Computing)   
