@@ -115,7 +115,7 @@ vncwait() {
 
 [ontap simulator in kvm](https://github.com/tcler/ontap-simulator-in-kvm)   
 [install freeBSD in kvm article](https://tcler.github.io/2020/08/24/freeBSD-in-KVM/)   
-[install freeBSD in kvm code](https://github.com/tcler/kiss-vm-ns/blob/master/kiss-vm#L1951)   
+[install freeBSD in kvm code](https://github.com/tcler/kiss-vm-ns/blob/master/kiss-vm#L2053)   
 
 
 
