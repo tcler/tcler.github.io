@@ -117,7 +117,8 @@ vncwait() {
 [install freeBSD in kvm article](https://tcler.github.io/2020/08/24/freeBSD-in-KVM/)   
 [install freeBSD in kvm code](https://github.com/tcler/kiss-vm-ns/blob/master/kiss-vm#L2053)   
 
-
+### how to install gocr and vncdo on CentOS/Fedora/RHEL
+see: [ggv-install.sh](https://github.com/tcler/kiss-vm-ns/blob/master/utils/ggv-install.sh)  
 
 ---
 Jianhong
