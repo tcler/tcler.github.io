@@ -33,3 +33,16 @@ parallel -j 4 wget -q {} < list.txt
 # yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 # yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
 ```
+
+### 方案4
+Use tmux (or screen, note: screen is deprecated)
+```
+tmux new -s session_name1 -d "command line 1"
+tmux new -s session_name2 -d "command line 2"
+tmux new -s session_name3 -d "command line 3"
+tmux new -s session_name4 -d "command line 4"
+```
+
+```
+screen -S session_name -dm bash -c "command"
+```
