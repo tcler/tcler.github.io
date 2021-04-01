@@ -59,11 +59,18 @@ ps axf | grep  [o]rg.jibble.jbouncer.JBouncerMain
 ```
 wget https://raw.githubusercontent.com/tcler/bkr-client-improved/master/utils/ircmsg.sh
 chmod +x ircmsg.sh
-cat <<CONF > ~/.ircmsg/ircmsg.rc
+cat <<CONF > ~/.config/ircmsg/ircmsg.rc
 PROXY_SERVER=$ProxyServerAddress
 PROXY_PORT=6667
+ProxySession=ircBotTest:irc.devel.redhat.com
+UserPasswd=ircBot:ircBot
+CHANNEL=#beaker
+NICK=testBot
 CONF
-./ircmsg.sh -n ircBot -P ircBotTest:irc.devel.redhat.com -L ircBot:ircBot -C "#beaker" "Hello all"
+
+./ircmsg.sh -n ircBot -s $serv -p $port -S ircBotTest:irc.devel.redhat.com -U ircBot:ircBot -C "#beaker" "Hello all"
+./ircmsg.sh -n ircBot -C "#beaker" "Hello all"  #use default server,session,user:pass in ~/.config/ircmsg/ircmsg.rc
+./ircmsg.sh "Hello all"  #use default server,session,user:pass,chan,nickname in  ~/.config/ircmsg/ircmsg.rc
 ```
 
 ### Create a simple irc robot
@@ -71,7 +78,7 @@ CONF
 (
   echo "SHELL=/bin/bash"
   echo "PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin"
-  echo "00  *  *  *  *    /path/ircmsg.sh -n ircBot -P ircBotTest:irc.devel.redhat.com -L ircBot:ircBot -C "#fs-qe" "整点报时"
+  echo "00  *  *  *  *    /path/ircmsg.sh -n ircBot -C "#fs-qe" "整点报时 $(date)"
 ) | crontab -
 ```
 
