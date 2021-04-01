@@ -4,7 +4,8 @@ title: "IRC proxy JBouncer 介绍"
 ---
 
 ### What is IRC
-see https://en.wikipedia.org/wiki/Internet_Relay_Chat
+see https://en.wikipedia.org/wiki/Internet_Relay_Chat  
+see https://en.wikipedia.org/wiki/List_of_Internet_Relay_Chat_commands
 
 or: https://zh.wikipedia.org/wiki/IRC  #in chinese
 
