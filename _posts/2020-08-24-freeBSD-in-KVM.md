@@ -7,7 +7,7 @@ Install FreeBSD-12.1 in libvirt/KVM automatically
 
 ### 1. install *kiss-vm* from [kiss-vm-ns](https://github.com/tcler/kiss-vm-ns "kiss-vm-ns")
 ```
-[yjh@ws ~]$ git clone https://github.com/tcler/kiss-vm-ns; sudo make -C kiss-vm-ns; sudo vm --prepare
+[yjh@ws ~]$ git clone https://github.com/tcler/kiss-vm-ns; sudo make -C kiss-vm-ns; sudo vm prepare
 #tips: if you are non-root user, open new terminal and continue
 #tips: now kiss-vm only support Fedora-29|CentOS-7|RHEL-7 and later; will support debian in future.
 ```
