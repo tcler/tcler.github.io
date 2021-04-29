@@ -11,6 +11,7 @@ Install FreeBSD-12.1 in libvirt/KVM automatically
 #tips: if you are non-root user, open new terminal and continue
 #tips: now kiss-vm only support Fedora-29|CentOS-7|RHEL-7 and later; will support debian in future.
 #      ^^^ Update(2021-04-29): now kiss-vm works on "Debian GNU/Linux"
+#      ^^^ Update(2021-04-30): now kiss-vm works on "openSUSE Leap 15.2"
 ```
 
 ### 2. install FreeBSD-12.1 from qcow2 image
