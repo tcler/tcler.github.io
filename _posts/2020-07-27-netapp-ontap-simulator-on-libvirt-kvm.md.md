@@ -39,6 +39,7 @@ Fedora 33
 #tips 0: if you are non-root user, open new terminal and continue
 #tips 1: now kiss-vm only support Fedora-29|CentOS-7|RHEL-7 and later; will support debian in future.
 #        ^^^ Update(2021-04-29): now kiss-vm works on "Debian GNU/Linux"
+#        ^^^ Update(2021-04-30): now kiss-vm works on "openSUSE Leap 15.2"
 ```
 
 
