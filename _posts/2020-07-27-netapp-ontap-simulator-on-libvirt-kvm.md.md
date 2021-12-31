@@ -71,7 +71,8 @@ then login the VM through VNC to complete the remaining install/configuration st
 
 #note: in above example, I used macvtap interface as the default node management port(e0c),
  must find those ip addresses that has not been used by lab dhcp server.
- ```
+COMMENT
+```
 
 ---
 ref: [trident-ontap-ocp4](https://www.underkube.com/posts/trident-ontap-ocp4/)
