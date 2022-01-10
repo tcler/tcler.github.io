@@ -5,7 +5,8 @@ title: "Install Windows 11 in linux KVM from command line"
 
 
 ## Host OS Requirements
-Fedora 34 / Fedora 35 / Rocky Linux 8.5.0 / CentOS 8.5.0 ...
+Fedora-3X / Rocky Linux 8 / CentOS 8 / ...
+Verified in: Fedora-34, Fedora-35, Rocky-Linux-8.5.0, CentOS-8.5.0
 
 ## Software Requirements
 They are libvirt virt-install swtpm-tools edk2-ovmf virtio-win ...  
@@ -52,8 +53,8 @@ make: Leaving directory '/home/jiyin/ws/tools/kiss-vm-ns'
 ### install Windows-11 KVM Guest from command line
 ```
 [jiyin@deskmini-x300 Downloads]$ vm create Windows-11 -n win11 -C  win11_english_x64.iso --xcdrom virtio-win.iso \
-> --machine q35 --boot=firmware=efi,loader_secure=yes -dsize 80 -msize 8G --vtpm --video=qxl \
-> --vncwait Press.any.*,key:enter  --force  --debug
+ --machine q35 --boot=firmware=efi,loader_secure=yes -dsize 80 -msize 8G --vtpm --video=qxl \
+ --force --debug --vncwait "boot.manager,key:enter key:down key:down key:enter key:enter key:enter"  #--vncwait is optional
 /usr/bin/swtpm_setup
 {VM:INFO} load distro-db file /etc/kiss-vm/distro-db.bash ...
 {VM:INFO} guess/verify os-variant ...
