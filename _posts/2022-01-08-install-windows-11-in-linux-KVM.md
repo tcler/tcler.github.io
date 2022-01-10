@@ -5,7 +5,7 @@ title: "Install Windows 11 in linux KVM from command line"
 
 
 ## Host OS Requirements
-Fedora-3X / Rocky Linux 8 / CentOS 8 / ...
+Fedora-3X / Rocky Linux 8 / CentOS 8 / ...  
 Verified in: Fedora-34, Fedora-35, Rocky-Linux-8.5.0, CentOS-8.5.0
 
 ## Software Requirements
