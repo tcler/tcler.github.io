@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Install Windows 11 in linux KVM from command line"
+title: "Install Windows 11 on KVM from command line"
 ---
 
 
