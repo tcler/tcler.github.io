@@ -34,9 +34,9 @@ Linux 系统 还得找类似限制CPU主频的方法 太麻烦；
 的 ddr3 内存，都低于市价挂咸鱼 卖掉了。
 
 ## 参考
-[DeskMini 110/310 定格死机/核显死机解决方法](https://www.v2ex.com/t/718067)
-[核显玩游戏出现定格死机问题分析及解决方法](https://tieba.baidu.com/p/7031892281?pid=135816569660&cid=0&red_tag=0985223245#135816569660)
-[DeskMini 110 uEFI Tuner Utility](https://github.com/dfc643/deskmini-110-tuner)
-[Underclock i7-6700k to use in a Deskmini 110](https://forum.asrock.com/forum_posts.asp?TID=3689&PN=1&title=underclock-i76700k-to-use-in-a-deskmini-110)
-[PSU - Power supply unit 供电单元](https://forum.asrock.com/forum_posts.asp?TID=3689&PID=20675&title=underclock-i76700k-to-use-in-a-deskmini-110#20675)
-[Did Asrock make a mistake?](https://forum.asrock.com/forum_posts.asp?TID=3689&PID=21822&title=underclock-i76700k-to-use-in-a-deskmini-110#21822)
+[DeskMini 110/310 定格死机/核显死机解决方法](https://www.v2ex.com/t/718067)  
+[核显玩游戏出现定格死机问题分析及解决方法](https://tieba.baidu.com/p/7031892281?pid=135816569660&cid=0&red_tag=0985223245#135816569660)  
+[DeskMini 110 uEFI Tuner Utility](https://github.com/dfc643/deskmini-110-tuner)  
+[Underclock i7-6700k to use in a Deskmini 110](https://forum.asrock.com/forum_posts.asp?TID=3689&PN=1&title=underclock-i76700k-to-use-in-a-deskmini-110)  
+[PSU - Power supply unit 供电单元](https://forum.asrock.com/forum_posts.asp?TID=3689&PID=20675&title=underclock-i76700k-to-use-in-a-deskmini-110#20675)  
+[Did Asrock make a mistake?](https://forum.asrock.com/forum_posts.asp?TID=3689&PID=21822&title=underclock-i76700k-to-use-in-a-deskmini-110#21822)  
