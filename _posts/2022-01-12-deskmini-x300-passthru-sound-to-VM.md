@@ -60,7 +60,7 @@ rpmbuild -bb kernel.spec
 
 #install new kernel pkgs
 cd ~/rpmbuild/RPMS/x86_64
-sudo rpm install -ivh --force --nodeps *.rpm
+sudo rpm -ivh --force --nodeps *.rpm
 
 #
 sudo grubby --args="pcie_acs_override=downstream,multifunction" --update-kernel DEFAULT  
