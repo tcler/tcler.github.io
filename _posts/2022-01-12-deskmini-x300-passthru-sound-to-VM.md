@@ -39,7 +39,7 @@ rpmdev-setuptree
 dnf download --source kernel ||
   koji download-build --arch=src kernel-$(uname -r|sed s/$(arch)/src/).rpm  #download current kernel src by using koji
 
-rm -rf rpmbuild/SOURCES/*
+rm -rf rpmbuild/SOURCES/* rpmbuild/RPMS/*
 rpm -ivh kernel-*.src.rpm
 
 #install dependency
