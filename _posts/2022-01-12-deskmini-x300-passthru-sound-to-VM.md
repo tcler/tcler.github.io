@@ -35,9 +35,12 @@ sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-rele
 sudo dnf install fedpkg fedora-packager rpmdevtools ncurses-devel pesign bpftool
 rpmdev-setuptree
 
-#download kernel src
-koji download-build --arch=src kernel-$(uname -r|sed s/$(arch)/src/).rpm
-rpm -ivh kernel-$(uname -r|sed s/$(arch)/src/).rpm
+#download new kernel src
+dnf download --source kernel ||
+  koji download-build --arch=src kernel-$(uname -r|sed s/$(arch)/src/).rpm  #download current kernel src by using koji
+
+rm -rf rpmbuild/SOURCES/*
+rpm -ivh kernel-*.src.rpm
 
 #install dependency
 cd rpmbuild/SPECS/
