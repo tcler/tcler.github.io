@@ -16,14 +16,14 @@ Install FreeBSD-12.1 in libvirt/KVM automatically
 
 ### 2. install FreeBSD-12.1 from qcow2 image
 ```
-vm  FreeBSD-12.1 -n freebsd -dsize 27 -f -i ~/myimages/download/FreeBSD-12.1-RELEASE-amd64.qcow2.xz
+vm create FreeBSD-12.1 -n freebsd -dsize 27 -f -i ~/myimages/download/FreeBSD-12.1-RELEASE-amd64.qcow2.xz
 #or
-vm  FreeBSD-12.1 -n freebsd -dsize 27 -f -i https://download.freebsd.org/ftp/releases/VM-IMAGES/12.1-RELEASE/amd64/Latest/FreeBSD-12.1-RELEASE-amd64.qcow2.xz
+vm create FreeBSD-12.1 -n freebsd -dsize 27 -f -i https://download.freebsd.org/ftp/releases/VM-IMAGES/12.1-RELEASE/amd64/Latest/FreeBSD-12.1-RELEASE-amd64.qcow2.xz
 ```
 
 ### 3. example
 ```
-[yjh@ws ~]$ vm  FreeBSD-12.1 -n freebsd -dsize 27 -f -i ~/myimages/download/FreeBSD-12.1-RELEASE-amd64.qcow2.xz
+[yjh@ws ~]$ vm create FreeBSD-12.1 -n freebsd -dsize 27 -f -i ~/myimages/download/FreeBSD-12.1-RELEASE-amd64.qcow2.xz
 ... snip ...
 [yjh@ws ~]$ vm exec freebsd -- uname -a
 Password for root@freebsd:
