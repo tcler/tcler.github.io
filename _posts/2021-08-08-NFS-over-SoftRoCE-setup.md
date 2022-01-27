@@ -24,7 +24,7 @@ link rxe0/1 state ACTIVE physical_state LINK_UP netdev eth0
 ```
 
 ## Ping Test
-Start an rping server on one machine 
+Start an rping server on one machine (sudo yum  install librdmacm-utils -y)
 ```
 [foo@linux-bar ~]$ sudo rping -s -v -C 3
 server ping data: rdma-ping-0: ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqr
@@ -70,6 +70,7 @@ Install the nfs-utils package and enable rdma from /etc/nfs.conf and restart ser
 ### Client Side
 Install the nfs-utils package and do nfs mount
 ```
+[foo@linux-bor]$ sudo mkdir /mnt/nfsmp
 [foo@linux-bor]$ sudo mount -o rdma,port=20049,vers=4.2 192.168.122.40:/expdir /mnt/nfsmp
 [foo@linux-bor]$ mount | grep proto=rdma
 192.168.122.40:/expdir on /mnt/nfsmp type nfs4 (rw,relatime,vers=4.2,rsize=262144,wsize=262144,namlen=255,hard,proto=rdma,port=20049,timeo=600,retrans=2,sec=sys,clientaddr=192.168.122.161,local_lock=none,addr=192.168.122.40)
