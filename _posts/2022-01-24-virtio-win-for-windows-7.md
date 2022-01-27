@@ -15,3 +15,9 @@ google and try previous versions, and finally got the latest version that worked
  
 ## ref:
 [virtio-win-drivers-with-win7](https://askubuntu.com/questions/1310440/using-virtio-win-drivers-with-win7-sp1-x64)  
+
+## Screen Shots
+
+![kiss-vm-win7-virtio](https://raw.githubusercontent.com/tcler/tcler.github.io/master/public/imgs/kiss-vm-win7-virtio/kiss-vm-win7-virtio.png)
+![kiss-vm-win7-virtio-2](https://raw.githubusercontent.com/tcler/tcler.github.io/master/public/imgs/kiss-vm-win7-virtio/kiss-vm-win7-virtio-2.png)
+![kiss-vm-win7-virtio-3](https://raw.githubusercontent.com/tcler/tcler.github.io/master/public/imgs/kiss-vm-win7-virtio/kiss-vm-win7-virtio-3.png)
