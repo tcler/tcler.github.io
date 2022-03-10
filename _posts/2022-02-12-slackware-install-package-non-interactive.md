@@ -33,5 +33,9 @@ for pkg in $sbopkglist; do
 done
 ```
 
+## ref
+[mail: Install dependencies automatically](https://sbopkg.org/pipermail/sbopkg-users/2016-July/000759.html)  
+[Using slackpkg in unattended/batch mode](https://www.linuxquestions.org/questions/slackware-14/using-slackpkg-in-unattended-batch-mode-4175674322/)  
+
 ---
 ## Advertisement: welcome to [kiss-vm](https://github.com/tcler/kiss-vm-ns) project
