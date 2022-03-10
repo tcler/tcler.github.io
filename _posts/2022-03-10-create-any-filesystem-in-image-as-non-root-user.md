@@ -24,28 +24,32 @@ and the exciting thing is that it actually works, here's the full script:
 (now it only create one partition and satisfy me)  
 ```
 dd_range() {
-	local if=$1
-	local of=$2
-	local SKIP=${3:-0}
-	local SIZE=$4
-	local BS=$((8 * 1024))
+        local if=$1
+        local of=$2
+        local SKIP=${3:-0}
+        local SIZE=$4
+        local BS=$((8 * 1024))
 
-	[[ -z "$of" ]] && return 1
+        [[ -z "$of" ]] && return 1
+        local fsize=$(stat -c%s "$if")
+        ((fsize <= BS)) && BS=$SKIP
 
-	Q=$((SKIP/BS))  #quotient
-	R=$((SKIP%BS))  #residue
-	dd if=$if ibs=$BS skip=$Q count=1 | tail -c $((BS-R)) >$of
+        Q=$((SKIP/BS))  #quotient
+        R=$((SKIP%BS))  #residue
+        dd if=$if ibs=$BS skip=$Q count=1 | tail -c $((BS-R)) >$of
+        if ((SKIP >= SIZE)); then
+                truncate --size=${SIZE} $of
+                return 0
+        fi
 
-	{
-	if [[ -z "$SIZE" ]]; then
-		dd if=$if bs=$BS skip=$((Q+1))
-	else
-		Q2=$((SIZE/BS))  #quotient
-		R2=$((SIZE%BS))  #residue
-		((Q2>0)) && dd if=$if bs=$BS skip=$((Q+1)) count=$Q2
-		((R2>0)) && dd if=$if bs=$BS skip=$((Q+1+Q2)) count=1 | head -c $R2
-	fi
-	} >>$of
+        if [[ -z "$SIZE" ]]; then
+                dd if=$if bs=$BS skip=$((Q+1)) oflag=append conv=notrunc of=$of
+        else
+                Q2=$((SIZE/BS))  #quotient
+                R2=$((SIZE%BS))  #residue
+                ((Q2>0)) && dd if=$if bs=$BS skip=$((Q+1)) count=$((Q2-1)) oflag=append conv=notrunc of=$of
+                ((R2>0)) && dd if=$if bs=$BS skip=$((Q+Q2)) count=1 | head -c $R2 >>$of
+        fi
 }
 
 create_vdiskn() {
