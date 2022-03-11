@@ -111,6 +111,6 @@ mount_vdisk2 "$@"
 
 
 ## update 2022-03-11
-just found out that some tools like '**virt-make-fs**' '**virt-copy-in**' could be used create or modify  
+just found out that some tools like '**virt-make-fs**' '**virt-copy-in**' could be used to create or modify  
 disk image file without mount. so please try them instead investigate how to mount as non-root user
 ```
