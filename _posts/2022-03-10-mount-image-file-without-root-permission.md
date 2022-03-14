@@ -113,4 +113,13 @@ mount_vdisk2 "$@"
 ## update 2022-03-11
 just found out that some tools like '**virt-make-fs**' '**virt-copy-in**' could be used to create or modify  
 disk image file without mount. so please try them instead investigate how to mount as non-root user
+
+and **guestmount / guestumount** could also be used to mount/umount filesystems in disk image as non-root user.  
+and **virt-filesystems -a image-file** could be used to list devices in your image file
+```
+$ virt-filesystems -a xfs.img
+/dev/sda1
+$ guestmount -a xfs.img -m /dev/sda1 /tmp/image
+$ ls /tmp/image
+$ guestumount /tmp/image
 ```
