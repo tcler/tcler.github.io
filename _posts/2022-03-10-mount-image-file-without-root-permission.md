@@ -47,7 +47,7 @@ debian or **/usr/share/polkit-1/actions/org.freedesktop.UDisks2.policy** on Fedo
 it works fine.
 
 ## code
-see also: [mount-vdisk.sh](https://github.com/tcler/kiss-vm-ns/blob/master/utils/mount-vdisk.sh)
+see also: [mount-vdisk.sh](https://github.com/tcler/kiss-vm-ns/blob/master/utils/.deprecated/mount-vdisk.sh)
 ```
 LANG=C
 PROG=${0##*/}
