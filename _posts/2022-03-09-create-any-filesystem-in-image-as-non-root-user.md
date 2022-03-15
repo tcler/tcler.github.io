@@ -65,7 +65,7 @@ create_vdiskn "$@"
 ```
 
 ## see also
-see also: [create-vdisk.sh](https://github.com/tcler/kiss-vm-ns/blob/master/utils/create-vdisk.sh)  
+see also: [create-vdisk.sh](https://github.com/tcler/kiss-vm-ns/blob/master/utils/.deprecated/create-vdisk.sh)  
 welcome improve it or report bug/feedback/..
 
 ## update 2022-03-11
