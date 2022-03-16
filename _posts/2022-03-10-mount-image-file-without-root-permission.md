@@ -3,7 +3,7 @@ layout: post
 title: "mount image file without root permission"
 ---
 
-## update 2022-03-11
+## [update 2022-03-11]
 just found out that some tools like '**virt-make-fs**' '**virt-copy-in**' could be used to create or modify  
 disk image file without mount. so please try them instead investigate how to mount as non-root user
 
@@ -124,7 +124,7 @@ mount_vdisk2 "$@"
 ## todo: try the second method: [udisks2 + polkit: Allow unauthenticated mounting](https://dynacont.net/documentation/linux/udisks2_polkit_Allow_unauthenticated_mounting/)
 
 
-## update 2022-03-11
+## [update 2022-03-11]
 just found out that some tools like '**virt-make-fs**' '**virt-copy-in**' could be used to create or modify  
 disk image file without mount. so please try them instead investigate how to mount as non-root user
 
