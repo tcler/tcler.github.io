@@ -3,6 +3,13 @@ layout: post
 title: "create any filesystem in disk image as a non-root user"
 ---
 
+## update 2022-03-11
+just found out that '**virt-make-fs**' has already implemented same function.  
+so please use 'virt-make-fs' instead for most cases:  
+```
+$ virt-make-fs -s $size -t $fstype $dir_or_tar $image --partition
+```
+---
 ## why
 Sometimes I have to create some virtual disk image and create filesystems in it(e.g:  
 Windows answerfile image) and attach it to my test libvirt/KVM Guest, but when I do  
