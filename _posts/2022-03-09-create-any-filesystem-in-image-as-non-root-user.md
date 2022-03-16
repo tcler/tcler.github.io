@@ -7,7 +7,7 @@ title: "create any filesystem in disk image as a non-root user"
 just found out that '**virt-make-fs**' has already implemented same function.  
 so please use 'virt-make-fs' instead for most cases:  
 ```
-$ virt-make-fs -s $size -t $fstype $dir_or_tar $image --partition
+$ virt-make-fs -s $size -t $fstype $dir_or_tar $image --partition --label=Label
 ```
 ---
 ## why
@@ -75,9 +75,10 @@ create_vdiskn "$@"
 see also: [create-vdisk.sh](https://github.com/tcler/kiss-vm-ns/blob/master/utils/.deprecated/create-vdisk.sh)  
 welcome improve it or report bug/feedback/..
 
+---
 ## [update 2022-03-11]
 just found out that '**virt-make-fs**' has already implemented same function.  
 so please use 'virt-make-fs' instead for most cases:  
 ```
-$ virt-make-fs -s $size -t $fstype $dir_or_tar $image --partition
+$ virt-make-fs -s $size -t $fstype $dir_or_tar $image --partition --label=Label
 ```
