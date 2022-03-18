@@ -48,6 +48,15 @@ command to create the new VM ^v^.  share the code segment [here](https://github.
 ```
 
 ---
+## Additional: if use RHEL-7 as the VM host OS
+seems we will always get VM image with Owner root:root, on RHEL-7 VM host.  
+I think it might be a bug of libvirtd, I'm not sure,,  
+
+when we start VM, libvirtd will change the image owner to qemu:qemu, and after stop(poweroff or virsh destroy)  
+the image owner will be changed back to **root:root on RHEL-7** and **previous value on Fedora-3x**  
+need more investigating  
+
+---
 ## ref
 - [Ownership of qcow2 images created by virt-manager is root:root?](https://www.reddit.com/r/archlinux/comments/obn999/ownership_of_qcow2_images_created_by_virtmanager/)  
 - [kiss-vm](https://github.com/tcler/kiss-vm-ns/blob/master/kiss-vm)  
