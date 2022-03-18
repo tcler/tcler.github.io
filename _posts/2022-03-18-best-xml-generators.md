@@ -6,6 +6,7 @@ title: "best xml generators IMO"
 ## tcl xmlgen
 - [xmlgen](http://tclxml.sourceforge.net/xmlgen/xmlgen.html)
 - [wiki tcl - xmlgen](https://wiki.tcl-lang.org/page/xmlgen+%2F+htmlgen)
+
 ```
 package require xmlgen
 namespace import ::xmlgen::*
@@ -28,6 +29,7 @@ output
 
 ## groovy MarkupBuilder
 - [groovy MarkupBuilder](http://docs.groovy-lang.org/docs/latest/html/documentation/core-domain-specific-languages.html#_markupbuilder)
+
 ```
 def xml = new groovy.xml.MarkupBuilder()
 xml.langs(type:"current"){
@@ -47,6 +49,7 @@ output
 
 ## python lxml.builder
 - [lxml.builder module](https://lxml.de/apidoc/lxml.builder.html)
+
 ```
 from lxml import etree as ET
 from lxml.builder import E
@@ -96,6 +99,7 @@ output
 
 ## python yattag
 - [yattag](https://www.yattag.org/)  
+
 Once thought the design of yattag was very clever and amazing, but now it seems that there is still too much syntax noise in the code..  
 ```
 #ignore
