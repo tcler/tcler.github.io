@@ -10,6 +10,8 @@ but seems the virtio-win driver doesn't work: windows-7 installer can't recogniz
 ## resolve
 google and try previous versions, and finally got the latest version that worked with Window-7:  
  virtio-win-0.1.189.iso  
+ #Note: here "189.iso works" just means that windows installer could find available driver from 189.iso,  
+  but virtio-win-gt-x64.msi and virtio-win-guest-tools.exe can not work
 
  virtio-win-0.1.215.iso, virtio-win-0.1.208.iso, virtio-win-0.1.204.iso, virtio-win-0.1.196.iso and virtio-win-0.1.190.iso all can not work with Win7  
  
