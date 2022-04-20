@@ -51,9 +51,8 @@ host servera {
 END
 
 # prepare pxelinux.0 vmlinuz and initrd.img
-cp /usr/share/syslinux/pxelinux.0 /var/lib/tftpboot/pxelinux/.
-#add this line if get fail: "failed to load ldlinux.c32"
-# cp /usr/share/syslinux/ldlinux.c32 /var/lib/tftpboot/pxelinux/. 
+# cp /usr/share/syslinux/pxelinux.0 /var/lib/tftpboot/pxelinux/.
+cp /usr/share/syslinux/{pxelinux.0,ldlinux.c32,libutil.c32,libcom32.c32,*menu.c32} /var/lib/tftpboot/pxelinux/. 
 mount -o loop $iso $mountpoint
 cp $mountpoint/mages/pxeboot/{vmlinuz,initrd.img} /var/lib/tftpboot/pxelinux/.
 umount $mountpoint
