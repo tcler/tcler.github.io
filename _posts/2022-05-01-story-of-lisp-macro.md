@@ -3,7 +3,7 @@ layout: post
 title: "Lisp Macro 的故事"
 ---
 
-<Practical Common Lisp>
+### \<Practical Common Lisp> 摘录
 ---
 
 ### C-8.1: Mac 的故事: 只是一个故事
