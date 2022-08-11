@@ -3,7 +3,7 @@ layout: post
 title: "Netapp ONTAP simulator on libvirt/KVM"
 ---
 
-This solution has been verified on Fedora-32/Fedora-33,RHEL-8.2/RHEL-8.3 and RHEL-7.8/RHEL-7.9
+This solution has been verified on Fedora-{32..36}, RHEL-9.{0..1}, RHEL-8.{2..7} and RHEL-7.{8..9}
 
 ### 0. HOST machine requires:
 Host OS: As mentioned above, recommend to use latest Fedora or RHEL/CentOS (Fedora-32, RHEL-8.2.0/CentOS-8.2.0 for now:07/2020)  
@@ -22,6 +22,8 @@ Disk size: >= 400G for two node simulator; and >= 200G for single node simulator
 CMode_licenses_9.7.txt  Simulate_ONTAP_97_Installation_and_Setup_Guide.pdf  Simulate_ONTAP_97_Quick_Start_Guide.pdf  vsim-netapp-DOT9.7-cm_nodar.ova
 [yjh@ws ~]$ lsb_release -sir
 Fedora 33
+
+#update(2022-08-08): now latest Netapp Simulator version is 9.11.1
 ```
 
 
