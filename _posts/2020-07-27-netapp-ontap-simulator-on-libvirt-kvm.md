@@ -56,6 +56,7 @@ Fedora 33
     --net ontap-isolate,e1000  --net ontap-isolate,e1000 \
     --net-macvtap=-,e1000 --net-macvtap=-,e1000 \
     --noauto --force --nocloud --osv freebsd11.2 --msize $((6*1024)) --cpus 2,cores=2
+    #--qemucpu=Icelake-Server  #<<<-- if get panic (2022-08-08)
 ```
 
 ```
@@ -71,6 +72,9 @@ then login the VM through VNC to complete the remaining install/configuration st
 
 #note: in above example, I used macvtap interface as the default node management port(e0c),
  must find those ip addresses that has not been used by lab dhcp server.
+ 
+#note 2: if you get panic while start the VM, try add option '--qemucpu=Icelake-Server' to the 
+'vm create' command line (2022-08-08)
 COMMENT
 ```
 
@@ -79,5 +83,5 @@ ref: [trident-ontap-ocp4](https://www.underkube.com/posts/trident-ontap-ocp4/)
 
 ---
 ### Big Update(2020-08-08):  
-I‘ve also automated the installation and configuration process that must be done in VNC session.  
+I've also automated the installation and configuration process that must be done in VNC session.  
 see: [ontap-simulator-in-kvm project](https://github.com/tcler/ontap-simulator-in-kvm)
