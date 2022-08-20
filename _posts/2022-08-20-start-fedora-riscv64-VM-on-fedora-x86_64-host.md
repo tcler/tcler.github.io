@@ -68,3 +68,37 @@ qemu-system-riscv64 \
     -netdev user,id=usernet,hostfwd=tcp::10000-:22 \
     -bios none
 ```
+
+
+---
+## post config
+
+### change password
+```
+sed -i -e '/password *requisite/s/^/#/' -e '/password *sufficient/s/use_authtok//' /etc/pam.d/system-auth
+{ echo redhat; echo redhat; } | passwd --stdin root
+```
+
+### sshd allow Root login
+```
+sed -i -e '/# Authentication:/s/$/\nPermitRootLogin yes/' /etc/ssh/sshd_config
+systemctl restart sshd
+```
+
+### upgrade
+```
+yum remove iw* qemu* epiphany -y
+dnf upgrade --best -y
+```
+
+### resize partition
+```
+growpart /dev/vda 4
+resize2fs /dev/vda4
+```
+
+### update u-boot boot menu after kernel updated
+```
+# add new lable in /boot/extlinux/extlinux.conf
+reboot
+```
