@@ -8,14 +8,14 @@ Few weeks ago, I tried to start fedora riscv64 VM by using [kiss-vm](https://git
 (according [fedora-wiki](https://fedoraproject.org/wiki/Architectures/RISC-V/Installing))
 but it always reported some errors, today after many attempts, finally found the cause of these errors:
 
-- error 1: "ERROR    this function is not supported by the connection driver: 'riscv64' architecture is not supported by CPU driver"
+- error 1: "ERROR    this function is not supported by the connection driver: 'riscv64' architecture is not supported by CPU driver"  
 This error is caused by my default virt-install --vcpus=4,sockets=1 option; only use --vcpus=$N fix it.
 
-- error 2: "qemu-system-riscv64: Some ROM regions are overlapping These ROM regions might have been loaded by direct user request or by default. "
+- error 2: "qemu-system-riscv64: Some ROM regions are overlapping These ROM regions might have been loaded by direct user request or by default. "  
 This error is caused by newer qemu-system-riscv64, append qemu option '-bios none' will fix it  
 according: [fedora-devel mail-list](https://www.spinics.net/lists/fedora-devel/msg289693.html)
 
-- error 3: "dm_pci_hose_probe_bus: Internal error, bus 'pci_1:0.0' got seq 16, expected 2"
+- error 3: "dm_pci_hose_probe_bus: Internal error, bus 'pci_1:0.0' got seq 16, expected 2"  
 This error is caused by virt-install option '--video=qxl', remove this option or change the value from 'qxl' to 'none' will fix it.
 
 ---
