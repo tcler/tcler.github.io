@@ -87,7 +87,7 @@ systemctl restart sshd
 
 ### upgrade
 ```
-yum remove iw* qemu* epiphany -y
+yum remove iw* qemu* epiphany cheat -y
 dnf upgrade --best -y
 ```
 
