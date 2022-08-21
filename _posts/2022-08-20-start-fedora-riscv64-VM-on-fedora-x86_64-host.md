@@ -21,9 +21,15 @@ This error is caused by virt-install option '--video=qxl', remove this option or
 ---
 ## command line examples by using [kiss-vm](https://github.com/tcler/kiss-vm-ns/kiss-vm), virt-install and qemu-system-riscv64
 
-### host prepare (Fedora-36.x86-64)
+### host prepare (Fedora-36.x86-64): install qemu libvirt ...
 ```
 curl -s https://raw.githubusercontent.com/tcler/kiss-vm-ns/master/utils/kiss-update.sh|sudo bash && sudo vm prepare
+```
+
+### download fedora riscv image [download-url](https://dl.fedoraproject.org/pub/alt/risc-v/repo/virt-builder-images/images/)
+```
+wget https://dl.fedoraproject.org/pub/alt/risc-v/repo/virt-builder-images/images/Fedora-Developer-Rawhide-20200108.n.0-fw_payload-uboot-qemu-virt-smode.elf
+wget https://dl.fedoraproject.org/pub/alt/risc-v/repo/virt-builder-images/images/Fedora-Developer-Rawhide-20200108.n.0-sda.raw.xz
 ```
 
 ### start fedora riscv64 VM:
