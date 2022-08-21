@@ -105,6 +105,6 @@ resize2fs /dev/vda4
 
 ### update u-boot boot menu after kernel updated
 ```
-# add new lable in /boot/extlinux/extlinux.conf
+# add new label in /boot/extlinux/extlinux.conf
 reboot
 ```
