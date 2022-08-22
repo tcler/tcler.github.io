@@ -32,6 +32,7 @@ unxz FreeBSD-14.0-CURRENT-riscv-riscv64.qcow2.xz
 ```
 
 ## start by using qemu-system-riscv64
+according: [freebsd-wiki/riscv/qemu:Boot_Freebsd](https://wiki.freebsd.org/riscv/QEMU#Boot_FreeBSD)
 ```
 qemu-system-riscv64 \
     -machine virt \
