@@ -49,3 +49,7 @@ qemu-system-riscv64 \
 ---
 ## start by using virt-install ?
 I haven't start it successfully by using virt-install,, or [kiss-vm](https://github.com/tcler/kiss-vm-ns)  
+
+
+## TODO
+- figure out: how to add nic that connected to virbr0 by using qemu-system-riscv64/qemu-system-$arch
