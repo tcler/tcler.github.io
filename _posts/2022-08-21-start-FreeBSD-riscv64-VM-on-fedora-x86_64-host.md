@@ -43,7 +43,10 @@ qemu-system-riscv64 \
     -kernel /home/my/tmp/usr/local/share/u-boot/u-boot-qemu-riscv64/u-boot.bin \
     -drive file=./FreeBSD-14.0-CURRENT-riscv-riscv64.qcow2,format=qcow2,id=hd0 \
     -device virtio-blk-device,drive=hd0 \
+    -netdev bridge,id=vbr0,br=virbr0 -device virtio-net-pci,netdev=vbr0,id=nic1 \
     #other options
+    
+#ref: https://beroal.livejournal.com/81163.html?
 ```
 
 
@@ -53,4 +56,6 @@ I haven't start it successfully by using virt-install,, or [kiss-vm](https://git
 
 
 ## TODO
-- figure out: how to add nic that connected to virbr0 by using qemu-system-riscv64/qemu-system-$arch
+- try to add macvtap to vm: ifname=macvtap0
+    -net nic,model=virtio,macaddr=$(cat /sys/class/net/$ifname/address) \
+    -net tap,fd=3 3<>/dev/tap$(cat /sys/class/net/$ifname/ifindex)
