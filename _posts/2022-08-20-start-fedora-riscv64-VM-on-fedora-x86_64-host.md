@@ -33,7 +33,7 @@ wget https://dl.fedoraproject.org/pub/alt/risc-v/repo/virt-builder-images/images
 ```
 
 ### start fedora riscv64 VM:
-- [kiss-vm](https://github.com/tcler/kiss-vm-ns/kiss-vm)
+- [kiss-vm](https://github.com/tcler/kiss-vm-ns/blob/master/kiss-vm)
 ```
 vm create fedora-rv64 \
     --arch riscv64 \
