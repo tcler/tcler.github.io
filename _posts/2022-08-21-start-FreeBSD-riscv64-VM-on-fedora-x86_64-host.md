@@ -57,8 +57,10 @@ I haven't start it successfully by using virt-install,, or [kiss-vm](https://git
 
 ## TODO
 according: [howto-do-qemu-full-virtualization-with-macvtap-networking](https://ahelpme.com/linux/howto-do-qemu-full-virtualization-with-macvtap-networking/)  
-- try to add macvtap to vm: ifname=macvtap0  
+- try to add macvtap to vm:    
 ```
+ifname=macvtap0
+
     -net nic,model=virtio,macaddr=$(cat /sys/class/net/$ifname/address) \
     -net tap,fd=3 3<>/dev/tap$(cat /sys/class/net/$ifname/ifindex)
 ```
