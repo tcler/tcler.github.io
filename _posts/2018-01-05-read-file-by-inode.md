@@ -61,7 +61,7 @@ inode_ver() {
 }
 
 [[ -z "$inum" ]] && {
-	echo "Usage: sudo xfs_icat <dev> <inum>" >&2
+	echo "Usage: sudo xfs-icat.sh <dev> <inum>" >&2
 }
 
 #INFO=$(xfs_db -r $dev -c "inode $inum" -c "type inode" -c "print core.version")
@@ -333,6 +333,7 @@ esac
 echo >&2
 exit
 ```
+update 2022: https://github.com/tcler/kiss-vm-ns/blob/master/utils/xfs-icat.sh
 
 ```
 # core.format = 3 (btree) 的场景目前只在了 inode v3 的系统做了测试
