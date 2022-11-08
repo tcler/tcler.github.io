@@ -42,7 +42,7 @@ usage: mutool <command> [options]
 - [wartermark in Image or line-art](https://github.com/pymupdf/PyMuPDF/discussions/874) 
 - [wartermark in Artifacts and line-art](https://github.com/pymupdf/PyMuPDF/discussions/1855) 
 
-还好我的文档不是复杂的 line-art 类型的，参考 PyMuPDF 里一个示例脚本 [image-replacement/remover.py](https://github.com/pymupdf/PyMuPDF-Utilities/blob/master/image-replacement/remover.py)，
+还好我的文档水印不是复杂的 line-art 类型的，参考 PyMuPDF 里一个示例脚本 [image-replacement/remover.py](https://github.com/pymupdf/PyMuPDF-Utilities/blob/master/image-replacement/remover.py)，
 修改成一个通用脚本 [erase-pdf-wartermark-image.py](https://github.com/tcler/argparse-getopt-examples/blob/master/python/erase-pdf-wartermark-image.py) 后，
 顺利删除了水印 ^o^
 ```
@@ -52,6 +52,9 @@ usage: mutool <command> [options]
 
 ### more about PyMuPDF
 然后又发现 PyMuPDF 还提供了一个命令行工具 [fitzcli.py](https://github.com/pymupdf/PyMuPDF-Utilities/blob/master/text-extraction/fitzcli.py) ，
-'fitzcli.py gettext' 比 'mutool convert' 的 text 转化功能更强: **可以尽量保持文本的 layout** 
+'fitzcli.py gettext' 比 'mutool convert' 的 text 转化功能更强:  
+**可以尽量保持文本的 layout** 
 
-[fitzcli doc](https://pymupdf.readthedocs.io/en/latest/module.html)
+而且代码已经包含在 fitz 模块里，可以直接 `python -m fitz` 运行
+
+[[Module fitz document]](https://pymupdf.readthedocs.io/en/latest/module.html)
