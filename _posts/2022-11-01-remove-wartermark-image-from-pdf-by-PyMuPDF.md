@@ -48,3 +48,7 @@ usage: mutool <command> [options]
 [my@deskmini-x300 tmp]$ /path/to/erase-pdf-wartermark-image.py my-learning-guide-zh_CN.pdf
 ...
 ```
+
+### more about PyMuPDF
+然后又发现 PyMuPDF 还提供了一个命令行工具 [fitzcli.py](https://github.com/pymupdf/PyMuPDF-Utilities/blob/master/text-extraction/fitzcli.py) ，
+'fitzcli.py gettext' 比 'mutool convert' 的 text 转化功能更强: **可以尽量保持文本的 layout** 
