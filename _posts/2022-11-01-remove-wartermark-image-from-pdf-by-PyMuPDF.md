@@ -37,9 +37,10 @@ usage: mutool <command> [options]
 	show	-- show internal pdf objects
 	cmapdump	-- dump CMap resource as C source file
 ```
-然后搜到在 PyMuPDF 的 issue 里面看到有人问到类似的问题: [word wartermark](https://github.com/pymupdf/PyMuPDF/issues/468) 
-[image or line-art](https://github.com/pymupdf/PyMuPDF/discussions/874) 
-[Artifacts and line-art](https://github.com/pymupdf/PyMuPDF/discussions/1855) 
+然后搜到在 PyMuPDF 的 issue 里面看到有人问到类似的问题: 
+- [wartermark in Text](https://github.com/pymupdf/PyMuPDF/issues/468) 
+- [wartermark in Image or line-art](https://github.com/pymupdf/PyMuPDF/discussions/874) 
+- [wartermark in Artifacts and line-art](https://github.com/pymupdf/PyMuPDF/discussions/1855) 
 
 还好我的文档不是复杂的 line-art 类型的，参考 PyMuPDF 里一个示例脚本 [image-replacement/remover.py](https://github.com/pymupdf/PyMuPDF-Utilities/blob/master/image-replacement/remover.py)，
 修改成一个通用脚本 [erase-pdf-wartermark-image.py](https://github.com/tcler/argparse-getopt-examples/blob/master/python/erase-pdf-wartermark-image.py) 后，
@@ -52,3 +53,5 @@ usage: mutool <command> [options]
 ### more about PyMuPDF
 然后又发现 PyMuPDF 还提供了一个命令行工具 [fitzcli.py](https://github.com/pymupdf/PyMuPDF-Utilities/blob/master/text-extraction/fitzcli.py) ，
 'fitzcli.py gettext' 比 'mutool convert' 的 text 转化功能更强: **可以尽量保持文本的 layout** 
+
+[fitzcli doc](https://pymupdf.readthedocs.io/en/latest/module.html)
