@@ -50,7 +50,8 @@ usage: mutool <command> [options]
 ...
 ```
 
-### more about PyMuPDF
+
+## more about PyMuPDF
 然后又发现 PyMuPDF 还提供了一个命令行工具 [fitzcli.py](https://github.com/pymupdf/PyMuPDF-Utilities/blob/master/text-extraction/fitzcli.py) ，
 'fitzcli.py gettext' 比 'mutool convert' 的 text 转化功能更强:  
 **可以尽量保持文本的 layout** 
@@ -58,3 +59,15 @@ usage: mutool <command> [options]
 而且代码已经包含在 fitz 模块里，可以直接 `python -m fitz` 运行
 
 [[Module fitz document]](https://pymupdf.readthedocs.io/en/latest/module.html)
+
+
+## Problems that PyMuPDF/MuPDF can't solve yet
+当然还有一些水印技术，目前 PyMuPDF 还不能解决。比如: [remove drawings](https://github.com/pymupdf/PyMuPDF/discussions/865)
+
+
+## By The Way
+一点题外话，接触 Python 很早，但是一直无法接受它缩进的语法、字符串的拼接、还有面向对象代码的写法，，不过通过这次实现 [erase-pdf-wartermark-image.py](https://github.com/tcler/argparse-getopt-examples/blob/master/python/erase-pdf-wartermark-image.py) 发现除了缩进的问题 其他的问题都已经解决了:
+- 字符串拼接有了类似 Shell/Tcl/Perl/Groovy/.. 的 [f-strings url1](https://realpython.com/python-f-strings/) [f-strings url2](https://docs.python.org/3/reference/lexical_analysis.html#f-strings)
+- Class/Struct 有了类似 'C struct' 的 [namedtuple url1](https://realpython.com/python-namedtuple/) [namedtuple url2](https://docs.python.org/3.9/library/collections.html#collections.namedtuple)
+- 而且现在 python 的生态真的太强大了，，
+所以，接下来，也许我应该多用用 python3 来写工具了，， #但是系统测试还是 bash 吧，python 里不停的调用系统命令简直就是托裤子放屁!
