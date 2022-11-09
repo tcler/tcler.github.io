@@ -38,9 +38,9 @@ usage: mutool <command> [options]
 	cmapdump	-- dump CMap resource as C source file
 ```
 然后搜到在 PyMuPDF 的 issue 里面看到有人问到类似的问题: 
-- [wartermark in Text](https://github.com/pymupdf/PyMuPDF/issues/468) 
-- [wartermark in Image or line-art](https://github.com/pymupdf/PyMuPDF/discussions/874) 
-- [wartermark in Artifacts and line-art](https://github.com/pymupdf/PyMuPDF/discussions/1855) 
+- \[wartermark in Text]: [issue-344](https://github.com/pymupdf/PyMuPDF/issues/344) [issue-468](https://github.com/pymupdf/PyMuPDF/issues/468) [discussion-776](https://github.com/pymupdf/PyMuPDF/discussions/776)  
+- \[wartermark in Image or line-art]: [discussion-874](https://github.com/pymupdf/PyMuPDF/discussions/874)  
+- \[wartermark in Artifacts and line-art]: [discussion-1855](https://github.com/pymupdf/PyMuPDF/discussions/1855) 
 
 还好我的文档水印不是复杂的 line-art 类型的，参考 PyMuPDF 里一个示例脚本 [image-replacement/remover.py](https://github.com/pymupdf/PyMuPDF-Utilities/blob/master/image-replacement/remover.py)，
 修改成一个通用脚本 [erase-pdf-wartermark-image.py](https://github.com/tcler/argparse-getopt-examples/blob/master/python/erase-pdf-wartermark-image.py) 后，
