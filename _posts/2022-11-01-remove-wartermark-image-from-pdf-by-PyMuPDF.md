@@ -65,8 +65,8 @@ usage: mutool <command> [options]
 当然还有一些水印技术，目前 PyMuPDF 还不能解决。比如: [remove drawings](https://github.com/pymupdf/PyMuPDF/discussions/865)
 
 ## more about pdf standards
-[pdf-standards](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf)
-[pdf-file-format-basic-structure](https://resources.infosecinstitute.com/topic/pdf-file-format-basic-structure/)
+- [pdf-standards](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf)
+- [pdf-file-format-basic-structure](https://resources.infosecinstitute.com/topic/pdf-file-format-basic-structure/)
 
 
 ## By The Way
