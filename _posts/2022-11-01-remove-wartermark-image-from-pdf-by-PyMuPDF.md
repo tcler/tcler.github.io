@@ -64,6 +64,10 @@ usage: mutool <command> [options]
 ## Problems that PyMuPDF/MuPDF can't solve yet
 当然还有一些水印技术，目前 PyMuPDF 还不能解决。比如: [remove drawings](https://github.com/pymupdf/PyMuPDF/discussions/865)
 
+## more about pdf standards
+[pdf-standards](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf)
+[pdf-file-format-basic-structure](https://resources.infosecinstitute.com/topic/pdf-file-format-basic-structure/)
+
 
 ## By The Way
 一点题外话，接触 Python 很早，但是一直无法接受它缩进的语法、字符串的拼接、还有面向对象代码的写法，，不过通过这次实现 [erase-pdf-wartermark-image.py](https://github.com/tcler/argparse-getopt-examples/blob/master/python/erase-pdf-wartermark-image.py) 发现除了缩进的问题 其他的问题都已经解决了:
