@@ -67,6 +67,7 @@ usage: mutool <command> [options]
 ## more about pdf standards
 - [pdf-standards](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf)
 - [pdf-file-format-basic-structure](https://resources.infosecinstitute.com/topic/pdf-file-format-basic-structure/)
+- [Book: PDF-Explained](https://github.com/zxyle/PDF-Explained)
 
 
 ## By The Way
