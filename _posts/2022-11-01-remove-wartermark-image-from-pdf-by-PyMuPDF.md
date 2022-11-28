@@ -72,7 +72,7 @@ usage: mutool <command> [options]
 
 ## By The Way
 一点题外话，接触 Python 很早，但是一直无法接受它缩进的语法、字符串的拼接、还有面向对象代码的写法，，不过通过这次实现 [erase-pdf-wartermark-image.py](https://github.com/tcler/argparse-getopt-examples/blob/master/python/erase-pdf-wartermark-image.py) 发现除了缩进的问题 其他的问题都已经解决了:
-- 字符串拼接有了类似 Shell/Tcl/Perl/Groovy/.. 的 [f-strings url1](https://realpython.com/python-f-strings/), [f-strings url2](https://docs.python.org/3/reference/lexical_analysis.html#f-strings)
+- 字符串拼接有了类似 Shell/Tcl/Perl/Groovy/.. 的 [f-strings url1](https://realpython.com/python-f-strings/), [f-strings url2](https://docs.python.org/3/reference/lexical_analysis.html#f-strings), [f-string:pad-or-fill-a-string](https://www.geeksforgeeks.org/pad-or-fill-a-string-by-a-variable-in-python-using-f-string/)
 - Class/Struct 有了类似 'C struct' 的 [namedtuple url1](https://realpython.com/python-namedtuple/), [namedtuple url2](https://docs.python.org/3.9/library/collections.html#collections.namedtuple)
 - 而且现在 python 的生态真的太强大了，，  
 
