@@ -10,7 +10,8 @@ Fortunately, by asking my colleagues in the virtualization group, I know that qe
 the boot order by using the bootindex option, see also:  
 - https://blog.christophersmart.com/2019/12/18/kvm-guests-with-emulated-ssd-and-nvme-drives/#comment-1060169  
 - https://www.qemu.org/docs/master/system/bootindex.html  
-so  we can use **--qemu-commandline=** option instead **the first --disk** option" as the boot device setup,  
+
+so  we can use **--qemu-commandline=** option instead **the first --disk** option as the boot device setup,  
 
 
 ```
