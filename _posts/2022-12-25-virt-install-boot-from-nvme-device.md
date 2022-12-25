@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "virt-install and boot from nvme device how to"
+title: "virt-install: boot from nvme device how to"
 ---
 
 ## Why do I want to use libvirt to create a virtual machine booted from nvme
@@ -28,6 +28,47 @@ virt-install --connect=qemu:///system --accelerate \
 [--other-options]
 ```
 
-## see also [kiss-vm nvme boot support](https://github.com/tcler/kiss-vm-ns/commit/3f006316a9702803fe8cd903e0a152c85743b323)
+## BTW: side effects of this solution
+OK, this solution is not **perfect**, it cause that virsh domblklist can not get real blklist:  
+```
+[jiyin@deskmini-x300 kiss-vm-ns]$ virsh domblklist nfs-server --details
+ Type   Device   Target   Source
+----------------------------------
+
+```
+so hope libvirt/virt-install upstream will support setting device type nvme by --disk option...  
+
+
+## see also: [kiss-vm nvme boot support](https://github.com/tcler/kiss-vm-ns/commit/3f006316a9702803fe8cd903e0a152c85743b323)
 Yes, I'm investigating this issue because I want to add this feature to [kiss-vm](https://github.com/tcler/kiss-vm-ns#kiss-vm).  
 Feel free to try [it](https://github.com/tcler/kiss-vm-ns#kiss-vm) out and give feedback :)
+```
+[jiyin@deskmini-x300 kiss-vm-ns]$ vm create -L -n nfs-server -f --nvmeboot
+...
+[jiyin@deskmini-x300 kiss-vm-ns]$ virsh domblklist nfs-server --details
+ Type   Device   Target   Source
+----------------------------------
+
+[jiyin@deskmini-x300 kiss-vm-ns]$ vm blklist nfs-server
+_ _ _ /home/jiyin/VMs/RHEL-9.2.0-20221224.0/nfs-server/nfs-server.qcow2
+[jiyin@deskmini-x300 kiss-vm-ns]$ vm exec nfs-server -- LANG=C lsblk
+root@192.168.122.191's password:
+NAME          MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+nvme0n1       259:0    0   64G  0 disk
+|-nvme0n1p1   259:1    0    1G  0 part /boot
+`-nvme0n1p2   259:2    0   63G  0 part
+  |-rhel-root 253:0    0 40.3G  0 lvm  /
+  |-rhel-swap 253:1    0    3G  0 lvm  [SWAP]
+  `-rhel-home 253:2    0 19.7G  0 lvm  /home
+[jiyin@deskmini-x300 kiss-vm-ns]$ vm homedir nfs-server
+/home/jiyin/VMs/RHEL-9.2.0-20221224.0/nfs-server
+total 2.5G
+drwxrwx---+ 1 jiyin jiyin unconfined_u:object_r:user_home_t:s0  150 Dec 25 19:48 .
+drwxrwx---+ 1 jiyin jiyin unconfined_u:object_r:user_home_t:s0   20 Dec 25 19:48 ..
+-rw-------. 1 jiyin jiyin unconfined_u:object_r:user_home_t:s0    0 Dec 25 19:48 .kiss-vm
+-rw-------. 1 jiyin jiyin unconfined_u:object_r:user_home_t:s0 8.1K Dec 25 19:48 ks-rhel-unknown-588238.cfg
+-rw-rwx---+ 1 jiyin jiyin system_u:object_r:qemu_var_run_t:s0  2.5G Dec 25 19:57 nfs-server.qcow2
+-rw-------. 1 jiyin jiyin unconfined_u:object_r:user_home_t:s0 5.1K Dec 25 19:49 nohup.log
+-rw-------. 1 jiyin jiyin unconfined_u:object_r:user_home_t:s0  873 Dec 25 19:48 postscript.ks
+-rw-------. 1 jiyin jiyin unconfined_u:object_r:user_home_t:s0  107 Dec 25 19:48 url
+```
