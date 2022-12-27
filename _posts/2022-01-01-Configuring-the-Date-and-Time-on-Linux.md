@@ -57,6 +57,34 @@ This command updates **both the system time and the hardware clock**. The result
 ~]# timedatectl set-timezone Asia/Shanghai
 ```
 
+### set RTC as UTC: **'sudo timedatectl set-local-rtc 0'**
+```
+[yjh@fedora ~]$ timedatectl 
+               Local time: 二 2022-12-27 20:15:32 CST
+           Universal time: 二 2022-12-27 12:15:32 UTC
+                 RTC time: 二 2022-12-27 07:15:32
+                Time zone: Asia/Shanghai (CST, +0800)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: yes
+
+Warning: The system is configured to read the RTC time in the local time zone.
+         This mode cannot be fully supported. It will create various problems
+         with time zone changes and daylight saving time adjustments. The RTC
+         time is never updated, it relies on external facilities to maintain it.
+         If at all possible, use RTC in UTC by calling
+         'timedatectl set-local-rtc 0'.
+[yjh@fedora ~]$ sudo timedatectl set-local-rtc 0
+[yjh@fedora ~]$ timedatectl 
+               Local time: 二 2022-12-27 20:16:46 CST
+           Universal time: 二 2022-12-27 12:16:46 UTC
+                 RTC time: 二 2022-12-27 12:16:46
+                Time zone: Asia/Shanghai (CST, +0800)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
+```
+
 ---
 ## ref
 [Fedora-35 - Configuring_the_Date_and_Time](https://docs.fedoraproject.org/en-US/fedora/f35/system-administrators-guide/basic-system-configuration/Configuring_the_Date_and_Time/)
