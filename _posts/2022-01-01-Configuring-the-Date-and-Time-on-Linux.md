@@ -57,7 +57,7 @@ This command updates **both the system time and the hardware clock**. The result
 ~]# timedatectl set-timezone Asia/Shanghai
 ```
 
-### set RTC as UTC: **'sudo timedatectl set-local-rtc 0'**
+### Setup RTC as UTC: **'sudo timedatectl set-local-rtc 0'**
 ```
 [yjh@fedora ~]$ timedatectl 
                Local time: 二 2022-12-27 20:15:32 CST
