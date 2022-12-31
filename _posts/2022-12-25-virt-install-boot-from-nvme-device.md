@@ -19,14 +19,16 @@ so  we can use **--qemu-commandline=** option instead **the first --disk** optio
 virt-install --connect=qemu:///system --accelerate \
 --location path/url \
 --disk none \
---qemu-commandline=-drive file=$imagefile,format=$imgfmt,if=none,id=NVME0 -device nvme,drive=NVME0,serial=nvme-0,bootindex=-1" \
+--qemu-commandline=-drive file=$imagefile,format=$imgfmt,if=none,id=NVME0 -device nvme,drive=NVME0,serial=nvme-0,bootindex=-1,addr=0x10" \
 [--other-options]
 
 # the bootindex 0 works if install by using --import
 virt-install --connect=qemu:///system --accelerate \
 --import \
---qemu-commandline=-drive file=$imagefile,format=$imgfmt,if=none,id=NVME0 -device nvme,drive=NVME0,serial=nvme-0,bootindex=0" \
+--qemu-commandline=-drive file=$imagefile,format=$imgfmt,if=none,id=NVME0 -device nvme,drive=NVME0,serial=nvme-0,bootindex=0,addr=0x10" \
 [--other-options]
+
+#Note: the "addr=0x10" is a workaround for https://bugzilla.redhat.com/show_bug.cgi?id=2156711
 ```
 
 ## BTW: side effects of this solution
@@ -51,7 +53,7 @@ Feel free to try [it](https://github.com/tcler/kiss-vm-ns#kiss-vm) out and give 
 ----------------------------------
 
 [jiyin@deskmini-x300 kiss-vm-ns]$ vm blklist nfs-server
-_ _ _ /home/jiyin/VMs/RHEL-9.2.0-20221224.0/nfs-server/nfs-server.qcow2
+file disk nvme /home/jiyin/VMs/RHEL-9.2.0-20221224.0/nfs-server/nfs-server.qcow2
 [jiyin@deskmini-x300 kiss-vm-ns]$ vm exec nfs-server -- LANG=C lsblk
 root@192.168.122.191's password:
 NAME          MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
@@ -72,4 +74,15 @@ drwxrwx---+ 1 jiyin jiyin unconfined_u:object_r:user_home_t:s0   20 Dec 25 19:48
 -rw-------. 1 jiyin jiyin unconfined_u:object_r:user_home_t:s0 5.1K Dec 25 19:49 nohup.log
 -rw-------. 1 jiyin jiyin unconfined_u:object_r:user_home_t:s0  873 Dec 25 19:48 postscript.ks
 -rw-------. 1 jiyin jiyin unconfined_u:object_r:user_home_t:s0  107 Dec 25 19:48 url
+```
+
+## Note: the nvme driver has not been enabled on qemu-kvm in RHEL
+It's only enabled on Fedora release. If you want this feature please remove qemu-kvm qemu-kvm-common on RHEL  
+and install qemu-kvm from Fedora repo:  
+```
+sudo yum remove qemu-kvm qemu-kvm-common
+
+fedora36_repo_url=https://ord.mirror.rackspace.com/fedora/releases/36/Everything/x86_64/os/
+fedora36_repo_url=https://dl.fedoraproject.org/pub/fedora/linux/releases/36/Everything/x86_64/os/
+sudo yum --disablerepo="*" --repofrompath="f36,$fedora36_repo_url" install  qemu-kvm --nogpg
 ```
