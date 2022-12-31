@@ -19,16 +19,16 @@ so  we can use **--qemu-commandline=** option instead **the first --disk** optio
 virt-install --connect=qemu:///system --accelerate \
 --location path/url \
 --disk none \
---qemu-commandline=-drive file=$imagefile,format=$imgfmt,if=none,id=NVME0 -device nvme,drive=NVME0,serial=nvme-0,bootindex=-1,addr=0x10" \
+--qemu-commandline="-drive file=$imagefile,format=$imgfmt,if=none,id=NVME0 -device nvme,drive=NVME0,serial=nvme-0,bootindex=-1,addr=0x10" \
 [--other-options]
 
 # the bootindex 0 works if install by using --import
 virt-install --connect=qemu:///system --accelerate \
 --import \
---qemu-commandline=-drive file=$imagefile,format=$imgfmt,if=none,id=NVME0 -device nvme,drive=NVME0,serial=nvme-0,bootindex=0,addr=0x10" \
+--qemu-commandline="-drive file=$imagefile,format=$imgfmt,if=none,id=NVME0 -device nvme,drive=NVME0,serial=nvme-0,bootindex=0,addr=0x10" \
 [--other-options]
 
-#Note: the "addr=0x10" is a workaround for https://bugzilla.redhat.com/show_bug.cgi?id=2156711
+#Note: the -device option "addr=0x10" is a workaround for https://bugzilla.redhat.com/show_bug.cgi?id=2156711
 ```
 
 ## BTW: side effects of this solution
