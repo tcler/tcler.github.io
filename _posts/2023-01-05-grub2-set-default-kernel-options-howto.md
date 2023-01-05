@@ -7,7 +7,7 @@ title: "grub2: set/add default kernel options over update how to"
 想加个内核参数都不知道到底改哪个配置文件，sh\*t! 后来知道了用 grubby ，稍微方便一点了，但是用的 Fedora  
 内核升级频率比较高，一升级 kernel 原来的配置就没用了，怎么办？还是得自己调查看看这些配置文件到底怎么生效...  
 
-## sudo grubby
+## sudo grubby  #/boot/loader/entries/
 grubby, 先看[官方文档](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/assembly_making-persistent-changes-to-the-grub-boot-loader_managing-monitoring-and-updating-the-kernel#doc-wrapper).
 grubby 的功能主要是维护一个 loader entry 列表在目录 /boot/loader/entries/ 下，每个 entry  
 对应其中一个文件。修改某个 kernel 或 所有 kernel 的 options:
@@ -28,6 +28,7 @@ boot_success=1
 kernelopts=intel_iommu=on iommu=pt
 ```
 升级 kernel 后，配置也不会跟着生效。
+**注意** 修改完 /boot/grub2/grubenv 一定要 rebuild grub.cfg，不然不会生效  
 
 ## grub-set-default #/etc/default/grub
 ```
@@ -46,4 +47,8 @@ GRUB_ENABLE_BLSCFG=true
 **注意** 手工修改完 /etc/default/grub 一定要 rebuild grub.cfg，不然不会生效  
 ```
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg   #如果是 EFI ，就更新这个
 ```
+rebuild 后 /boot/loader/entries/ 下面的 entry 文件也会同步更新
+
+程序就不能自动判断是不是 efi 吗，非要整两个配置文件，，
