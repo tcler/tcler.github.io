@@ -27,7 +27,7 @@ saved_entry=54c04c091f21405a8391d74dc9c97918-6.0.16-300.fc37.x86_64
 boot_success=1
 kernelopts=intel_iommu=on iommu=pt
 ```
-升级 kernel 后，配置也不会跟着生效
+升级 kernel 后，配置也不会跟着生效。
 
 ## grub-set-default #/etc/default/grub
 ```
@@ -43,5 +43,7 @@ GRUB_DISABLE_RECOVERY="true"
 GRUB_ENABLE_BLSCFG=true
 ```
 
-**注意** 手工修改完 /etc/default/grub 一定要 rebuild grub.cfg，不然不会生效
+**注意** 手工修改完 /etc/default/grub 一定要 rebuild grub.cfg，不然不会生效  
+```
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+```
