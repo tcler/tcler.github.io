@@ -47,7 +47,7 @@ GRUB_ENABLE_BLSCFG=true
 **注意** 手工修改完 /etc/default/grub 一定要 rebuild grub.cfg，不然不会生效  
 ```
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
-sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg   #如果是 EFI ，就更新这个
+sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg   #for UEFI boot
 ```
 rebuild 后 /boot/loader/entries/ 下面的 entry 文件也会同步更新
 
@@ -59,5 +59,8 @@ rebuild 后 /boot/loader/entries/ 下面的 entry 文件也会同步更新
 然后**每次升级 kernel 后，还是需要手工执行一遍 grub2-mkconfig**:  
 ```
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
-sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg   #如果是 EFI ，就更新这个
+sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg   #for UEFI boot
+
+#or update both
+sudo grub2-mkconfig | sudo tee /boot/grub2/grub.cfg /boot/efi/EFI/fedora/grub.cfg
 ```
