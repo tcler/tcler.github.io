@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "virt-install: boot from nvme device how to"
+title: "virt-install: boot from nvme(emulated) device how to"
 ---
 
 ## Why do I want to use libvirt to create a virtual machine booted from nvme
@@ -77,7 +77,7 @@ drwxrwx---+ 1 jiyin jiyin unconfined_u:object_r:user_home_t:s0   20 Dec 25 19:48
 ```
 
 ## Note: the nvme driver has not been enabled on qemu-kvm in RHEL
-It's only enabled on Fedora release. If you want this feature please remove qemu-kvm qemu-kvm-common on RHEL  
+It's only enabled on Fedora release now(2023-01-05). If you want this feature please remove qemu-kvm qemu-kvm-common on RHEL  
 and install qemu-kvm from Fedora repo:  
 ```
 sudo yum remove qemu-kvm qemu-kvm-common
