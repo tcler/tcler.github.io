@@ -52,3 +52,12 @@ sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg   #如果是 EFI ，就更�
 rebuild 后 /boot/loader/entries/ 下面的 entry 文件也会同步更新
 
 程序就不能自动判断是不是 efi 吗，非要整两个配置文件，，
+
+
+## Conclusion(结论)
+没有办法，最简单的方案就是改 /etc/default/grub ，然后 grub2-mkconfig ;  
+然后**每次升级 kernel 后，还是需要手工执行一遍 grub2-mkconfig**:  
+```
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg   #如果是 EFI ，就更新这个
+```
