@@ -19,7 +19,41 @@ according: [fedora-devel mail-list](https://www.spinics.net/lists/fedora-devel/m
 This error is caused by virt-install option '--video=qxl', remove this option or change the value from 'qxl' to 'none' will fix it.
 
 ---
-## command line examples by using [kiss-vm](https://github.com/tcler/kiss-vm-ns/kiss-vm), virt-install and qemu-system-riscv64
+---
+## command line examples by using [kiss-vm](https://github.com/tcler/kiss-vm-ns/kiss-vm), virt-install and qemu-system-riscv64 (Update: 2023-02-18)
+according latest [fedora-riscv-wiki](https://fedoraproject.org/wiki/Architectures/RISC-V/Installing) and [fedora-koji](http://fedora.riscv.rocks/koji/tasks?state=closed&view=flat&method=createAppliance&order=-id), fedora-riscv build has been updated to fedora-37. And the install/start methods also have been updated. try again and record here:
+
+### host prepare (Fedora-36.x86-64): install qemu libvirt ...
+```
+curl -s https://raw.githubusercontent.com/tcler/kiss-vm-ns/master/utils/kiss-update.sh|sudo bash && sudo vm prepare
+```
+
+### download fedora riscv image [koji-url](http://fedora.riscv.rocks/koji/tasks?state=closed&view=flat&method=createAppliance&order=-id) [download-url](https://dl.fedoraproject.org/pub/alt/risc-v/repo/virt-builder-images/images/)
+```
+wget http://fedora.riscv.rocks/kojifiles/work/tasks/3933/1313933/Fedora-Developer-37-20221130.n.0-sda.raw.xz
+unxz Fedora-Developer-37-20221130.n.0-sda.raw.xz
+virt-customize -a  Fedora-Developer-37-20221130.n.0-sda.raw --hostname fedora-riscv-jh  --root-password password:redhat --firstboot-command 'useradd -m -G wheel foo; echo -e "redhat\nredhat" | passwd foo --stdin'
+virt-filesystems --long -h --all -a Fedora-Developer-37-20221130.n.0-sda.raw
+
+sudo rpm -ivh --force --nodeps http://fedora.riscv.rocks/kojifiles/packages/uboot-tools/2023.01/2.4.riscv64.fc37/noarch/uboot-images-riscv64-2023.01-2.4.riscv64.fc37.noarch.rpm
+sudo chown qemu -R /usr/share/uboot/qemu-riscv64*
+```
+
+### start fedora riscv64 VM:
+- [kiss-vm](https://github.com/tcler/kiss-vm-ns/blob/master/kiss-vm)
+```
+vm create fedora37-rv64 \
+    --arch riscv64 \
+    --msize 4096 \
+    -i Fedora-Developer-37-20221130.n.0-sda.raw \
+    --qemu-opts "-bios /usr/share/uboot/qemu-riscv64_spl/u-boot-spl.bin -device loader,file=/usr/share/uboot/qemu-riscv64_spl/u-boot.itb,addr=0x80200000"
+```
+
+<to be continued>
+
+---
+---
+## command line examples by using [kiss-vm](https://github.com/tcler/kiss-vm-ns/kiss-vm), virt-install and qemu-system-riscv64 (2022-08-20)
 
 ### host prepare (Fedora-36.x86-64): install qemu libvirt ...
 ```
