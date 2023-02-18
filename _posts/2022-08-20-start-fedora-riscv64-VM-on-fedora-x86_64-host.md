@@ -49,7 +49,7 @@ vm create fedora37-rv64 \
     --qemu-opts "-bios /usr/share/uboot/qemu-riscv64_spl/u-boot-spl.bin -device loader,file=/usr/share/uboot/qemu-riscv64_spl/u-boot.itb,addr=0x80200000"
 ```
 
-<to be continued>
+\<to be continued\>
 
 ---
 ---
