@@ -14,7 +14,7 @@ title: "Success Hackintosh macOS Big Sur 11.7.4 in P310S Series SYVVZ + Intel Co
 
 ## EFI
 EFI 使用阿汤哥分享的现成，但是WIFI网卡不一样，自己摸索添加了 AirportItlwm.kext ，然后把产品类型由 iMac 改成 Macmini；
-用的 opencore config.plist 修改工具是 ProperTree，个人感觉比 OpenCore Configurator 好用。然后想改 产品类型（SMBIOS）
+用的 opencore config.plist 修改工具是 ProperTree，个人感觉比 OpenCore Configurator 好用。然后修改产品类型（SMBIOS）
 还需要用到 GenSMBIOS 。
 
 ## macOS 安装镜像制作
