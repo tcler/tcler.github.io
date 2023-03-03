@@ -17,6 +17,10 @@ EFI 使用阿汤哥分享的现成，但是WIFI网卡不一样，自己摸索添
 用的 opencore config.plist 修改工具是 ProperTree，个人感觉比 OpenCore Configurator 好用。然后修改产品类型（SMBIOS）
 还需要用到 GenSMBIOS 。
 
+## 硬盘分区
+如果目标安装盘开头已经有 EFI 分区了，就不用管了；  
+如果目标盘是新的、或者之前是传统的 MBR 分区表，请重新格式化并在开头分一个 200M+ 的EFI分区
+
 ## macOS 安装镜像制作
 很多介绍的文章写的比较复杂，补习了一下 UEFI 的知识后，发现其实就是需要两个分区：一个EFI分区 和一个 macOS 安装盘分区，
 两个分区顺序没有要求。下载 macOS 安装镜像 我使用的是 OSX-KVM/fetch-macOS-v2.py 工具，下载到的一般是 dmg 格式的文件，
@@ -42,3 +46,9 @@ $ dd if=BaseSystem-mac-big-sur.img  of=/dev/sdX
 [UEFI工作原理一：启动](https://mp.weixin.qq.com/s/hmS3ZgaKiSBS4cC0pq8MDg?)  
 [OpenCore Install Guide: Adding your SSDTs, Kexts and Firmware Drivers](https://dortania.github.io/OpenCore-Install-Guide/config.plist/#adding-your-ssdts-kexts-and-firmware-drivers)  
 [OpenCore Install Guide: PlatformInfo..For setting up the SMBIOS info](https://dortania.github.io/OpenCore-Install-Guide/config-HEDT/ivy-bridge-e.html#platforminfo)  
+
+
+## tips
+1. 如果系统盘的 EFI 分区已经有 OpenCore 引导了，如果想重新安装，需要把系统 EFI 分区的内容 删除或改名，  
+   不然用恢复系统盘安装过程会报错："support.apple.com/mac/startup"
+
