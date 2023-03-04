@@ -21,20 +21,32 @@ EFI 使用阿汤哥分享的现成，但是WIFI网卡不一样，自己摸索添
 如果目标安装盘开头已经有 EFI 分区了，就不用管了；  
 如果目标盘是新的、或者之前是传统的 MBR 分区表，请重新格式化并在开头分一个 200M+ 的EFI分区
 
-## macOS 安装镜像制作
-很多介绍的文章写的比较复杂，补习了一下 UEFI 的知识后，发现其实就是需要两个分区：一个EFI分区 和一个 macOS 安装盘分区，
-两个分区顺序没有要求。下载 macOS 安装镜像 我使用的是 OSX-KVM/fetch-macOS-v2.py 工具，下载到的一般是 dmg 格式的文件，
-需要用 dmg2img 把格式转换成 raw 磁盘测试，然后直接把转换后的 img 文件 dd 到 U盘/移动硬盘：  
+## macOS 安装镜像制作(on linux)
+很多介绍的文章写的比较复杂，补习了一下 UEFI 的知识后，发现其实安装盘就只需要两个分区：一个EFI分区 和一个 macOS 安装盘分区，
+两个分区顺序没有要求，但是一般操作是 EFI 放在最前面。  
+U盘准备好后，就是下载 macOS 安装镜像 我使用的是 OSX-KVM/fetch-macOS-v2.py 工具，下载到的一般是 dmg 格式的文件；  
+dmg文件是一个压缩文件，需要安装 dmg2img 工具来读取并写入指定的文件或分区，这里有两种方法来将dmg中的系统分区写到安装U盘：  
+1. 直接用 dmg2img 把 dmg 转换成 raw 格式的磁盘镜像.img文件，然后直接把转换后的 img 文件 dd 到 U盘/移动硬盘(这个方法最快，省去了格式化U盘的操作，但是制作出来的安装盘size很小，如果安装过程中需要更大的空间，还是需要单独给 U盘 分区)；  
+2. 或者先给U盘按照大小要求分区，然后直接用 dmg2img -p $index -i xxx.dmg -o /dev/sdX2 将系统盘写入U盘的系统分区:  
 ```
 $ sudo dnf install -y dmg2img
-$ dmg2img -i BaseSystem-mac-big-sur.dmg
-$ dd if=BaseSystem-mac-big-sur.img  of=/dev/sdX
+$
+$ #格式化U盘，创建两个分区: { /dev/sdX1: EFI 200M+, /dev/sdX2: Apple_HFS 32G+ }
+$ sudo fdisk /dev/sdX
+$
+$ #找到系统盘所在分区 index : partition 5: disk image (Apple_HFS : 5)
+$ dmg2img -l BaseSystem-mac-big-sur.dmg
+$
+$ #将dmg中的系统分区写到 /dev/sdX2
+$ dmg2img -p5 -i BaseSystem-mac-big-sur.dmg -o /dev/sdX2
 ```
 
-然后可能会出现两种情况：  
-1. 转换后的 img 镜像里本来已经包含了 EFI 分区，那样就直接挂载 /dev/sdXy 把做好的 EFI 目录拷贝进去就好了；  
-2. 转换后的 img 镜像之后一个 macOS 分区，fdisk /dev/sdX 再追加新建一个 EFI 分区，然后挂载，拷贝 EFI 进去
-
+然后挂载 /dev/sdX1 , 把准备好的 EFI 文件夹拷贝进去:  
+```
+sudo mount /dev/sdX1  /mnt/image
+sudo cp -rf /path/to/EFI  /mnt/image/.
+sudo umount /mnt/image
+```
 至此安装盘就制作好了，卸载并弹出: umount /dev/sdXy; udisksctl power-off -b /dev/sdX
 
 ## 安装
@@ -48,8 +60,13 @@ $ dd if=BaseSystem-mac-big-sur.img  of=/dev/sdX
 [OpenCore Install Guide: PlatformInfo..For setting up the SMBIOS info](https://dortania.github.io/OpenCore-Install-Guide/config-HEDT/ivy-bridge-e.html#platforminfo)  
 
 
-## tips
+## Tips
 1. "support.apple.com/mac/startup" 问题，这个可能是系统 panic 了；  
    第一次解决以为是多个 EFI 冲突，删除系统盘的 EFI 文件内容，重启OK了，  
-   第二次解决是把无线鼠键接收器换和启动盘都了一个位置(USB口)，然后重启OK了，到底啥原因，，不知道，可能是USB驱动问题导致的系统随机panic吧 ~
+   第二次解决是把无线鼠键接收器换和启动盘都了一个位置(USB口)，然后重启OK了，到底啥原因，，不知道，可能是USB驱动问题导致的系统随机panic吧 ~  
    Update: 启动盘插在电源键那一面的 usb口 很容易看到: "support.apple.com/mac/startup"
+
+2. "A required firmware update cannot be installed" 错误
+   安装 Monterey 系统的时候总是出现该错误，找到一个连接[A required firmware update cannot be installed on Mac {Fixed}](https://www.droidwin.com/a-required-firmware-update-cannot-be-installed-on-mac-fixed/)，目前只试了第三种方法，不好使； 
+
+未完待续...
