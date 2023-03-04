@@ -69,6 +69,6 @@ sudo umount /mnt/image
 2. "A required firmware update cannot be installed" 错误
    安装 Monterey 系统的时候总是出现该错误，找到一个连接:  
    [A required firmware update cannot be installed on Mac {Fixed}](https://www.droidwin.com/a-required-firmware-update-cannot-be-installed-on-mac-fixed/)  
-   目前只试了第三种方法，不好使； 
+   目前试了第二种和第三种方法，都不好使； 
 
 未完待续...
