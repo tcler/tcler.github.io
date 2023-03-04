@@ -49,6 +49,6 @@ $ dd if=BaseSystem-mac-big-sur.img  of=/dev/sdX
 
 
 ## tips
-1. 如果系统盘的 EFI 分区已经有 OpenCore 引导了，如果想重新安装，需要把系统 EFI 分区的内容 删除或改名，  
+1. 如果系统盘的 EFI 分区已经有 OpenCore 引导了，如果想重新安装，需要把系统 EFI 分区的内容 删除或改名，或者整个macOS分区都要被格式化  
    不然用恢复系统盘安装过程会报错："support.apple.com/mac/startup"
 
