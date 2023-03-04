@@ -49,6 +49,6 @@ $ dd if=BaseSystem-mac-big-sur.img  of=/dev/sdX
 
 
 ## tips
-1. 如果系统盘的 EFI 分区已经有 OpenCore 引导了，如果想重新安装，需要把系统 EFI 分区的内容 删除或改名，或者整个macOS分区都要被格式化  
-   不然用恢复系统盘安装过程会报错："support.apple.com/mac/startup"
-
+1. "support.apple.com/mac/startup" 问题，这个可能是系统 panic 了；  
+   第一次解决以为是多个 EFI 冲突，删除系统盘的 EFI 文件内容，重启OK了，  
+   第二次解决是把无线鼠键接收器换了一个位置，然后重启OK了，到底啥原因，，不知道，可能是USB驱动问题导致的系统随机panic吧 ~
