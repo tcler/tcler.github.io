@@ -51,4 +51,5 @@ $ dd if=BaseSystem-mac-big-sur.img  of=/dev/sdX
 ## tips
 1. "support.apple.com/mac/startup" 问题，这个可能是系统 panic 了；  
    第一次解决以为是多个 EFI 冲突，删除系统盘的 EFI 文件内容，重启OK了，  
-   第二次解决是把无线鼠键接收器换了一个位置，然后重启OK了，到底啥原因，，不知道，可能是USB驱动问题导致的系统随机panic吧 ~
+   第二次解决是把无线鼠键接收器换和启动盘都了一个位置(USB口)，然后重启OK了，到底啥原因，，不知道，可能是USB驱动问题导致的系统随机panic吧 ~
+   Update: 启动盘插在电源键那一面的 usb口 很容易看到: "support.apple.com/mac/startup"
