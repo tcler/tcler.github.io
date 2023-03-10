@@ -25,7 +25,7 @@ EFI 使用阿汤哥分享的现成，但是WIFI网卡不一样，自己摸索添
 很多介绍的文章写的比较复杂，补习了一下 UEFI 的知识后，发现其实安装盘就只需要两个分区：一个EFI分区 和一个 macOS 安装盘分区，
 两个分区顺序没有要求，但是一般操作是 EFI 放在最前面。  
 U盘准备好后，就是下载 macOS 安装镜像 我使用的是 OSX-KVM/fetch-macOS-v2.py 工具，下载到的一般是 dmg 格式的文件；  
-dmg文件是一个压缩文件，需要安装 dmg2img 工具来读取并写入指定的文件或分区，这里有两种方法来将dmg中的系统分区写到安装U盘：  
+dmg文件是一个压缩文件，需要安装 dmg2img 工具来转换成raw格式的image文件，这里有两种方法来将dmg中的系统分区写到安装U盘：  
 1. 直接用 dmg2img 把 dmg 转换成 raw 格式的磁盘镜像.img文件，然后直接把转换后的 img 文件 dd 到 U盘/移动硬盘(这个方法最快，省去了格式化U盘的操作，但是制作出来的安装盘size很小，如果安装过程中需要更大的空间，还是需要单独给 U盘 分区)；  
 2. 或者先给U盘按照大小要求分区，然后直接用 dmg2img -p $index -i xxx.dmg -o /dev/sdX2 将系统盘写入U盘的系统分区:  
 ```
@@ -34,7 +34,7 @@ $
 $ #格式化U盘，创建两个分区: { /dev/sdX1: EFI 200M+, /dev/sdX2: Apple_HFS 32G+ }
 $ sudo fdisk /dev/sdX
 $
-$ #找到系统盘所在分区 index : partition 5: disk image (Apple_HFS : 5)
+$ #找到系统盘所在分区 'index : partition 5: disk image (Apple_HFS : 5)'
 $ dmg2img -l BaseSystem-mac-big-sur.dmg
 $
 $ #将dmg中的系统分区写到 /dev/sdX2
@@ -62,8 +62,8 @@ sudo umount /mnt/image
 
 ## Tips
 1. "support.apple.com/mac/startup" 问题，这个可能是系统 panic 了；  
-   第一次解决以为是多个 EFI 冲突，删除系统盘的 EFI 文件内容，重启OK了，  
-   第二次解决是把无线鼠键接收器换和启动盘都了一个位置(USB口)，然后重启OK了，到底啥原因，，不知道，可能是USB驱动问题导致的系统随机panic吧 ~  
+   第一次解决以为是多个 EFI 冲突，删除系统盘的 EFI 文件内容，重启OK了。（但是其实跟多EFI分区没关系）  
+   第二次解决是把无线鼠键接收器和启动盘都换了一个位置(USB口)，然后重启OK了，到底啥原因，，不知道，可能是USB驱动问题导致的系统随机panic吧 ~  
    Update: 启动盘插在电源键那一面的 usb口 很容易看到: "support.apple.com/mac/startup"
 
 2. "A required firmware update cannot be installed" 错误
@@ -71,4 +71,4 @@ sudo umount /mnt/image
    [A required firmware update cannot be installed on Mac {Fixed}](https://www.droidwin.com/a-required-firmware-update-cannot-be-installed-on-mac-fixed/)  
    目前试了第二种和第三种方法，都不好使； 
 
-未完待续...
+未完待续...：黑苹果很难完美，没时间就不要不折腾了，，
