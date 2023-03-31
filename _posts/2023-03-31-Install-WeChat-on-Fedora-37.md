@@ -21,12 +21,12 @@ sudo yum install -y wine winetricks langpacks-zh_CN
 2. 执行 winetricks 安装字体(不确定哪个是必须的，所幸都安装了)
 ```
 winetricks  #安装字体
-  #第一步，就选/保持 默认的: "选择默认的wine容器"，然后确定
-  #第二步，选: "安装字体"  (不确定哪个是必须的，所幸全选都安装了)
+  #第一步，就选/保持 默认的: "选择默认的wine容器/Select the default wineprefix"，然后确定
+  #第二步，选: "安装字体/Install a font"  (不确定哪个是必须的，所幸全选都安装了)
   #中间有告警全选 yes/OK 就行
 winetricks  #安装 dll
-  #第一步，就选/保持 默认的: "选择默认的wine容器"，然后确定
-  #第二步，选: "安装 Windows DLL 或 组件" (选择: riched20 riched30 richtx32 这三个就可以)
+  #第一步，就选/保持 默认的: "选择默认的wine容器/Select the default wineprefix"，然后确定
+  #第二步，选: "安装 Windows DLL 或组件/Install a Windows DLL or component" (选择: riched20 riched30 richtx32 这三个就可以)
   #中间有告警全选 yes/OK 就行
 ```
 
