@@ -69,5 +69,5 @@ https://zhuanlan.zhihu.com/p/376772278
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
-ps axf|grep -q ibus-daemo[n] || nohup ibus-daemon &>/dev/null &
+ps axf|grep -q ibus-daemo[n] || { nohup ibus-daemon &>/dev/null & }
 ```
