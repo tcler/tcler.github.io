@@ -53,6 +53,7 @@ StartupWMClass=wechat.exe
 
 ## 参考
 https://linux.cn/article-8382-1.html
+https://zhuanlan.zhihu.com/p/376772278
 
 
 ## 遗留问题
@@ -63,3 +64,10 @@ https://linux.cn/article-8382-1.html
 ## TIPs
 1. 命令行修改系统语言设置: sudo system-config-language
 2. **最新**的 fedora-36 的也可以，如果不更新，会报错退出；//应该是需要 wine-8 版本，Fedora-36 初始版本默认 wine-7
+3. for MATE Desktop, add follow code in .bashrc
+```
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
+[[ "$LANG" != zh_CN* ]] && nohup ibus-daemon &>/dev/null &
+```
