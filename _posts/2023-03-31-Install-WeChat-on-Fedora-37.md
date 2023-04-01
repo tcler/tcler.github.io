@@ -36,7 +36,23 @@ winetricks  #安装 dll
 wine ~/Downloads/WeChatSetup.exe
 ```
 
-4. 在应用程序菜单 wine 的子菜单中找到 WeChat，鼠标右键添加程序到 面板或桌面
+4. 在应用程序菜单 wine 的子菜单中找到 WeChat，鼠标右键添加程序到 桌面或面板
+
+5. 如果系统语言不是 中文/zh_CN.UTF-8，添加启动程序语言环境变量：
+```
+~]$ cat .local/share/applications/wine/Programs/微信/微信.desktop
+[Desktop Entry]
+Name=微信
+Exec=env LANG=zh_CN.UTF-8 LC_ALL=zh_CN.UTF-8 WINEPREFIX="/home/yjh/.wine" wine C:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\Start\\ Menu\\\\Programs\\\\微信\\\\微信.lnk
+Type=Application
+StartupNotify=true
+Path=/home/yjh/.wine/dosdevices/c:/Program Files (x86)/Tencent/WeChat
+Icon=E03C_WeChat.0
+StartupWMClass=wechat.exe
+```
+
+## 参考
+https://linux.cn/article-8382-1.html
 
 
 ## 遗留问题
