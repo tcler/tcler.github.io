@@ -18,7 +18,7 @@ title: "Install WeChat on Fedora Linux 37"
 sudo yum install -y wine winetricks langpacks-zh_CN
 ```
 
-2. 执行 winetricks 安装字体(不确定哪个是必须的，所幸都安装了)
+2. 执行 winetricks 安装字体(不确定哪个是必须的，所幸都安装了) 和 DLL
 ```
 winetricks  #安装字体
   #第一步，就选/保持 默认的: "选择默认的wine容器/Select the default wineprefix"，然后确定
