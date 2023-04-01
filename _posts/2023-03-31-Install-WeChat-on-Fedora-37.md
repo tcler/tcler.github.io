@@ -58,6 +58,7 @@ https://linux.cn/article-8382-1.html
 ## 遗留问题
 1. 每次启动 WeChat 会弹告警提示 WeChatOCR 有问题，不过 OCR 功能不是刚需；不影响其他功能，可以忽略； 当然没有这个告警更好啦～
 2. 关闭微信，缩到托盘后，鼠标悬停在托盘里 WeChat 图标上，显示的字体不正常(显示为方块)，可能需要更多设置~
+3. 用户昵称里如果有 emoji ，显示还是方块字，，
 
 ## TIPs
 1. 命令行修改系统语言设置: sudo system-config-language
