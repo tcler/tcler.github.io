@@ -14,7 +14,7 @@ send **device-del id=qdev_id** to unplug the qemu device.
 
 Here we still use [kiss-vm](https://github.com/tcler/kiss-vm-ns) as an example:  
 
-1. create vm with a extra **nvme** disk and with qmp server started:
+1. create vm with a extra **nvme** disk and with qmp server started:  
 ```
 $ vm create -n centos9-qmp CentOS-9-stream -f --nointeract --nvme=size=40 --qmp
 .
@@ -28,7 +28,7 @@ vda     252:0    0   64G  0 disk
 nvme0n1 259:0    0   40G  0 disk 
 ```
 
-2. connect to qmp server and send **query-block** and **device_del** command
+2. connect to qmp server and send **query-block** and **device_del** command  
 ```
 $ vm qmp centos9-qmp 
 Welcome to the QMP low-level shell!
@@ -157,7 +157,7 @@ Connected to QEMU 7.2.1
 (QEMU) Ctl+C  exit
 ```
 
-3. check lsblk again, and see if the nvme device still exists
+3. check lsblk again, and see if the nvme device still exists  
 ```
 $ vm exec centos9-qmp -- lsblk
 NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
