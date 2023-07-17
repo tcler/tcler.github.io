@@ -172,4 +172,4 @@ vda    252:0    0   64G  0 disk
 ## ta-da ~
 
 ---
-see also: https://wiki.qemu.org/Documentation/QMP
+see also: [QMP](https://wiki.qemu.org/Documentation/QMP)
