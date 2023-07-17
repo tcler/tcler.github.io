@@ -29,7 +29,7 @@ vda     252:0    0   64G  0 disk
 nvme0n1 259:0    0   40G  0 disk 
 ```
 
-2. connect to qmp server and send **query-block** and **device_del** command  
+2.1 connect to qmp server and send **query-block** and **device_del** command to unplug nvme device **interactive**  
 
 ```
 $ vm qmp centos9-qmp 
@@ -157,6 +157,13 @@ Connected to QEMU 7.2.1
     "return": {}
 }
 (QEMU) Ctrl+d  exit
+```
+
+2.2 unplug nvme device **automatically**  
+
+```
+$ qdev=$(echo query-block | vm qmp centos9-qmp | sed -n '/nvme/,/^        }/{/.*"qdev": /{s///;s/[",]//g;p}}')
+$ echo "device_del id=$qdev" | vm qmp centos9-qmp 
 ```
 
 3. check lsblk again, and see if the nvme device still exists  
