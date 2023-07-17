@@ -156,7 +156,7 @@ Connected to QEMU 7.2.1
 {
     "return": {}
 }
-(QEMU) Ctl+C  exit
+(QEMU) Ctrl+d  exit
 ```
 
 3. check lsblk again, and see if the nvme device still exists  
