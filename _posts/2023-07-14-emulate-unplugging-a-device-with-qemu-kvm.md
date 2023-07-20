@@ -176,6 +176,42 @@ vda    252:0    0   64G  0 disk
 └─vda1 252:1    0   64G  0 part /
 ```
 
+---
+- query and unplug network NIC
+
+```
+$ vm exec qmptest -- ip --brief a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+eth0             UP             192.168.122.180/24 fe80::5054:ff:feef:d181/64
+eth1             UP             10.66.61.97/23 2620:52:0:423c:122b:fe8d:6bb9:bd99/64 fe80::fa35:d87d:75b4:672b/64
+
+$ vm qmp qmptest <<<query-pci | grep net
+                        "desc": "Ethernet controller"
+                    "qdev_id": "net0",
+                        "desc": "Ethernet controller"
+                    "qdev_id": "net1",
+
+$ vm qmp qmptest <<<"device_del id=net1"
+[plat run] qmp-shell -p -v /home/jiyin/VMs/RHEL-9.3.0-updates-20230716.15/qmptest/tmp/qmp.socket
+Welcome to the QMP low-level shell!
+Connected to QEMU 7.2.1
+
+(QEMU) {
+    "arguments": {
+        "id": "net1"
+    },
+    "execute": "device_del"
+}
+{
+    "return": {}
+}
+(QEMU)
+
+$ vm exec qmptest -- ip --brief a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+eth0             UP             192.168.122.180/24 fe80::5054:ff:feef:d181/64
+```
+
 ## ta-da ~
 
 ---
