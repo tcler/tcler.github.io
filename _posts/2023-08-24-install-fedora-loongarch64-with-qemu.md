@@ -40,6 +40,9 @@ qemu-system-loongarch64 -vga std \
   -device nec-usb-xhci,id=xhci,addr=0x1b  -device usb-tablet,id=tablet,bus=xhci.0,port=1  -device usb-kbd,id=keyboard,bus=xhci.0,port=2 \
   -hda ~/f38-la64.qcow2
 ```
+## tips
+- option '-vga std' is necessary for higher screen resolution 
+
 
 ## note: [libvirt: Request for supporting loongarch architecture](https://gitlab.com/libvirt/libvirt/-/issues/471)
 We can't use virt-install/[kiss-vm](https://github.com/tcler/kiss-vm-ns) yet to install loongarch64 virtual machines, because libvirt loongarch64 support has not pushed to upstream.
