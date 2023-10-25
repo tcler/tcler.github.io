@@ -10,6 +10,7 @@ title: "glib learning (glib 入坑)"
 说 strdup() strtok_r() 不是标准 C 函数，原来他们只是 glibc 的扩展，[C23](https://en.wikipedia.org/wiki/C23_(C_standard_revision)) 版本上才支持(而目前C23还没发表)；
 
 于是就改用 glib 的版本，用了几天发现确实真香，除了字符串处理函数，还有很多其他更高层级功能的封装，决定正式入坑 ; )  
+
 [glib doc](https://docs.gtk.org/glib/)  
 
 GLib is a general-purpose, portable utility library, which provides many useful data types, macros, type conversions, string utilities, file utilities, a mainloop abstraction, and so on.
