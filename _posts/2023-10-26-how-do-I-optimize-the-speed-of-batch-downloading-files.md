@@ -30,3 +30,10 @@ time batch_download -p < <(getRpmUrlListByRepo $repo | rpmFilter "${RejcetOpts[@
 
 time batch_download -p < <(getRpmUrlListByUrl  $purl | rpmFilter "${RejcetOpts[@]}" "${AcceptOpts[@]}")
 ```
+
+see:  
+[getUrlListByRepo](https://github.com/tcler/bkr-client-improved/blob/master/utils/brewinstall.sh#L104)  
+[getUrlListByUrl](https://github.com/tcler/bkr-client-improved/blob/master/utils/brewinstall.sh#L99C4-L99C4)  
+[rpmFilter](https://github.com/tcler/bkr-client-improved/blob/master/utils/brewinstall.sh#L165C1-L165C10)  
+[batch_download](https://github.com/tcler/bkr-client-improved/blob/master/utils/brewinstall.sh#L243)  
+
