@@ -20,6 +20,7 @@ git clone --branch loongarch --single-branch  https://gitlab.com/lixianglai/libv
 (cd ~/rpmbuild/SOURCES/libvirt-9.7.0; patch -p1 <../*.patch; tar acf libvirt-9.7.0.tar.xz libvirt-9.7.0)
 
 cd ~/rpmbuild
+#此处省略根据提示安装 build 依赖的步骤
 rpmbuild -bb ~/rpmbuild/SPECS/libvirt.spec --without=mingw  #--without=mingw 是因为在 mingw32 编译有个错误
 
 rm RPMS/{libvirt-daemon-plugin-sanlock-9.7.0-1.loongarch.fc39.x86_64.rpm,libvirt-daemon-xen-9.7.0-1.loongarch.fc39.x86_64,libvirt-daemon-qemu-9.7.0-1.loongarch.fc39.x86_64.rpm}
