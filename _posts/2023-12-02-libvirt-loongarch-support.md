@@ -59,8 +59,8 @@ Loading Linux 6.3.0-0.rc1.20230303.13.fc38.loongarch64 ...
 Loading initial ramdisk ...
 PROGRESS CODE: V02010004 I0
 PROGRESS CODE: V03101019 I0
-<hang-up>
-```
+*hang-up*  
+```  
 
 最开始以为是显卡驱动问题，，后来把 /var/log/libvirt/qemu/$vmname.log 打出来，跟原来可以正常启动的 qemu-system-loongarch64 命令行仔细对比、排查，，**终于** 发现是 acpi 的问题:  
 - virt-install 默认生成的 qemu 命令行参数里竟然把 acpi 置成 off 了 '**-machine virt,...,acpi=off**'  sh\*t!  最后加了 '**--features=acpi=on**'  选项终于成功启动到系统 Login  ;)
@@ -74,7 +74,7 @@ $ vm create F38 -n f38-loongarch -i ~/f38-la64.qcow2 --arch loongarch64 \
     --qemu-opts '-device nec-usb-xhci,id=xhci,addr=0x1b -device usb-tablet,id=tablet,bus=xhci.0,port=1 -device usb-kbd,id=keyboard,bus=xhci.0,port=2' \
     --virt-install-opts=--features=acpi=on   --noauto --nocloud -f
 
-$ vm viewer f38-loongarch   #Successfully booted to the Fedora login interface, Hurrah!!
+$ vm viewer f38-loongarch   #Successfully booted to the Fedora login interface, Hurrah!!  
 ```
 
 
