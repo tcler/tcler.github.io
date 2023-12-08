@@ -55,8 +55,9 @@ vm create fedora37-rv64 --noauto --nocloud \
 
 #### Question:  
 1) where's the **addr=0x80200000** come from??  
-   It might be an hardcode location while building..  according => [risc-v-sbi-and-full-boot-process](https://popovicu.com/posts/risc-v-sbi-and-full-boot-process)  
-2) does these distro-build images support UEFI/edk2-riscv??  
+   It might be an hardcode location while building..  according => [risc-v-sbi-and-full-boot-process](https://popovicu.com/posts/risc-v-sbi-and-full-boot-process)
+   yes, it's realy ugly. hope it can support bootup with edk2-riscv instead "hardcode load address in command line"!  
+3) does these distro-build images support UEFI/edk2-riscv??  
    seems not yet, I have not boot up success with edk2-riscv64 pkg  
 
 \<to be continued\>
