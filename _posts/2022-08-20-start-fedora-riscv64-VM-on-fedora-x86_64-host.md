@@ -40,7 +40,7 @@ sudo chown qemu -R /usr/share/uboot/qemu-riscv64*
 ```
 
 ### start fedora riscv64 VM:
-- [kiss-vm](https://github.com/tcler/kiss-vm-ns/blob/master/kiss-vm)
+- [kiss-vm](https://github.com/tcler/kiss-vm-ns/blob/master/kiss-vm)  
 ```
 vm create fedora37-rv64 --noauto --nocloud \
     --arch riscv64 \
@@ -50,7 +50,7 @@ vm create fedora37-rv64 --noauto --nocloud \
 
 ## where's the addr=0x80200000 come from?? I don't know yet.
 ## http://fedora.riscv.rocks/kojifiles/work/tasks/6900/1466900/Fedora-Developer-39-20230927.n.0-sda.raw.xz boot up fail with same steps
-## now these build images still need u-boot as boot loader, not support UEFI/edk2-riscv yet..
+## now these build images still need u-boot as boot loader, not support UEFI/edk2-riscv yet..  
 ```
 
 \<to be continued\>
