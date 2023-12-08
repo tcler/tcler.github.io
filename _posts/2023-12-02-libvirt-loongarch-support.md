@@ -98,4 +98,11 @@ $ nohup unbuffer virt-install --connect=qemu:///system --virt-type=qemu --accele
 $ virt-viewer -s -v -r f38-loongarch 
 ```
 
+## 遗留问题，  
+目前很多 qemu 参数还是需要手工 hardcode，，默认的设备参数，默认的 UEFI firmware 文件都还不能自动生成；这需要修改 virt-manager-common 包里面的代码;  
+等有时间了再研究吧。  
+
+- https://gitlab.com/libvirt/libvirt/-/issues/471#note_1684212212  
+- https://github.com/virt-manager/virt-manager/blob/main/virtinst/domcapabilities.py#L265  
+
 ---
