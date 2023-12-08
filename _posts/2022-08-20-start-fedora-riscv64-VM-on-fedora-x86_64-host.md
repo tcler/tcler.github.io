@@ -28,14 +28,14 @@ according latest [fedora-riscv-wiki](https://fedoraproject.org/wiki/Architecture
 curl -s https://raw.githubusercontent.com/tcler/kiss-vm-ns/master/utils/kiss-update.sh|sudo bash && sudo vm prepare
 ```
 
-### download fedora riscv image [koji-url](http://fedora.riscv.rocks/koji/tasks?state=closed&view=flat&method=createAppliance&order=-id) [download-url](https://dl.fedoraproject.org/pub/alt/risc-v/repo/virt-builder-images/images/)
+### download fedora riscv image [koji-url](http://fedora.riscv.rocks/koji/tasks?state=closed&view=flat&method=createAppliance&order=-id)
 ```
 wget http://fedora.riscv.rocks/kojifiles/work/tasks/5889/1465889/Fedora-Developer-38-20230825.n.0-sda.raw.xz
 unxz Fedora-Developer-38-20230825.n.0-sda.raw.xz
 virt-customize -a  Fedora-Developer-38-20230825.n.0-sda.raw --hostname fedora-riscv-jh  --root-password password:redhat --firstboot-command 'useradd -m -G wheel foo; echo -e "redhat\nredhat" | passwd foo --stdin'
 virt-filesystems --long -h --all -a Fedora-Developer-38-20230825.n.0-sda.raw
 
-sudo rpm -ivh --force --nodeps http://fedora.riscv.rocks/kojifiles/packages/uboot-tools/2023.01/2.4.riscv64.fc37/noarch/uboot-images-riscv64-2023.01-2.4.riscv64.fc37.noarch.rpm
+sudo rpm -ivh --force --nodeps http://fedora.riscv.rocks/kojifiles/packages/uboot-tools/2023.04/1.4.riscv64.fc38/noarch/uboot-images-riscv64-2023.04-1.4.riscv64.fc38.noarch.rpm
 sudo chown qemu -R /usr/share/uboot/qemu-riscv64*
 ```
 
