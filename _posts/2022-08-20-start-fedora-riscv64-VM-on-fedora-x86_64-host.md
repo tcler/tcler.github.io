@@ -20,20 +20,20 @@ This error is caused by virt-install option '--video=qxl', remove this option or
 
 ---
 ---
-## command line examples by using [kiss-vm](https://github.com/tcler/kiss-vm-ns/kiss-vm), virt-install and qemu-system-riscv64 (Update: 2023-02-18)
-according latest [fedora-riscv-wiki](https://fedoraproject.org/wiki/Architectures/RISC-V/Installing) and [fedora-koji](http://fedora.riscv.rocks/koji/tasks?state=closed&view=flat&method=createAppliance&order=-id), fedora-riscv build has been updated to fedora-37. And the install/start methods also have been updated. try again and record here:
+## command line examples by using [kiss-vm](https://github.com/tcler/kiss-vm-ns/kiss-vm), virt-install and qemu-system-riscv64 (Update: 2023-12-07)
+according latest [fedora-riscv-wiki](https://fedoraproject.org/wiki/Architectures/RISC-V/Installing) and [fedora-koji](http://fedora.riscv.rocks/koji/tasks?state=closed&view=flat&method=createAppliance&order=-id), fedora-riscv build has been updated to fedora-38/fedora-39. And the install/start methods also have been updated. try again and record here:
 
-### host prepare (Fedora-36.x86-64): install qemu libvirt ...
+### host prepare (Fedora-39.x86-64): install qemu libvirt ...
 ```
 curl -s https://raw.githubusercontent.com/tcler/kiss-vm-ns/master/utils/kiss-update.sh|sudo bash && sudo vm prepare
 ```
 
 ### download fedora riscv image [koji-url](http://fedora.riscv.rocks/koji/tasks?state=closed&view=flat&method=createAppliance&order=-id) [download-url](https://dl.fedoraproject.org/pub/alt/risc-v/repo/virt-builder-images/images/)
 ```
-wget http://fedora.riscv.rocks/kojifiles/work/tasks/3933/1313933/Fedora-Developer-37-20221130.n.0-sda.raw.xz
-unxz Fedora-Developer-37-20221130.n.0-sda.raw.xz
-virt-customize -a  Fedora-Developer-37-20221130.n.0-sda.raw --hostname fedora-riscv-jh  --root-password password:redhat --firstboot-command 'useradd -m -G wheel foo; echo -e "redhat\nredhat" | passwd foo --stdin'
-virt-filesystems --long -h --all -a Fedora-Developer-37-20221130.n.0-sda.raw
+wget http://fedora.riscv.rocks/kojifiles/work/tasks/5889/1465889/Fedora-Developer-38-20230825.n.0-sda.raw.xz
+unxz Fedora-Developer-38-20230825.n.0-sda.raw.xz
+virt-customize -a  Fedora-Developer-38-20230825.n.0-sda.raw --hostname fedora-riscv-jh  --root-password password:redhat --firstboot-command 'useradd -m -G wheel foo; echo -e "redhat\nredhat" | passwd foo --stdin'
+virt-filesystems --long -h --all -a Fedora-Developer-38-20230825.n.0-sda.raw
 
 sudo rpm -ivh --force --nodeps http://fedora.riscv.rocks/kojifiles/packages/uboot-tools/2023.01/2.4.riscv64.fc37/noarch/uboot-images-riscv64-2023.01-2.4.riscv64.fc37.noarch.rpm
 sudo chown qemu -R /usr/share/uboot/qemu-riscv64*
@@ -45,10 +45,12 @@ sudo chown qemu -R /usr/share/uboot/qemu-riscv64*
 vm create fedora37-rv64 --noauto --nocloud \
     --arch riscv64 \
     --msize 4096 \
-    -i Fedora-Developer-37-20221130.n.0-sda.raw \
+    -i Fedora-Developer-38-20230825.n.0-sda.raw \
     --qemu-opts "-bios /usr/share/uboot/qemu-riscv64_spl/u-boot-spl.bin -device loader,file=/usr/share/uboot/qemu-riscv64_spl/u-boot.itb,addr=0x80200000"
 
-## where's the addr=0x80200000 come from??
+## where's the addr=0x80200000 come from?? I don't know yet.
+## http://fedora.riscv.rocks/kojifiles/work/tasks/6900/1466900/Fedora-Developer-39-20230927.n.0-sda.raw.xz boot up fail with same steps
+## now these build images still need u-boot as boot loader, not support UEFI/edk2-riscv yet..
 ```
 
 \<to be continued\>
