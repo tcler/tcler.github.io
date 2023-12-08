@@ -43,7 +43,7 @@ sudo chown qemu -R /usr/share/uboot/qemu-riscv64*
 - [kiss-vm](https://github.com/tcler/kiss-vm-ns/blob/master/kiss-vm)
 
 ```
-vm create fedora37-rv64 --noauto --nocloud \
+vm create fedora-rv64 --noauto --nocloud \
     --arch riscv64 \
     --msize 4096 \
     -i Fedora-Developer-38-20230825.n.0-sda.raw \
