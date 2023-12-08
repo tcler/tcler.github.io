@@ -47,13 +47,17 @@ vm create fedora37-rv64 --noauto --nocloud \
     --arch riscv64 \
     --msize 4096 \
     -i Fedora-Developer-38-20230825.n.0-sda.raw \
-    --qemu-opts "-bios /usr/share/uboot/qemu-riscv64_spl/u-boot-spl.bin -device loader,file=/usr/share/uboot/qemu-riscv64_spl/u-boot.itb,addr=0x80200000"
+    --qemu-opts "-bios /usr/share/uboot/qemu-riscv64_spl/u-boot-spl.bin \
+                 -device loader,file=/usr/share/uboot/qemu-riscv64_spl/u-boot.itb,addr=0x80200000"
 
-## where's the addr=0x80200000 come from?? I don't know yet.
-   It might be an hardcode location while building..  according => https://popovicu.com/posts/risc-v-sbi-and-full-boot-process
 ## http://fedora.riscv.rocks/kojifiles/work/tasks/6900/1466900/Fedora-Developer-39-20230927.n.0-sda.raw.xz boot up fail with same steps
-## now these build images still need u-boot as boot loader, not support UEFI/edk2-riscv yet..  
 ```
+
+#### Question:  
+1) where's the **addr=0x80200000** come from??  
+   It might be an hardcode location while building..  according => [risc-v-sbi-and-full-boot-process](https://popovicu.com/posts/risc-v-sbi-and-full-boot-process)  
+2) does these distro-build images support UEFI/edk2-riscv??  
+   seems not yet, I have not boot up success with edk2-riscv64 pkg  
 
 \<to be continued\>
 
