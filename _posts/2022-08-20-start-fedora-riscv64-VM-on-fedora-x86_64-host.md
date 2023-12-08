@@ -42,11 +42,13 @@ sudo chown qemu -R /usr/share/uboot/qemu-riscv64*
 ### start fedora riscv64 VM:
 - [kiss-vm](https://github.com/tcler/kiss-vm-ns/blob/master/kiss-vm)
 ```
-vm create fedora37-rv64 \
+vm create fedora37-rv64 --noauto --nocloud \
     --arch riscv64 \
     --msize 4096 \
     -i Fedora-Developer-37-20221130.n.0-sda.raw \
     --qemu-opts "-bios /usr/share/uboot/qemu-riscv64_spl/u-boot-spl.bin -device loader,file=/usr/share/uboot/qemu-riscv64_spl/u-boot.itb,addr=0x80200000"
+
+## where's the addr=0x80200000 come from??
 ```
 
 \<to be continued\>
