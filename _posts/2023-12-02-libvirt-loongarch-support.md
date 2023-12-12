@@ -33,14 +33,14 @@ sudo rpm -ivh RPMS/*.rpm --force --nodeps
 
 ---
 
-1) 用 virt-install --cdrom 启动会报:  
+**1) 用 virt-install --cdrom 启动会报:**  
 ```
   ERROR    unsupported configuration: IDE controllers are unsupported for this QEMU binary or machine type
 ```
 到底是 qemu-system-loongarch64 不支持 IDE，还是 virt-install 生成的 xml 有问题，还不确定  
 
 ---
-[update 2023-12-12]  
+**[update 2023-12-12]**  
 后面 UEFI 启动都 OK 后，再返回来解决 cdrom IDE 不支持的问题，，发现可以用下面的选项来代替  ```--cdrom /path/to/iso```  
 
 ```
@@ -49,7 +49,7 @@ sudo rpm -ivh RPMS/*.rpm --force --nodeps
 
 ---
 
-2) 然后尝试 --import 方式直接从 qcow2 image 启动绕过 IDE 不支持的问题；但是因为缺少 QEMU_VARS.fd 还没有起来  
+**2) 然后尝试 --import 方式直接从 qcow2 image 启动绕过 IDE 不支持的问题；但是因为缺少 QEMU_VARS.fd 还没有起来**  
 ```
    ERROR    operation failed: unable to find any master var store for loader: /home/jiyin/VMs/F38/f38-loongarch/QEMU_EFI_8.1.fd
 ```
@@ -108,9 +108,20 @@ $ virt-viewer -s -v -r f38-loongarch
 
 ## 遗留问题，  
 目前很多 qemu 参数还是需要手工 hardcode，，默认的设备参数，默认的 UEFI firmware 文件都还不能自动生成；
-这需要修改 virt-manager-common 包里面的代码;  等有时间了再研究吧：    
+这需要修改 virt-manager-common 包里面的代码;  等有时间了再研究吧： 
 
 - https://gitlab.com/libvirt/libvirt/-/issues/471#note_1684212212  
-- https://github.com/virt-manager/virt-manager/blob/main/virtinst/domcapabilities.py#L265  
+- https://github.com/virt-manager/virt-manager/blob/main/virtinst/domcapabilities.py#L265
+
+
+## [update: 2023-12-12 kiss-vm workaround]
+在 virt-install(就是上游的 virt-manager) 支持 loongarch 之前,为了更方便的测试,这里我们更新了 [kiss-vm](https://github.com/tcler/kiss-vm-ns/commit/068db4f145686e6b3ff35296b415bc906efb4b2f), 默认添加上需要的 virt-install 选项, 最后的命令行就变成:  
+```
+vm create F38 -n f38-loongarch -C livecd-fedora-mate-4.loongarch64.iso --arch loongarch64  --msize 16G
+```
+
+```
+vm create F38 -n f38-loongarch -i ~/f38-loongarch.qcow2  --arch loongarch64 --msize 16G
+```
 
 ---
