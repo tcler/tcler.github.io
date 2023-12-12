@@ -64,3 +64,10 @@ sudo grub2-mkconfig -o $(sudo find /boot/efi/ -name grub.cfg)   #for UEFI boot
 #or update both
 sudo grub2-mkconfig | sudo tee $(sudo find /boot -name grub.cfg)
 ```
+
+## Example
+```
+sudo grubby --args="console=tty0 console=ttyS0,115200n8" --update-kernel=ALL
+sudo grub2-mkconfig | sudo tee $(sudo find /boot -name grub.cfg)
+```
+
