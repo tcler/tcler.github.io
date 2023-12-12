@@ -37,7 +37,15 @@ sudo rpm -ivh RPMS/*.rpm --force --nodeps
 ```
   ERROR    unsupported configuration: IDE controllers are unsupported for this QEMU binary or machine type
 ```
-到底是 qemu-system-loongarch64 不支持 IDE，还是 virt-install 生成的 xml 有问题，还不确定
+到底是 qemu-system-loongarch64 不支持 IDE，还是 virt-install 生成的 xml 有问题，还不确定  
+
+---
+[update 2023-12-12]  
+后面 UEFI 启动都 OK 后，再返回来解决 cdrom IDE 不支持的问题，，发现可以用下面的选项来代替  ```--cdrom /path/to/iso```  
+
+```
+--import --disk path=/path/to/iso,device=cdrom,bus=usb
+```
 
 ---
 
