@@ -115,7 +115,7 @@ $ virt-viewer -s -v -r f38-loongarch
 
 
 ## [update: 2023-12-12 kiss-vm workaround]
-在 virt-install(就是上游的 virt-manager) 支持 loongarch 之前,为了更方便的测试,这里我们更新了 [kiss-vm](https://github.com/tcler/kiss-vm-ns/commit/068db4f145686e6b3ff35296b415bc906efb4b2f), 默认添加上需要的 virt-install 选项, 最后的命令行就变成:  
+在 virt-install(就是上游的 virt-manager) 支持 loongarch 之前,为了更方便的测试,这里我们更新了 [kiss-vm](https://github.com/tcler/kiss-vm-ns/commit/068db4f145686e6b3ff35296b415bc906efb4b2f), 默认添加上需要的 virt-install 选项, 最后的命令行就简化成:  
 ```
 vm create F38 -n f38-loongarch -C livecd-fedora-mate-4.loongarch64.iso --arch loongarch64  --msize 16G
 ```
@@ -123,5 +123,7 @@ vm create F38 -n f38-loongarch -C livecd-fedora-mate-4.loongarch64.iso --arch lo
 ```
 vm create F38 -n f38-loongarch -i ~/f38-loongarch.qcow2  --arch loongarch64 --msize 16G
 ```
+
+YES !!!
 
 ---
