@@ -13,18 +13,21 @@ title: "libvirt loongarch support"
 ```
 #getting libvirt src.rpm from fedora-39 repo:
 rpm -ivh https://dl.fedoraproject.org/pub/fedora/linux/releases/39/Everything/source/tree/Packages/l/libvirt-9.7.0-1.fc39.src.rpm
-(cd ~/rpmbuild/SOURCES/; extract.sh libvirt-9.7.0.tar.xz)
+(cd ~/rpmbuild/SOURCES/; rm -rf libvirt-9.7.0; extract.sh libvirt-9.7.0.tar.xz)
 
 git clone --branch loongarch --single-branch  https://gitlab.com/lixianglai/libvirt.git  libvirt-loongarch
-(cd libvirt-loongarch; git format -5; cp *.patch ~/rpmbuild/SOURCES/.)
-(cd ~/rpmbuild/SOURCES/libvirt-9.7.0; patch -p1 <../*.patch; tar acf libvirt-9.7.0.tar.xz libvirt-9.7.0)
+(cd libvirt-loongarch; git format-patch -5; cp *.patch ~/rpmbuild/SOURCES/.)
+(cd ~/rpmbuild/SOURCES/libvirt-9.7.0;
+for pf in ../*.patch; do patch -p1 < $pf; done;
+tar acf libvirt-9.7.0.tar.xz libvirt-9.7.0)
 
 cd ~/rpmbuild
-#此处省略根据提示安装 build 依赖的步骤
-rpmbuild -bb ~/rpmbuild/SPECS/libvirt.spec --without=mingw  #--without=mingw 是因为在 mingw32 编译有个错误
+LANG=C rpmbuild -bb ~/rpmbuild/SPECS/libvirt.spec  |& grep -v '^[a-z]' | awk '{print $1}' | xargs sudo yum install -y
+sed -i '/^Release:/s/%/.loongarch/' SPECS/libvirt.spec
+rpmbuild -bb ~/rpmbuild/SPECS/libvirt.spec  #--without=mingw  #--without=mingw 如果 mingw32 编译有个错误
 
-rm RPMS/{libvirt-daemon-plugin-sanlock-9.7.0-1.loongarch.fc39.x86_64.rpm,libvirt-daemon-xen-9.7.0-1.loongarch.fc39.x86_64,libvirt-daemon-qemu-9.7.0-1.loongarch.fc39.x86_64.rpm}
-sudo rpm -ivh RPMS/*.rpm --force --nodeps
+rm RPMS/x86_64/{libvirt-daemon-plugin-sanlock-9.7.0-1.loongarch.fc39.x86_64.rpm,libvirt-daemon-xen-9.7.0-1.loongarch.fc39.x86_64,libvirt-daemon-qemu-9.7.0-1.loongarch.fc39.x86_64.rpm}
+sudo rpm -ivh RPMS/x86_64/*.rpm --force --nodeps
 ```
 
 
