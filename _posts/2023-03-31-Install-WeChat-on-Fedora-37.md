@@ -32,7 +32,7 @@ winetricks  #安装 dll
 
     [update: 2023-12-20]  
     Fedora-39 字体安装过程中，因下载错误报 abort 的情况解决:  
-    
+```
     ~/.cache/winetricks/corefonts$ for f in andale32.exe arial32.exe arialb32.exe comic32.exe courie32.exe ctf.exe desc14sw.exe emon.exe georgi32.exe impact32.exe linload.exe linux.exe times32.exe trebuc32.exe verdan32.exe webdin32.exe x86.exe; do wget -O  $f -nd -c https://web.archive.org/web/2000/https://mirrors.kernel.org/gentoo/distfiles/$f;  done
 
     ~/.cache/winetricks/opensymbol$ wget https://repo.pureos.net/pureos/pool/main/libr/libreoffice/fonts-opensymbol_102.10%2BLibO6.1.5-3%2Bdeb10u7_all.deb  
@@ -41,7 +41,7 @@ winetricks  #安装 dll
     ~/.cache/winetricks/vlgothic$ curl -L -O http://repository.timesys.com/buildsources/v/vlgothic/vlgothic-20141206/VLGothic-20141206.tar.xz  
 
     $ winetricks --force --unattended
-    
+```
 
 3. 下载最新的 WeChat Windows 版本，然后安装
 ```
