@@ -30,3 +30,6 @@ ccache -C; make clean; make -j $(( $(nproc) * 2 ))
 ```
 
 ---
+## misc urls
+[The Linux Kernel Module Programming Guide](https://sysprog21.github.io/lkmpg/)  
+[ULK3/Understanding The Linux Kernel](https://www.cs.utexas.edu/~rossbach/cs380p/papers/ulk3.pdf)  
