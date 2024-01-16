@@ -17,4 +17,5 @@ top -bcn1 -w128 -o %MEM
 
 ---
 see also:  
-- https://superuser.com/questions/199530/specify-tops-screen-width-in-batch-mode  
+- https://superuser.com/questions/199530/specify-tops-screen-width-in-batch-mode
+- https://unix.stackexchange.com/questions/30129/how-do-i-get-top-command-to-wrap-its-output
