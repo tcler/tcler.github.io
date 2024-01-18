@@ -26,7 +26,10 @@ make menuconfig  #generate .config
 
 make -j $(( $(nproc) * 2 ))  #or make -j N V=1 #to get detailed compile error
 #or
-ccache -C; make clean; make -j $(( $(nproc) * 2 ))
+ccache -C; make clean; time make -j $(( $(nproc) * 2 ))  #to testing your host’s compilation performance
+
+## more make parameters please see:
+make help | less
 ```
 
 ---
