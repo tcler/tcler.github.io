@@ -24,7 +24,7 @@ tar axf linux-6.7.tar.xz
 cd linux-6.7
 make menuconfig  #generate .config
 
-make -j $(( $(nproc) * 2 ))
+make -j $(( $(nproc) * 2 ))  #or make -j N V=1 #to get detailed compile error
 #or
 ccache -C; make clean; make -j $(( $(nproc) * 2 ))
 ```
