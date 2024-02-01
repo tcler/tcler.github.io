@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "glib main loop learning"
+title: "glib main/event loop learning"
 ---
 
 今天继续学习 glib: main-loop, event-loop
@@ -195,3 +195,8 @@ int main(int argc, char **argv)
 	return 0;
 }
 ```
+
+---
+## ref
+[glib/main-loop](https://docs.gtk.org/glib/main-loop.html)  
+[glib-The Main Event Loop](https://machine4869.gitee.io/15389750260474/)  
