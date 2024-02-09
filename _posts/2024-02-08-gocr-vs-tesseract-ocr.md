@@ -33,8 +33,18 @@ Page segmentation modes:
 
 : 因为 github page 贴图太麻烦了，这里就不把例子贴出来了。。
 
-Note: 值得注意的一点是 tesseract 空格的处理很特殊，会省略调多余的空格，see:  
-      [How to preserve all whitespaces from an image when doing text extraction using tesseract-4.0?](https://stackoverflow.com/questions/61250577/how-to-preserve-all-whitespaces-from-an-image-when-doing-text-extraction-using-t)
+---
+Tips:
+- 值得注意的一点是 tesseract 空格的处理很特殊，会省略调多余的空格，see:  
+    [How to preserve all whitespaces from an image when doing text extraction using tesseract-4.0?](https://stackoverflow.com/questions/61250577/how-to-preserve-all-whitespaces-from-an-image-when-doing-text-extraction-using-t)
+- 预处理对结果影响也很大, 最基本的 threshold %30 %50 %70 对于不同色深的文字, 结果差异很大; vm vncproc 新增加了 --threshold 选项可以用来预览不同 threshold 处理过后的图片效果:
+  ```
+  vm vncproc $vm --getsc --threshold %33                        #二值化图片预览  
+  vm vncproc $vm --get   --threshold %33 --ocr-tool=tesseract   #字符识别效果查看
+  ```
 
 ---
-所以，最近对 kiss-vm 需要 OCR 的场景做了一点更新: 在需要对 Windows GUI 安装步骤进行判断的地方使用 tersseract; 其他纯文本的场景仍然使用 gocr
+最后，最近对 kiss-vm 需要 OCR 的场景做了如下更新:  
+- 在需要对 Windows GUI 安装步骤进行判断的地方使用 tersseract; 其他纯文本的场景仍然使用 gocr
+- 增加 --threshold= 选项, 可以指定 threshold 二值化处理的阈值. 默认是使用 0.5(for pgmtopbm)/50%(for gm-convert)
+- 增加 --ocr-tool= 选项, 可以用来指定使用的 ocr 工具. 默认是 gocr
