@@ -42,6 +42,49 @@ Tips:
   vm vncproc $vm --getsc --threshold %33                        #二值化图片预览  
   vm vncproc $vm --get   --threshold %33 --ocr-tool=tesseract   #字符识别效果查看
   ```
+- 关于中文(多语言)识别:  
+  gocr 只支持英文; 而 tesseract 支持多语言(需要下载相应的语言包 e.g: tesseract-langpack-chi_sim-4.1.0-6.fc39.noarch, 然后加 -l \<lang>选项), 而且要把终端语言环境修改为对应的语言  
+  ```
+  test@deskmini-x300:~/ws/tools/kiss-vm-ns$ tesseract ~/Pictures/win7cn.png - -l chi_sim
+  Estimating resolution as 158
+  AN/ 站?安装 inaows
+
+  正在安装 内ndows,
+
+  目前我们只需要这些信息。安装过程中计算机可能重新启动数次*
+
+  厂制 Windows 文件
+  展开 Windows 文件
+  安装功能
+  安装更新
+  完成安装
+  ```
+
+  ```
+  test@deskmini-x300:~/ws/tools/kiss-vm-ns$ tesseract ~/Pictures/win7cn.png - -l chi_sim --psm 11
+  Estimating resolution as 158
+  人Ce na
+
+  正在安装 内ndows,
+
+  目前我们只需要这些|
+
+  * 安装过程中计算机可能重新自动数次*。
+
+  复制 Yindows 文件
+
+  展开 Yindows 文件
+
+  安装功能
+
+  安装更新
+
+  完成安装
+
+  工   收集信息
+
+  2 次
+  ```
 
 ---
 最后，最近对 kiss-vm 需要 OCR 的场景做了如下更新:  
