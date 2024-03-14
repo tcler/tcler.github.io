@@ -4,8 +4,18 @@ title: "qemu-system-aarch64: unable to map backing store for guest RAM: Permissi
 ---
 
 ## qemu-system-aarch64: unable to map backing store for guest RAM: Permission denied
-get fail while create aarch64 Guest with nvdimm by using libvirt+qemu-system-aarch64.  
-the root cause is here:
+get fail while create aarch64 Guest with nvdimm by using libvirt+qemu-system-aarch64:
+```
+[plat run] nohup unbuffer virt-install --connect=qemu:///system --virt-type=qemu --accelerate --name jiyin-centos-9-stream_aarch64 --os-variant=detect=on,require=off --arch=aarch64 --machine=virt --vcpus 4,sockets=1,cores=4 --memory=1536,hotplugmemorymax=524288,hotplugmemoryslots=4 --cpu cell0.cpus=0-3,cell0.memory=1572864 --memdev nvdimm,source_path=/home/jiyin/VMs/CentOS-9-stream/jiyin-centos-9-stream_aarch64/nvdimm-0.dev,target_size=1025,target_node=0,target_label_size=1 --memdev nvdimm,source_path=/home/jiyin/VMs/CentOS-9-stream/jiyin-centos-9-stream_aarch64/nvdimm-1.dev,target_size=1025,target_node=0,target_label_size=1 --import --disk path=/home/jiyin/VMs/CentOS-9-stream/jiyin-centos-9-stream_aarch64/CentOS-Stream-GenericCloud-9-latest.aarch64.qcow2,bus=virtio --disk /home/jiyin/VMs/CentOS-9-stream/jiyin-centos-9-stream_aarch64/jiyin-centos-9-stream_aarch64-cloud-init.iso,device=cdrom --network=network=default,model=virtio --network=network=kissaltnet,model=virtio --controller=type=pci,index=9,model=pcie-root-port --controller=type=pci,index=10,model=pcie-root-port --noautoconsole --graphics=vnc,listen=0.0.0.0 '--qemu-commandline=-cpu cortex-a76' '--qemu-commandline=-qmp unix:/home/jiyin/VMs/CentOS-9-stream/jiyin-centos-9-stream_aarch64/tmp/qmp.socket,server,nowait '  &>/home/jiyin/VMs/CentOS-9-stream/jiyin-centos-9-stream_aarch64/nohup.log &
+spawn tail -f /home/jiyin/VMs/CentOS-9-stream/jiyin-centos-9-stream_aarch64/nohup.log
+WARNING  Using --osinfo generic, VM performance may suffer. Specify an accurate OS for optimal results.
+
+Starting install...
+ERROR    internal error: process exited while connecting to monitor: 2024-03-14T02:15:10.170971Z qemu-system-aarch64: unable to map backing store for guest RAM: Permission denied
+ERROR    internal error: process exited while connecting to monitor: 2024-03-14T02:15:10.170971Z qemu-system-aarch64: unable to map backing store for guest RAM: Permission denied
+```
+
+the root cause is here:  
 
 ```
 SELinux is preventing qemu-system-aar from map access on the file /home/jiyin/VMs/CentOS-9-stream/jiyin-centos-9-stream_aarch64/nvdimm-0.dev.
@@ -59,4 +69,9 @@ type=AVC msg=audit(1710328208.112:388): avc:  denied  { map } for  pid=3395 comm
 
 Hash: qemu-system-aar,svirt_tcg_t,svirt_image_t,file,map
 ```
+
+## workaround
 ```
+setsebool -P domain_can_mmap_files=1
+```
+but how do I add capacity **domain_can_mmap_files** to qemu-system-aarch64 by default ? IDK
