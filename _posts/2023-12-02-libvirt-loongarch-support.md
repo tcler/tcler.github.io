@@ -134,7 +134,7 @@ vm create F38 -n f38-loongarch -C livecd-fedora-mate-4.loongarch64.iso --arch lo
 - create loongarch VM by direct import qcow image
 
 ```
-vm create F38 -n f38-loongarch -i ~/f38-loongarch.qcow2  --arch loongarch64 --msize 16G  
+vm create F38 -n f38-loongarch -i ~/f38-loongarch.qcow2  --arch loongarch64 --msize 16G  --noauto
 ```
 
 YES !!!
