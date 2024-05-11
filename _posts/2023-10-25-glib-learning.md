@@ -107,4 +107,11 @@ int main(void) {
 }
 ```
 
-文件测试函数用法见: [g_file_test example](https://github.com/tcler/restraint/blob/master/src/task.c#L116)  
+文件测试函数用法见: [g_file_test example](https://github.com/tcler/nrestraint/blob/master/src/task.c#L116)  
+```
+    return g_file_test(abort_recipe_file, G_FILE_TEST_EXISTS);
+```
+
+```
+    if (!g_file_test(task->recipe->base_path, G_FILE_TEST_EXISTS|G_FILE_TEST_IS_DIR))
+```
