@@ -73,3 +73,7 @@ listening on any, link-type LINUX_SLL2 (Linux cooked v2), snapshot length 262144
 为了解决这个问题，修改 kiss-vm 创建的 VM 是的默认网卡顺序，把连接 "大网" 的网口放在前面，连接 default libvirt 虚拟网络的网口放在后面，这样大网网口的默认路由优先级更高，就不会在出现单向 ping 通的问题了。
 
 如果是其他多接口主机出现类似问题，也可以通过修改默认路由的 metric ，来解决
+
+
+# 新问题
+那么，从 eth0 发出的 应答报文 是在哪里被丢弃的呢？ 按说 default 网络启用了 NAT 功能， NAT 功能不能把应答报文正确的路由出去吗？？  思考 NAT 的原理，，
