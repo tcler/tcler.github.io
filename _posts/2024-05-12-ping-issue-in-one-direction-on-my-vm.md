@@ -76,4 +76,30 @@ listening on any, link-type LINUX_SLL2 (Linux cooked v2), snapshot length 262144
 
 
 # 新问题
-那么，从 eth0 发出的 应答报文 是在哪里被丢弃的呢？ 按说 default 网络启用了 NAT 功能， NAT 功能不能把应答报文正确的路由出去吗？？  思考 NAT 的原理，，
+那么，从 eth0 发出的 应答报文 是在哪里被丢弃的呢？ 按说 default 网络启用了 NAT 功能， NAT 功能不能把应答报文正确的路由出去吗？？  思考 NAT 的原理是什么 ？  
+在 host 上抓包显示，ICMP echo reply 报文走到 veth1->virbr0 就结束了，没有像从 VM 往外 ping 那样在重定向给 enp2s0 ，， 可能 NAT 会检查源地址(必须是192.168.122.*)吧 ，， 
+```
+10:57:03.966242 enp2s0 P   IP 10.72.112.29 > 10.66.60.236: ICMP echo request, id 26559, seq 0, length 64
+10:57:03.966242 br0   P   IP 10.72.112.29 > 10.66.60.236: ICMP echo request, id 26559, seq 0, length 64
+10:57:03.966242 macvtap0 In  IP 10.72.112.29 > 10.66.60.236: ICMP echo request, id 26559, seq 0, length 64
+10:57:03.966417 vnet1 P   IP 10.66.60.236 > 10.72.112.29: ICMP echo reply, id 26559, seq 0, length 64
+10:57:03.966417 virbr0 In  IP 10.66.60.236 > 10.72.112.29: ICMP echo reply, id 26559, seq 0, length 64
+10:57:04.968216 enp2s0 P   IP 10.72.112.29 > 10.66.60.236: ICMP echo request, id 26559, seq 1, length 64
+10:57:04.968216 br0   P   IP 10.72.112.29 > 10.66.60.236: ICMP echo request, id 26559, seq 1, length 64
+10:57:04.968216 macvtap0 In  IP 10.72.112.29 > 10.66.60.236: ICMP echo request, id 26559, seq 1, length 64
+10:57:04.968412 vnet1 P   IP 10.66.60.236 > 10.72.112.29: ICMP echo reply, id 26559, seq 1, length 64
+10:57:04.968412 virbr0 In  IP 10.66.60.236 > 10.72.112.29: ICMP echo reply, id 26559, seq 1, length 64
+10:57:05.967236 enp2s0 P   IP 10.72.112.29 > 10.66.60.236: ICMP echo request, id 26559, seq 2, length 64
+10:57:05.967236 br0   P   IP 10.72.112.29 > 10.66.60.236: ICMP echo request, id 26559, seq 2, length 64
+10:57:05.967236 macvtap0 In  IP 10.72.112.29 > 10.66.60.236: ICMP echo request, id 26559, seq 2, length 64
+10:57:05.967478 vnet1 P   IP 10.66.60.236 > 10.72.112.29: ICMP echo reply, id 26559, seq 2, length 64
+10:57:05.967478 virbr0 In  IP 10.66.60.236 > 10.72.112.29: ICMP echo reply, id 26559, seq 2, length 64
+10:57:06.971041 enp2s0 P   IP 10.72.112.29 > 10.66.60.236: ICMP echo request, id 26559, seq 3, length 64
+10:57:06.971041 br0   P   IP 10.72.112.29 > 10.66.60.236: ICMP echo request, id 26559, seq 3, length 64
+10:57:06.971041 macvtap0 In  IP 10.72.112.29 > 10.66.60.236: ICMP echo request, id 26559, seq 3, length 64
+10:57:06.971272 vnet1 P   IP 10.66.60.236 > 10.72.112.29: ICMP echo reply, id 26559, seq 3, length 64
+10:57:06.971272 virbr0 In  IP 10.66.60.236 > 10.72.112.29: ICMP echo reply, id 26559, seq 3, length 64
+```
+
+see also:
+- https://superuser.com/questions/135094/how-does-a-nat-server-forward-ping-icmp-echo-reply-packets-to-users
