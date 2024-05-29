@@ -15,8 +15,8 @@ title: "try out jira cli tools"
 
 ## 选择安装 jira cli 实现
 通过搜索调查，发现目前 **https://github.com/ankitpokhrel/jira-cli** 最火，查找、修改 issue 都很好用；但是还不能满足我们的另一个目标需求：
-查看 issue 的 custom field；所以我们还需要另一个 jira cli 项目: **https://pypi.org/project/jira-cli** 。所以如果要满足我们的所有需求，
-需要组合使用 Both 两个工具。 他们的安装配置过程分别如下: 
+查看 issue 的 custom field；要满足该需求还需要另一个 jira cli 项目: **https://pypi.org/project/jira-cli** 。  
+也就是说：如果要满足我们的所有需求，需要组合使用 Both 两个工具。 他们的安装配置过程分别如下: 
 
 ---
 ### github.com/ankitpokhrel/jira-cli
