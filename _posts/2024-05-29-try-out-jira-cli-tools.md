@@ -87,9 +87,9 @@ def printIssueField(issue, fieldname):
     attrname = fieldname
     if fieldname in nameMap:
         attrname = nameMap[fieldname]
-    print(f'{{ === BEGIN {fieldname}:')
+    print(f'=== BEGIN {fieldname}:')
     print(getattr(issue.fields, attrname))
-    print(f'}} --- END {fieldname}:\n')
+    print(f'--- END {fieldname}:\n')
 
 for field in sys.argv[2:]:
     printIssueField(issue, field)
