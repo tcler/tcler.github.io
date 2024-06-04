@@ -5,7 +5,7 @@ title: "distcc and distcc-server on fedora howto"
 
 # distcc: a fast, free distributed C/C++ compiler 
 十几年前曾经使用 ccache 做过项目 vrpv8 的代码编译速度优化工作，效果非常明显 超过预期，以至于就没有再尝试分布式编译 distcc ；
-最近跟 fine 聊相关话题时又提起了 distcc ，到底效果如何呢，今天正好有时间心血来潮 试一试看看~  
+最近跟 [Fine](https://finefan.github.io) 聊相关话题时又提起了 distcc ，到底效果如何呢，今天正好有时间心血来潮 试一试看看~  
 [distcc website](https://www.distcc.org)  
 [distcc FAQ](https://www.distcc.org/faq.html)
 
