@@ -19,7 +19,13 @@ dnf install -y distcc-server
 ```
 - configure distcc server
 ```
+#- change/edit  /etc/sysconfig/distccd
 echo "OPTIONS='--nice 5 --jobs $(($(nproc)*2)) --allow 0.0.0.0/8 --port 1234'" >>/etc/sysconfig/distccd
+
+#- Add your trusted hosts in /etc/distcc/clients.allow  e.g:
+10.66.60.0/23
+
+#- restart distccd
 systemctl restart distccd
 ```
 
@@ -46,5 +52,20 @@ Note: 编译工具和依赖的包已经提前在 distcc 和 distcc-server 上安
 这次我使用了三台主机，一台兼做 client 和 server ， 另外两台做 server，编译 linux-6.8 内核一共用时 11m+；  
 三台 server 如果单独编译，其中两台 30m+ 一台 26m+； 看来效果还是很明显的：  
 ```
-# 结果没保存，找时间再编译一次，再补上
+foo@deskmini-x300:~/linux-6.8$ distcc --show-hosts
+x99i.usersys.redhat.com/64,lzo
+x99.usersys.redhat.com/48,lzo
+localhost4/30,lzo
+foo@deskmini-x300:~/linux-6.8$ make clean &>/dev/null; ccache -C; time make -j $((64+48+30+12)) CC=distcc &>/tmp/kc.log 
+Clearing... 100.0% [===================================================================================================]
+
+real	11m52.267s
+user	76m4.192s
+sys	24m22.189s
+```
+
+### distcc monitor
+distcc 包自带了一个 cli 的 monitor 工具: **distccmon-text** , 可以用来查看分布式编译的事实状态:
+```
+watch -n 1  distccmon-text
 ```
