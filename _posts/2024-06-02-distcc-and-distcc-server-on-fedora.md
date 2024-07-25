@@ -14,10 +14,13 @@ title: "distcc and distcc-server on fedora howto"
 
 ## distcc server side:
 - install distcc-server
+
 ```
 dnf install -y distcc-server
 ```
+
 - configure distcc server
+
 ```
 #- change/edit  /etc/sysconfig/distccd
 echo "OPTIONS='--nice 5 --jobs $(($(nproc)*2)) --allow 0.0.0.0/8 --port 1234'" >>/etc/sysconfig/distccd
@@ -31,21 +34,27 @@ systemctl restart distccd
 
 ## distcc client side:
 - install distcc client
+
 ```
 dnf install -y distcc
 ```
+
 - add server list in /etc/distcc/hosts
+
 ```
 $ grep -v ^# /etc/distcc/hosts
 x99i.usersys.redhat.com:1234/64,lzo
 x99.usersys.redhat.com:1234/48,lzo
 deskmini-x300.usersys.redhat.com:1234/30,lzo
 ```
+
 - do linux kernel compile
+
 ```
 $ cd ~/linux-6.8/
 $ make clean &>/dev/null; ccache -C; time make -j 144 CC=distcc  &>/tmp/kc.log
 ```
+
 Note: 编译工具和依赖的包已经提前在 distcc 和 distcc-server 上安装好了
 
 ### 效果
