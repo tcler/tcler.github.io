@@ -23,7 +23,8 @@ dnf install -y distcc-server
 
 ```
 #- change/edit  /etc/sysconfig/distccd
-echo "OPTIONS='--nice 5 --jobs $(($(nproc)*2)) --allow 0.0.0.0/8 --port 1234'" >>/etc/sysconfig/distccd
+echo "OPTIONS='--nice 5 --jobs $(($(nproc)*2)) --allow 10.66.60.0/23 --port 1234'" >>/etc/sysconfig/distccd
+#Note: --allow 0.0.0.0/8  will reject all connection, I don't know why
 
 #- Add your trusted hosts in /etc/distcc/clients.allow  e.g:
 10.66.60.0/23
