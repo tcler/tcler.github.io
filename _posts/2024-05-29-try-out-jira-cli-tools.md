@@ -47,7 +47,7 @@ $ jira issue view RHEL-36711 --plain --comments 100
 ### pypi.org/project/jira-cli
 Install, jirashell usage:  
 ```
-$ pip install -y jiracli keyring ipython  #keyring,ipython is required by jirashell
+$ pip install jiracli keyring ipython  #keyring,ipython is required by jirashell
 
 $ jirashell -s https://issues.redhat.com
 [n] jira = JIRA(server='https://issues.redhat.com', token_auth=os.environ.get('JIRA_API_TOKEN'))
