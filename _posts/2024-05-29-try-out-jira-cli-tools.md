@@ -132,3 +132,7 @@ for issue in ${preTestIssues}; do
 done
 
 ```
+
+see also:  
+- https://github.com/tcler/bkr-client-improved/blob/master/utils/Jira-issue-need-pre-test.sh
+- https://github.com/tcler/bkr-client-improved/blob/master/utils/Jira-issue-need-verify.sh
