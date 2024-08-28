@@ -24,13 +24,16 @@ Install, init and examples:
 ```
 $ wget https://github.com/ankitpokhrel/jira-cli/releases/download/v1.5.1/jira_1.5.1_linux_x86_64.tar.gz
 $ tar axf jira_1.5.1_linux_x86_64.tar.gz
-$ sudo cp jira_jira_1.5.1_linux_x86_64/bin/jira /bin/
+$ sudo cp jira_1.5.1_linux_x86_64/bin/jira /bin/
 
 $ jira init
-installation type: local
-server: https://issues.redhat.com
-auth type: bearer
-username: $Your_Jira_Login_Name
+? Installation type: Local
+? Authentication type: bearer
+? Link to Jira server: https://issues.redhat.com
+? Login username: J*******Yin
+? Default project: RHEL
+? Default board: All RHEL
+
 
 $ jira me
 $ jira issue list --created  month  --plain  --no-truncate -r$(jira me)
