@@ -81,7 +81,7 @@ NetApp MDS&DS configration point: "vserver are both MDS and DS"
 mount IP1:/vol2 $nfsmp; dd if=/dev/zero of=$nfsmp/testfile bs=1b count=10000
  抓包查看数据走的是不是 DS IP2
 mount IP2:/vol1 $nfsmp; dd if=/dev/zero of=$nfsmp/testfile bs=1b count=10000
- 抓包查看数据走的是不是 DS IP2
+ 抓包查看数据走的是不是 DS IP1
 ```
 
 ref:
