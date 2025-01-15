@@ -14,10 +14,10 @@ The captured log from **pipe-pane** becomes the standard output of the script it
 
 # workaround or resolution
 After many tests and confirmations, we first eliminated the bug in bash itself; the problem should be caused by the default 
-behavior of tmux pipe-pane itself. Then I checked the tmux man page and found that the pipe-pane command has a -p option, which 
-can be used to specify a specific pane; then after searching and tring I found that the pane name/ID corresponding to a single session
-**is ${session}:0.0**. So the final solution is:
+behavior of tmux pipe-pane itself. Then I checked the tmux man page and found that the pipe-pane command has a **-t** option, which 
+can be used to specify a target pane; then after searching and tring I found that the pane name/ID corresponding to a single session
+is **${session}:0.0**. So the final solution is:
 ```
 session=console-$vmname
-tmux new -s $session -d vm console $vmname \; pipe-pane -p ${session}:0.0 "cat >$logpath/console-$vmname.log"
+tmux new -s $session -d vm console $vmname \; pipe-pane -t ${session}:0.0 "cat >$logpath/console-$vmname.log"
 ```
