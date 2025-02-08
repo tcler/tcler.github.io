@@ -7,11 +7,14 @@ Because I always forget the packages needed to compile the kernel source code, I
 
 ---
 ## install dependencies
+fedora/centos-stream/rocky/alma
 ```
-#fedora
-sudo yum install -y @'C Development Tools and Libraries' ncurses-devel zstd openssl-devel elfutils-libelf-devel dwarves  #openssl-devel-engine
+#sudo yum install -y @'C Development Tools and Libraries' ncurses-devel zstd openssl-devel elfutils-libelf-devel dwarves  #openssl-devel-engine
+sudo yum install -y @'Development Tools' ncurses-devel zstd openssl-devel elfutils-libelf-devel dwarves  #openssl-devel-engine
+```
 
-#debian/ubuntu
+debian/ubuntu
+```
 #TBD
 ```
 
