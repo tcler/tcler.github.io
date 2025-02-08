@@ -10,7 +10,25 @@ Because I always forget the packages needed to compile the kernel source code, I
 fedora/centos-stream/rocky/alma
 ```
 #sudo yum install -y @'C Development Tools and Libraries' ncurses-devel zstd openssl-devel elfutils-libelf-devel dwarves  #openssl-devel-engine
-sudo yum install -y @'Development Tools' ncurses-devel zstd openssl-devel elfutils-libelf-devel dwarves  #openssl-devel-engine
+#@'C Development Tools and Libraries' deprecared on latest RHEL-8/9/10, use @'Development Tools' instead
+sudo dnf install -y @'Development Tools' ncurses-devel zstd openssl-devel elfutils-libelf-devel dwarves  #openssl-devel-engine
+```
+
+Note: since dnf5(fedora-41), 'dnf5 group list' added ID attribute for dnf group
+```
+sudo dnf install -y @c-development ncurses-devel zstd openssl-devel elfutils-libelf-devel dwarves  #openssl-devel-engine  #f41/dnf5
+```
+
+```
+$ dnf group list | grep -i development
+Updating and loading repositories:
+Repositories loaded.
+c-development               C Development Tools and Libraries                 yes
+d-development               D Development Tools and Libraries                  no
+development-tools           Development Tools                                  no
+kde-software-development    KDE Software Development                           no
+kf6-software-development    KDE Frameworks 6 Software Development              no
+rpm-development-tools       RPM Development Tools                              no
 ```
 
 debian/ubuntu
