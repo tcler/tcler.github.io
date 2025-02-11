@@ -61,7 +61,7 @@ ref: linux kernel make help
 ```
 #mark: download and install kernel src.rpm  #only for redhat
 #vm cpto $vmname /bin/srcrpmbuild.sh /bin   #if use VM created by kiss-vm
-yum install -y kernel-devel kernel-headers
+dnf install -y ccache @'Development Tools' ncurses-devel zstd openssl-devel elfutils-libelf-devel dwarves  kernel-devel kernel-headers
 brewinstall.sh -downloadonly -arch=src $(rpm -q kernel-$(uname -r))
 srcrpmbuild.sh *.src.rpm p  #see: https://github.com/tcler/kiss-vm-ns/blob/master/utils/srcrpmbuild.sh
 
