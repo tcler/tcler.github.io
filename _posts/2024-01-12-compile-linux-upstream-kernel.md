@@ -92,11 +92,13 @@ CONFIG_CRYPTO_CRC32=m
 CONFIG_LIBCRC32C=m
 CONFIG_IRQ_POLL=y
 RDMA_
-make -j $(nproc) KCFLAGS=-Wno-unused-function modules SUBDIRS=drivers/infiniband/sw/rxe
+make -j $(nproc) KCFLAGS=-Wno-unused-function modules SUBDIRS=drivers/infiniband/sw/rxe &&
+    make -j $(nproc) modules_install M=drivers/infiniband/sw/rxe
 
 # or
 make -j $(nproc) KCFLAGS=-Wno-unused-function &&
-    make -j $(nproc) KCFLAGS=-Wno-unused-function modules M=drivers/infiniband/sw/rxe
+    make -j $(nproc) KCFLAGS=-Wno-unused-function modules M=drivers/infiniband/sw/rxe &&
+    make -j $(nproc) modules_install M=drivers/infiniband/sw/rxe
 ```
 
 
