@@ -10,7 +10,9 @@ title: "git repo: force sync from upstream"
 
 forceSyncFromUpstream() {
   local uprepo=$1
-  local master=${2:-master}
+  #local master=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p')
+  local master=$(git branch | grep -o -m1 "\b\(master\|main\)\b")
+
   git remote add upstream $uprepo
   git fetch upstream
   git checkout ${master}
@@ -19,6 +21,6 @@ forceSyncFromUpstream() {
 }
 
 repofrom=
-forceSyncFromUpstream $repofrom ${master}
+forceSyncFromUpstream $repofrom
 
 ```
