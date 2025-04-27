@@ -39,15 +39,20 @@ debian/ubuntu
 ---
 ## download and compile
 ```
+#get latest stable kernel url
+url=$(curl -Ls https://www.kernel.org |
+    sed -ne '/<tr align=/ { :loop /<\/tr>/! {N; b loop}; /stable:/{p;q} }' |
+    sed -rn '/complete.tarball/{s/.*(http[^"]+).*/\1/;p}')
+tarfname=${url##*/}
 #download
-curl -O https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.7.tar.xz
-tar axf linux-6.7.tar.xz
-cd linux-6.7
+curl -O $url
+tar axf ${tarfname}
+cd ${tarfname/.tar.xz/}
 make menuconfig  #generate .config
 
 make -j $(( $(nproc) * 2 ))  #or make -j N V=1 #to get detailed compile error
 #or
-ccache -C; make clean; time make -j $(( $(nproc) * 2 ))  #to testing your host’s compilation performance
+ccache -C; make clean; { time make -j $(( $(nproc) * 2 )); } |& tee /tmp/kcompile.log  #to testing your host’s compilation performance
 
 ## more make parameters please see:
 make help | less
