@@ -55,7 +55,7 @@ ollama run $the-model-name-get-from-ollama-ls   #if the model has not been local
 而是找一个它能找到的相关性最大的结果 给提问者。 
 
 也许经过不断的与用户对话学习、微调 能达到很好的效果，，但是本地训练对硬件要求比较高，我目前还没有尝试对模型进行微调，
-等实践过后，再补充相关内容
+等实践过后，再补充相关内容。
 
 [en] For reasoning problems, the output/feedback of the large model is indeed amazing; including some code generation with strong certainty, the effect is also good.
 
@@ -87,9 +87,14 @@ Many application providers should release better AI/smart products based on MCP.
 
 顺便说一句: 工业革命产生的便利、导致很多人身体机能缺少锻炼；我有点担心 AI 会不会也导致人类的大脑的机能也产生某种退化
 
+还有一点很重要：人类的记忆是立体多维度的，包括五官（视觉、听觉、嗅觉、味觉、触觉）还有情绪记忆，而语言模型LLM 只有语言/文字，
+只是计算这几单词后面出现的单词的概率
+
 [en] I don’t think so. Maybe after training and fine-tuning the tools to be perfect and easy to use,
 humans can use AI to generate good AI personal assistants based on personal habits, which will facilitate better work and life.
 
 By the way: The convenience brought by the Industrial Revolution has led to a lack of physical exercise for many people;
 I am a little worried that AI will also cause some kind of degeneration of the human brain function.
 
+Another important thing is that human memory is three-dimensional/multi-dimensional, including the five senses (vision, hearing, human perception, taste, touch) and emotional memory,
+while the language model LLM only has language/text. Just calculate the probability of the words that appear after the previous few(or lots-of) words
