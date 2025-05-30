@@ -59,7 +59,7 @@ ollama run $the-model-name-get-from-ollama-ls   #if the model has not been local
 
 [en] For reasoning problems, the output/feedback of the large model is indeed amazing; including some code generation with strong certainty, the effect is also good.
 
-However, it is powerless for news information with strong effectiveness. This still requires search engines to complete, or with the help of MCP server,
+However, it is powerless for news information with strong timeliness. This still requires search engines to complete, or with the help of MCP server,
 this kind of task should be completed relatively well;
 
 There are also questions about original text clips, plots, and details of film and television literary works. The big model also performs poorly.
