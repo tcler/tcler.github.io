@@ -91,7 +91,7 @@ Many application providers should release better AI/smart products based on MCP.
 还有一点很重要：人类的记忆是立体多维度的，包括五官（视觉、听觉、嗅觉、味觉、触觉）还有情绪记忆，而语言模型 LLM 只有语言/文字，
 只是计算这几单词后面出现的单词的概率。
 但是样本空间足够大，硬件算力越来越强之后，AI、人型机器人会不会表现的足以让人以为在跟 真人交互？？？
-可能吧，但好像还很遥远，我最期待的是先有一个令人满意的语音识别和同声传译产品。。。
+可能吧，但好像还很遥远，目前而言 我最期待的是先有一个令人满意的语音识别和同声传译产品。。。
 
 [en] AI LLM can already give a very satisfactory answer to this question :)
 
@@ -102,4 +102,4 @@ Another important thing is that human memory is three-dimensional/multi-dimensio
 while the language model LLM only has language/text. Just calculate the probability of the words that appear after the previous few(or lots-of) words  
 
 But if the sample space is large enough and hardware computing power becomes stronger, will AI and humanoid robots perform well enough to make people think they are interacting with real people? ? ?   
-Maybe, but it seems to be a long way off; what I am most looking forward to is to have a satisfactory voice recognition and simultaneous interpretation product first...
+Maybe, but it seems to be a long way off; Now what I am most looking forward to is to have a satisfactory voice recognition and simultaneous interpretation product first...
