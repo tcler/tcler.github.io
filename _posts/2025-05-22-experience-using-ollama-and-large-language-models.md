@@ -83,6 +83,23 @@ but there seems to be no mature MCP management tool that is easy to work with ol
 As for the MCP server, there is no cli or search-engine MCP server that is easy to deploy locally. Wait a little longer, it should appear soon.
 Many application providers should release better AI/smart products based on MCP.
 
+# Building Own Knowledge Base LLM
+[zh] 训练本地知识库 目前还没有尝试，看资料 ollama 还没有趁手的工具/命令来训练本地知识库，需要借助其他工具才可以。不过去年尝试过红帽 RHEL AI 所基于的 instructLab 项目，该项目对微调模型做了很好的封装，用户只需要提供 yaml 格式的语料库文件，就可以直接调用现成的命令进行微调/训练。但是纯CPU情况下，训练需要花费的时间非常长(我记得x99 16核CPU跑了超过5天)。  
+后面将会尝试使用新买的 4060ti 16G 显卡，看有多少改善  
+
+[en] Training the local knowledge base: I haven't tried it with ollama yet. According to the 
+documentation, Ollama currently doesn't have convenient tools/commands for training 
+local knowledge bases and requires external tools. However, I tried the instructLab 
+project (the basis for Red Hat RHEL AI) last year, which provides excellent model 
+fine-tuning encapsulation. Users only need to provide a YAML-formatted corpus file to 
+use ready-made commands for fine-tuning/training. However, in a pure CPU environment, 
+the training process takes extremely long (I recall it took over 5 days on an X99 
+16-core CPU).
+
+I will later try using the newly purchased 4060 Ti 16G GPU to see how much improvement 
+can be achieved
+
+
 # Will AI replace human? (AI 会代替人工吗？)
 [zh] 就这个问题本身 AI 已经可以给出非常详尽的答案了 ：）  
 
