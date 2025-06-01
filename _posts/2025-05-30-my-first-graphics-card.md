@@ -2,6 +2,81 @@
 layout: post
 title: "my first graphics card (我的第一块独显)"
 ---
+(Previously used integrated graphics hosts or X99 + "boot card" setups)  
+
+Recently experimenting with Ollama for local large language model deployment. While it's 
+technically possible with pure CPU + massive RAM, the performance is painfully slow. 
+After agonizing over 5060Ti vs 9060XT 16G options, finally ordered a 4060Ti 16G via 
+Pinduoduo (chose previous-gen hardware due to Linux driver concerns).  
+
+**Today's adventures:**  
+
+## Installing Fedora 42  
+Removed the old boot card, carefully installed the new GAINWARD RTX 4060Ti, connected 
+HDMI to TV, and successfully booted. However, after GRUB during installation, the screen 
+immediately went black, then no signal... Repeated attempts + BIOS settings yielded the 
+same result. Is the GPU defective? Or an open-source driver issue?  
+
+Lucky I had **Ventoy** with multiple OS images. Booted into WinPE - worked fine. Installed 
+Windows, applied NVIDIA drivers, ran 3DMark tests - all good. Back to Linux:  
+
+Reinstalled the old boot card, applied NVIDIA drivers, swapped back to new GPU - same black 
+screen issue after GRUB. Frustrating! Tried Debian and OpenSUSE - both installed 
+graphically without issues. Why Fedora?  
+
+After Bing searching, found a kernel option **nomodeset**. Rebooted to GRUB again and edit
+boot entry: add kernel option **nomodeset** and Ctrl+x, then success Installed Fedora with 800x600 resolution. Next, followed online guides to install NVIDIA drivers via RPM Fusion repo. Waited for compilation... 
+Then - screen freeze!  what the ****???  
+
+Used Ctrl+Alt+F2 to TTY:  
+```
+modinfo -F version nvidia
+```  
+Confirmed driver compiled successfully. Rebooted... Same black screen again!  
+
+More trial-and-error: Got DP-to-HDMI adapter from another mini PC without HDMI, tried DP port - still no signal, OK machine have not restart
+Power cycled... Miracle! Fedora login screen appeared after GRUB.  
+
+Turns out HDMI port was problematic. Connected a portable HDMI monitor (set TV 
+resolution to 1440x900) - both displays worked. And now single HDMI also works... but after 
+reboot, same issue recurs.  
+
+Seems GPU HDMI port auto-detects TV's max resolution while booting, causing black screen. 
+Forced to use DP-to-HDMI adapter for now. (Reminds me of old macOS hackintosh HDMI issues 
+requiring DP-HDMI conversion)  
+
+---
+
+## Ollama LLM Performance with RTX 4060Ti  
+
+Ran basic glmark2 benchmarks, then reinstalled Ollama. Tested latest qwen3 30B/32B 
+models.  
+
+- **qwen3:32b**: `ollama run --verbose qwen3:32b`  
+  Speed jumped from 1.6 tokens/sec (CPU-only) to 3.6 tokens/sec - still slow but usable. 
+
+- **qwen3:30b**: ~22 tokens/sec (vs ~12 tokens/sec on pure CPU)  
+
+Single-user GPU utilization:  
+- qwen3:32b: 20%-55% GPU usage, ~14.5GB VRAM  
+- qwen3:30b: 20%-25% GPU usage, ~15GB VRAM  
+
+VRAM bottleneck claims seem valid.  
+
+// Maybe next try AMD's AI MAX 395 unified memory? but MAX 395 machines are too expensive...   
+
+---
+
+## Other Discoveries  
+- GPU fan is smart-stopped - doesn't spin at low load  
+- `cpu-x` shows PCIe state transitions:  
+  - Low load: PCIe Gen1x8  
+  - Medium load: PCIe Gen2x8  
+  - High load: PCIe Gen3x8 (my CPU/mobo max PCIe 3.0)  
+- After replacing new GPU and remove a bottom noisy fan, kernel compilation completed faster - likely improved airflow in mini case
+
+---
+---
 
 (之前一直用的核显主机，或是 x99 + 亮机卡)
 
