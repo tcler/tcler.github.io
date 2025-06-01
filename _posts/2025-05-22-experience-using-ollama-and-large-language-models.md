@@ -13,7 +13,7 @@ The easiest way to run llm locally: [Ollama](https://ollama.com/). It is already
 It acts as a local model manager and runtime, handling everything from downloading the model files to setting up a local environment
 where you can interact with them.
 
-# install [Ollama](https://ollama.com/) on Linux(Fedora-41)
+# install [Ollama](https://ollama.com/) on Linux(Fedora-41/42)
 see: https://ollama.com/download/linux
 ```
 curl -fsSL https://ollama.com/install.sh | sh
