@@ -37,8 +37,8 @@ Confirmed driver compiled successfully. Rebooted... Same black screen again!
 More trial-and-error: Got DP-to-HDMI adapter from another mini PC without HDMI, tried DP port - still no signal, OK machine have not restart
 Power cycled... Miracle! Fedora login screen appeared after GRUB.  
 
-Turns out HDMI port was problematic. Connected a portable HDMI monitor (set TV 
-resolution to 1440x900) - both displays worked. And then removed the portable HDMI monitor, 
+Turns out HDMI port of TV was problematic. Then still connected TV to HDMI port, and connected another portable HDMI monitor(worked on both HDMI and DP-HDMI) with DP-HDMI, and set TV 
+resolution to 1440x900, then the TV connect to HDMI worked! And then removed the portable HDMI monitor, 
 the single TV with HDMI connecting also still worked... but but but after 
 reboot, same issue recurs.  that means I must boot with another monitor and set the display resolution of the HDMI direct connected TV to a lower than 4K, then the TV will get signal...  
 
