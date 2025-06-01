@@ -83,18 +83,22 @@ As for the MCP server, there is no cli or search-engine MCP server that is easy 
 Many application providers should release better AI/smart products based on MCP.
 
 # Will AI replace human? (AI 会代替人工吗？)
-[zh] 我认为不会，可能训练、微调工具足够完善易用后，人类可以利用 AI 根据个人习惯，生成很好的AI个人助理，方便更好的工作生活。  
+[zh] 就这个问题本身 AI 已经可以给出非常详尽的答案了 ：）  
 
 顺便说一句: 工业革命产生的便利、导致很多人身体机能缺少锻炼；我有点担心 AI 会不会也导致人类的大脑的机能也产生某种退化
 
-还有一点很重要：人类的记忆是立体多维度的，包括五官（视觉、听觉、嗅觉、味觉、触觉）还有情绪记忆，而语言模型LLM 只有语言/文字，
-只是计算这几单词后面出现的单词的概率
+还有一点很重要：人类的记忆是立体多维度的，包括五官（视觉、听觉、嗅觉、味觉、触觉）还有情绪记忆，而语言模型 LLM 只有语言/文字，
+只是计算这几单词后面出现的单词的概率。
+但是样本空间足够大，硬件算力越来越强之后，AI、人型机器人会不会表现的足以让人以为在跟 真人交互？？？
+可能吧，但好像还很遥远，我最期待的是先有一个令人满意的语音识别和同声传译产品。。。
 
-[en] I don’t think so. Maybe after training and fine-tuning the tools to be perfect and easy to use,
-humans can use AI to generate good AI personal assistants based on personal habits, which will facilitate better work and life.
+[en] AI LLM can already give a very satisfactory answer to this question :)
 
 By the way: The convenience brought by the Industrial Revolution has led to a lack of physical exercise for many people;
 I am a little worried that AI will also cause some kind of degeneration of the human brain function.
 
 Another important thing is that human memory is three-dimensional/multi-dimensional, including the five senses (vision, hearing, human perception, taste, touch) and emotional memory,
-while the language model LLM only has language/text. Just calculate the probability of the words that appear after the previous few(or lots-of) words
+while the language model LLM only has language/text. Just calculate the probability of the words that appear after the previous few(or lots-of) words  
+
+But if the sample space is large enough and hardware computing power becomes stronger, will AI and humanoid robots perform well enough to make people think they are interacting with real people? ? ?   
+Maybe, but it seems to be a long way off; what I am most looking forward to is to have a satisfactory voice recognition and simultaneous interpretation product first...
