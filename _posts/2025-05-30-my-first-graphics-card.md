@@ -11,7 +11,7 @@ Pinduoduo (chose previous-gen hardware due to Linux driver concerns).
 
 **Today's adventures:**  
 
-## Installing Fedora 42  
+## Installing NVIDIA driver on Fedora 42  
 Removed the old boot card, carefully installed the new GAINWARD RTX 4060Ti, connected 
 HDMI to TV, and successfully booted. However, after GRUB during installation, the screen 
 immediately went black, then no signal... Repeated attempts + BIOS settings yielded the 
@@ -84,8 +84,8 @@ VRAM bottleneck claims seem valid.
 在 5060ti 9060xt 16G 之间纠结了一段时间，终于拼夕夕下单了 4060ti 16G
 (因为用的Linux，担心新卡驱动问题，还是选择了前代产品) 今天到货。开始折腾:
 
-# 安装 Fedora-42 
-拔掉亮机卡，然后小心翼翼的装上新的耕升追风版 4060ti，HDMI接电视开机，成功点亮；
+# 安装 NVIDIA 驱动 (Fedora-42) 
+拔掉亮机卡，然后小心翼翼的装上新的 耕升追风版 4060ti，HDMI接电视开机，成功点亮；
 但是过了 grub 开始安装后，马上黑屏，过一会儿变为无信号，，反复几次+BIOS都
 一样结果，，NaNi？卡坏的？还是 Linux 开源驱动问题？  
 
