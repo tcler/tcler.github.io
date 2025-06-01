@@ -3,7 +3,8 @@ layout: post
 title: "Experience using ollama and large language models"
 ---
 
-记录一下最近两个月，体验 ollama 本地部署/运行 LLM 的过程和思考；
+记录一下最近两个月，体验 ollama 本地部署/运行 LLM 的过程和思考；  
+Record the process and thoughts of using ollama to locally deploy/run LLM in the past two months;
 
 # run deepseek/qwen3/llama3... locally (本地运行 deepseek,qwen3,llama3 等大语言模型)
 The easiest way to run llm locally: [Ollama](https://ollama.com/). It is already too famous, here just copy its classic introduction:
