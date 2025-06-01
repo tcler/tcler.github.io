@@ -66,7 +66,7 @@ this kind of task should be completed relatively well;
 There are also questions about original text clips, plots, and details of film and television literary works. The big model also performs poorly.
 On the one hand, it is due to copyright restrictions, and on the other hand, it may be the relevance of literary content and poor reasoning.
 The principle of the LLM is to find the correlation and probability between words; so the results/answers given by AI for such questions mostly look like serious nonsense.
-It doesn't seem to say I don't know, But to find the most relevant result it can find and give it to the questioner.
+It never seems to say "I don't know", But to find the most relevant result it can find and give it to the questioner.
 
 Perhaps after continuous dialogue with users, learning, and fine-tuning, it can achieve good results, but local training has high hardware requirements.
 I have not tried to fine-tune the model yet. After practice, I will add relevant content
