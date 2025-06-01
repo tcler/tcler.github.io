@@ -38,5 +38,13 @@ modinfo -F version nvidia
 
 ---
 
-然后装好 ollama + qwen3:30b, qwen3:32b ；速度确实比纯 CPU 快了一倍，但是 32b 还是比较慢，只有不到 4tokens/s
+然后装好 ollama + qwen3:32b ；速度由原先纯 CPU 的 1.6tokens 增加到 3.6 tokens，还是太慢 但是勉强可用了。  
 
+而对于 qwen3:30b 则是 22tokens 左右， //纯CPU情况下，qwen3:30b 速度是 12tokens 左右
+
+如果只是单人使用，显卡的利用率情况：  
+qwen3:32b 运行时，4060ti 的使用率仅仅在 20%~55% 之间，显存使用量大约 14.5G  
+qwen3:30b 运行时，4060ti 的使用率则更低在 20%～25% 之间，显存使用量接近 15G  
+所以瓶颈主要在**显存**的传言应该是对的。  
+
+//也许下次可以试试 AMD 的 AI MAX 395 统一内存。
