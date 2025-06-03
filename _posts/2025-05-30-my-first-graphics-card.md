@@ -34,7 +34,7 @@ modinfo -F version nvidia
 ```  
 Confirmed driver compiled successfully. Rebooted... Same black screen again!  
 
-More trial-and-error: Got DP-to-HDMI adapter from another mini PC without HDMI, tried DP port - still no signal, OK machine have not restart
+More trial-and-error: Got DP-to-HDMI adapter from another mini PC without HDMI, tried DP port - still no signal, OK machine have not restart, Long press the power button to shut down.  
 Power cycled... Miracle! Fedora login screen appeared after GRUB.  
 
 
