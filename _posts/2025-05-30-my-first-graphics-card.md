@@ -47,7 +47,8 @@ resolution to 1440x900, then the TV connect to HDMI worked! And then removed the
 the single TV with HDMI connecting also still worked... but but but after 
 reboot, same issue recurs.  that means I must boot with another monitor and set the display resolution of the HDMI direct connected TV to a lower than 4K, then the TV will get signal...  
 
-Seems GPU HDMI port auto-detects TV's max resolution while booting, causing black screen. 
+At this point, it can be basically confirmed that the problem is with the Nvidia Linux driver..  
+(Later I tried to install debian + Nvidia driver and the same problem occurred)  
 Forced to use DP-to-HDMI adapter for now. (Reminds me of old macOS hackintosh HDMI issues 
 requiring DP-HDMI conversion)  
 
@@ -118,8 +119,9 @@ modinfo -F version nvidia
 然后依旧电视直插HDMI(依旧没信号)，便携屏用DP转接，display设置里找到电视，并把电视的分辨率调低到 1440x900 ，
 奇迹再次出现：直连HDMI的电视也点亮了，然后拔掉便携屏，只留电视接 HDMI 也OK，，但是，但是，但是 再重启后，还是同样的问题，
 
-启动阶段新显卡 hdmi 估计还是会探测电视最高分辨率，然后依旧黑屏，，没办法接电视就先用 DP转HDMI 吧。
-（以前黑苹果接老电视也有类似的问题，需要 DP-HDMI 转接）
+至此，基本可以确定是 Nvidia Linux 驱动对 HDMI 支持存在兼容性问题，，
+(后来安装 debian-12 + Nvidia 驱动也出现同样问题)  
+没办法接电视就先用 DP转HDMI 吧。（以前黑苹果接老电视也有类似的问题，需要 DP-HDMI 转接）
 
 ---
 # ollama 跑 LLM 的效果
