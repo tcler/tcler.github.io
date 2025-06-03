@@ -37,7 +37,12 @@ Confirmed driver compiled successfully. Rebooted... Same black screen again!
 More trial-and-error: Got DP-to-HDMI adapter from another mini PC without HDMI, tried DP port - still no signal, OK machine have not restart
 Power cycled... Miracle! Fedora login screen appeared after GRUB.  
 
-Turns out HDMI port of TV was problematic. Then still connected TV to HDMI port, and connected another portable HDMI monitor(worked on both HDMI and DP-HDMI) with DP-HDMI, and set TV 
+
+Since the Windows driver does not have this problem, this is most likely a compatibility bug of the Linux driver when using HDMI + large-resolution displays..  
+
+
+**Further verification:**  
+Then still connected TV to HDMI port, and connected another portable HDMI monitor(worked on both HDMI and DP-HDMI) with DP-HDMI, and set TV 
 resolution to 1440x900, then the TV connect to HDMI worked! And then removed the portable HDMI monitor, 
 the single TV with HDMI connecting also still worked... but but but after 
 reboot, same issue recurs.  that means I must boot with another monitor and set the display resolution of the HDMI direct connected TV to a lower than 4K, then the TV will get signal...  
@@ -107,7 +112,9 @@ modinfo -F version nvidia
 然后变成 无信号，，， 
 又开始瞎试：把另一台迷你主机上的 DP转HDMI 转接线拔下来，试试接 DP 口，没反应，按电源重启再看看，，
 奇迹发生了，Grub 之后，Fedora 开机界面竟然出现了，紧接着登录界面，，  
-原来是电视 HDMI 口兼容问题，，再把一个带 HDMI 的便携屏拿过来 直插、DP转 HDMI 都没问题，
+
+鉴于Windows驱动没有这个问题，这很可能是Linux驱动在 HDMI + 大分辨率显示器 时的兼容性bug，，  
+进一步验证: 再把一个带 HDMI 的便携屏拿过来 直插、DP转 HDMI 都没问题，
 然后依旧电视直插HDMI(依旧没信号)，便携屏用DP转接，display设置里找到电视，并把电视的分辨率调低到 1440x900 ，
 奇迹再次出现：直连HDMI的电视也点亮了，然后拔掉便携屏，只留电视接 HDMI 也OK，，但是，但是，但是 再重启后，还是同样的问题，
 
