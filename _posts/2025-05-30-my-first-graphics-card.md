@@ -50,7 +50,50 @@ reboot, same issue recurs.  that means I must boot with another monitor and set 
 At this point, it can be basically confirmed that the problem is with the Nvidia Linux driver..  
 (Later I tried to install debian + Nvidia driver and the same problem occurred)  
 Forced to use DP-to-HDMI adapter for now. (Reminds me of old macOS hackintosh HDMI issues 
-requiring DP-HDMI conversion)  
+requiring DP-HDMI conversion)
+
+
+## Installing CUDA on Fedora 42  
+Instructions are based on the [RPM Fusion CUDA page](https://rpmfusion.org/Howto/CUDA#CUDA_Toolkit)  
+```
+sudo dnf config-manager addrepo --from-repofile=https://developer.download.nvidia.com/compute/cuda/repos/fedora41/$(uname -m)/cuda-fedora41.repo
+sudo dnf clean all
+sudo dnf config-manager setopt cuda-fedora41-$(uname -m).exclude=nvidia-driver,nvidia-modprobe,nvidia-persistenced,nvidia-settings,nvidia-libXNVCtrl,nvidia-xconfig
+sudo dnf -y install cuda-toolkit # 12.9.0 at time of writing
+```
+
+### Install NVCC and compatible GCC
+Reference link: **[CUDA 12.9 on Fedora 42 Guide including getting cuda-samples running](https://forum.level1techs.com/t/cuda-12-9-on-fedora-42-guide-including-getting-cuda-samples-running/230769#installing-nvcc-compatible-gcc-3)**  
+
+To compile cuda C/C++ code, you will need NVCC from the NVIDIA cuda fedora repo we added. We also need GCC 14 as Fedora 42 comes with version 15, which is too new.  
+```
+sudo dnf install gcc14.x86_64 gcc14-c++.x86_64 cuda-nvcc-12-9
+```
+Now set the correct environment variables so that nvcc uses g++ 14 and cmake projects use the correct versions of GCC compilers:  
+```
+export CUDAHOSTCXX=/usr/bin/g++-14
+export CPATH=/usr/include/openmpi-x86_64:$CPATH
+export PATH=$PATH:/usr/lib64/openmpi/bin
+export CC=/usr/bin/gcc-14
+export CXX=/usr/bin/g++-14
+export NVCC_CCBIN=/usr/bin/g++-14
+```
+
+Finally we want to make sure that we have the libraries and includes folders added correct to the paths and that the nvcc binary is in our executable paths.  
+```
+export LD_LIBRARY_PATH=/usr/local/cuda-12.9/targets/x86_64-linux/lib:$LD_LIBRARY_PATH
+export CPATH=/usr/local/cuda-12.9/targets/x86_64-linux/include:$CPATH
+export PATH=/usr/local/cuda-12.9/bin:$PATH
+```
+
+### The dirty hack
+```/usr/local/cuda-12.9/targets/x86_64-linux/include/crt/math_functions.h``` have externel declaration functions to ```/usr/include/bits/mathcalls.h``` that are incompatible. So let’s fix that by editing ```/usr/local/cuda-12.9/targets/x86_64-linux/include/crt/math_functions.h```.  
+```
+sudo sed -ri '/extern __DEVICE_FUNCTIONS_DECL__ __device_builtin__ (double|float)  *cospif?/{s/;$/ noexcept (true)&/;p}' /usr/local/cuda-12.9/targets/x86_64-linux/include/crt/math_functions.h
+```
+
+Notice how we added noexcept (true) at the end of the sine and cosine commands, that’s what is need to make them compatible with the newer libraries.
+
 
 ---
 
@@ -122,6 +165,47 @@ modinfo -F version nvidia
 至此，基本可以确定是 Nvidia Linux 驱动对 HDMI 支持存在兼容性问题，，
 (后来安装 debian-12 + Nvidia 驱动也出现同样问题)  
 没办法接电视就先用 DP转HDMI 吧。（以前黑苹果接老电视也有类似的问题，需要 DP-HDMI 转接）
+
+## 安装 CUDA on Fedora-42 
+Instructions are based on the [RPM Fusion CUDA page](https://rpmfusion.org/Howto/CUDA#CUDA_Toolkit)  
+```
+sudo dnf config-manager addrepo --from-repofile=https://developer.download.nvidia.com/compute/cuda/repos/fedora41/$(uname -m)/cuda-fedora41.repo
+sudo dnf clean all
+sudo dnf config-manager setopt cuda-fedora41-$(uname -m).exclude=nvidia-driver,nvidia-modprobe,nvidia-persistenced,nvidia-settings,nvidia-libXNVCtrl,nvidia-xconfig
+sudo dnf -y install cuda-toolkit # 12.9.0 at time of writing
+```
+
+### 安装 NVCC 和 兼容的 GCC(gcc-14)
+Reference link: **[CUDA 12.9 on Fedora 42 Guide including getting cuda-samples running](https://forum.level1techs.com/t/cuda-12-9-on-fedora-42-guide-including-getting-cuda-samples-running/230769#installing-nvcc-compatible-gcc-3)**  
+
+为了编译 cuda 代码，我们需要从 NVIDIA cuda 的 repo 中安装 ```NVCC```；而且 Fedora-42 默认带的 gcc-15 版本太高了，我们还需要安装 gcc-14* 。    
+```
+sudo dnf install gcc14.x86_64 gcc14-c++.x86_64 cuda-nvcc-12-9
+```
+然后我们需要设置正确的环境变量，确保 nvcc 和 cmake 使用正确的 gcc 版本。  
+```
+export CUDAHOSTCXX=/usr/bin/g++-14
+export CPATH=/usr/include/openmpi-x86_64:$CPATH
+export PATH=$PATH:/usr/lib64/openmpi/bin
+export CC=/usr/bin/gcc-14
+export CXX=/usr/bin/g++-14
+export NVCC_CCBIN=/usr/bin/g++-14
+```
+
+Finally we want to make sure that we have the libraries and includes folders added correct to the paths and that the nvcc binary is in our executable paths.  
+```
+export LD_LIBRARY_PATH=/usr/local/cuda-12.9/targets/x86_64-linux/lib:$LD_LIBRARY_PATH
+export CPATH=/usr/local/cuda-12.9/targets/x86_64-linux/include:$CPATH
+export PATH=/usr/local/cuda-12.9/bin:$PATH
+```
+
+### The dirty hack
+```/usr/local/cuda-12.9/targets/x86_64-linux/include/crt/math_functions.h``` have externel declaration functions to ```/usr/include/bits/mathcalls.h``` that are incompatible. So let’s fix that by editing ```/usr/local/cuda-12.9/targets/x86_64-linux/include/crt/math_functions.h```.  
+```
+sudo sed -ri '/extern __DEVICE_FUNCTIONS_DECL__ __device_builtin__ (double|float)  *cospif?/{s/;$/ noexcept (true)&/;p}' /usr/local/cuda-12.9/targets/x86_64-linux/include/crt/math_functions.h
+```
+
+Notice how we added noexcept (true) at the end of the sine and cosine commands, that’s what is need to make them compatible with the newer libraries.
 
 ---
 # ollama 跑 LLM 的效果
