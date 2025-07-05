@@ -130,6 +130,39 @@ vm prepare
 
 ## 4.2 vm create VM with the mlx5.vfs passthr...
 ```
-vm create 9 --hostif eno12399v7 --nointeract
+[root@dell-per750-47 ~]# vm create 9 --hostif eno12399v7 --nointeract  
 ...
+...
+[root@dell-per750-47 ~]# vm login root-rhel-970-202507022 
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Register this system with Red Hat Insights: rhc connect
+
+Example:
+# rhc connect --activation-key <key> --organization <org>
+
+The rhc client and Red Hat Insights will enable analytics and additional
+management capabilities on your system.
+View your connected systems at https://console.redhat.com/insights
+
+You can learn more about how to register your system 
+using rhc at https://red.ht/registration
+Last login: Sat Jul  5 06:48:18 2025 from 192.168.122.1
+[root@root-rhel-970-202507022 ~]#
+[root@root-rhel-970-202507022 ~]# ip addr add 192.168.155.57/24 dev eth2 
+```
+
+assign ip addr on another baremetal, and ping addrees in VM  
+```
+[root@dell-per750-44 ~]# ip addr add 192.168.155.44/24 dev eno12399np0
+[root@dell-per750-44 ~]# ping -c 4 192.168.155.57
+PING 192.168.155.57 (192.168.155.57) 56(84) bytes of data.
+64 bytes from 192.168.155.57: icmp_seq=1 ttl=64 time=0.083 ms
+64 bytes from 192.168.155.57: icmp_seq=2 ttl=64 time=0.073 ms
+64 bytes from 192.168.155.57: icmp_seq=3 ttl=64 time=0.078 ms
+64 bytes from 192.168.155.57: icmp_seq=4 ttl=64 time=0.062 ms
+
+--- 192.168.155.57 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3079ms
+rtt min/avg/max/mdev = 0.062/0.074/0.083/0.007 ms
 ```
