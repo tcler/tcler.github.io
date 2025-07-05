@@ -166,3 +166,17 @@ PING 192.168.155.57 (192.168.155.57) 56(84) bytes of data.
 4 packets transmitted, 4 received, 0% packet loss, time 3079ms
 rtt min/avg/max/mdev = 0.062/0.074/0.083/0.007 ms
 ```
+
+## 4.3 network speed test by ping
+```
+[root@dell-per750-44 ~]# ping -f -c 83333 -s 1472 192.168.155.57 -I eno12399np0
+PING 192.168.155.57 (192.168.155.57) from 192.168.155.44 eno12399np0: 1472(1500) bytes of data.
+ 
+--- 192.168.155.57 ping statistics ---
+83333 packets transmitted, 83333 received, 0% packet loss, time 2634ms
+rtt min/avg/max/mdev = 0.020/0.021/0.061/0.000 ms, ipg/ewma 0.031/0.022 ms
+[root@dell-per750-44 ~]# 
+# so in average it takes 0.021 ms to send 1500 bytes and receive 1500 bytes, that's 24 kb.
+[root@dell-per750-44 ~]# echo $(( (24*1000000/21) / 1024 ))Mb
+1116Mb
+```
