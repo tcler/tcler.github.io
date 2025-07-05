@@ -191,3 +191,45 @@ rtt min/avg/max/mdev = 0.018/0.020/0.051/0.000 ms, ipg/ewma 0.035/0.021 ms
 [root@root-rhel-970-202507022 ~]# echo $(( (24*1000000/20) / 1024 ))Mb
 1171Mb
 ```
+
+## 4.4 vm create Windows server VM
+```
+[root@dell-per750-47 ~]# vm create Windows-server-2019 --hostif eno12399v0 --win-auto=cifs-nfs -w
+...
+...
+[root@dell-per750-47 ~]# vm login root-windows-server-2019 
+PS C:\Users\Administrator> Get-NetAdapter                                                                    
+
+Name                      InterfaceDescription                    ifIndex Status       MacAddress        Lin 
+                                                                                                         kSp 
+                                                                                                         eed 
+----                      --------------------                    ------- ------       ----------        --- 
+Ethernet Instance 0 2     Intel(R) PRO/1000 MT Network Connection       7 Up           54-52-00-82-65-03 bps 
+Ethernet Instance 0 3     Intel(R) PRO/1000 MT Network Conne...#2       6 Up           54-52-00-41-0D-56 bps 
+Ethernet Instance 0       Mellanox ConnectX-5 Virtual Adapter           5 Up           E6-1D-2D-9C-A9-39 bps
+
+PS C:\Users\Administrator> Set-NetIPAddress -InterfaceIndex 5 -IPAddress 192.168.155.50 -PrefixLength 24
+PS C:\Users\Administrator> exit                                          
+[root@dell-per750-47 ~]# 
+[root@dell-per750-47 ~]# vm cpto root-windows-server-2019 ./MLNX_WinOF2-25_4_50020_All_x64.exe .
+MLNX_WinOF2-25_4_50020_All_x64.exe                                         100%  225MB  23.2MB/s   00:09    
+
+
+    Directory: C:\Users\Administrator
+
+
+Mode                LastWriteTime         Length Name                                              
+----                -------------         ------ ----                                              
+-a----         7/5/2025  12:48 PM      235837344 MLNX_WinOF2-25_4_50020_All_x64.exe
+
+# install MLNX_WinOF2 from vnc viewer
+```
+
+rdma mount from another Linux Client:  
+```
+[root@dell-per750-44 ~]# mount -t cifs -vvv -ordma,user=Administrator,password=xxxxxxxx  //192.168.155.50/cifstest /mnt/cifsmp 
+Host "192.168.155.50" resolved to the following IP addresses: 192.168.155.50
+mount.cifs kernel mount options: ip=192.168.155.50,unc=\\192.168.155.50\cifstest,rdma,user=Administrator,pass=********
+[root@dell-per750-44 ~]# mount -t cifs
+//192.168.155.50/cifstest on /mnt/cifsmp type cifs (rw,relatime,vers=3.1.1,cache=strict,upcall_target=app,username=Administrator,uid=0,noforceuid,gid=0,noforcegid,addr=192.168.155.50,rdma,file_mode=0755,dir_mode=0755,soft,nounix,serverino,mapposix,reparse=nfs,nativesocket,symlink=native,rsize=4194304,wsize=4194304,bsize=1048576,retrans=1,echo_interval=60,actimeo=1,closetimeo=1)
+```
