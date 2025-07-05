@@ -233,3 +233,6 @@ mount.cifs kernel mount options: ip=192.168.155.50,unc=\\192.168.155.50\cifstest
 [root@dell-per750-44 ~]# mount -t cifs
 //192.168.155.50/cifstest on /mnt/cifsmp type cifs (rw,relatime,vers=3.1.1,cache=strict,upcall_target=app,username=Administrator,uid=0,noforceuid,gid=0,noforcegid,addr=192.168.155.50,rdma,file_mode=0755,dir_mode=0755,soft,nounix,serverino,mapposix,reparse=nfs,nativesocket,symlink=native,rsize=4194304,wsize=4194304,bsize=1048576,retrans=1,echo_interval=60,actimeo=1,closetimeo=1)
 ```
+
+---
+ref: https://enterprise-support.nvidia.com/s/article/HowTo-Configure-SR-IOV-for-ConnectX-4-ConnectX-5-ConnectX-6-with-KVM-Ethernet#jive_content_id_Setup_and_Prerequisites
