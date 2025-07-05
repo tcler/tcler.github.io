@@ -180,3 +180,14 @@ rtt min/avg/max/mdev = 0.020/0.021/0.061/0.000 ms, ipg/ewma 0.031/0.022 ms
 [root@dell-per750-44 ~]# echo $(( (24*1000000/21) / 1024 ))Mb
 1116Mb
 ```
+
+```
+[root@root-rhel-970-202507022 ~]# ping -f -c 83333 -s 1472 192.168.155.44 -I eth2 
+PING 192.168.155.44 (192.168.155.44) from 192.168.155.57 eth2: 1472(1500) bytes of data.
+ 
+--- 192.168.155.44 ping statistics ---
+83333 packets transmitted, 83333 received, 0% packet loss, time 2981ms
+rtt min/avg/max/mdev = 0.018/0.020/0.051/0.000 ms, ipg/ewma 0.035/0.021 ms
+[root@root-rhel-970-202507022 ~]# echo $(( (24*1000000/20) / 1024 ))Mb
+1171Mb
+```
