@@ -208,7 +208,7 @@ Ethernet Instance 0 2     Intel(R) PRO/1000 MT Network Connection       7 Up    
 Ethernet Instance 0 3     Intel(R) PRO/1000 MT Network Conne...#2       6 Up           54-52-00-41-0D-56 bps 
 Ethernet Instance 0       Mellanox ConnectX-5 Virtual Adapter           5 Up           E6-1D-2D-9C-A9-39 bps
 
-PS C:\Users\Administrator> Set-NetIPAddress -InterfaceIndex 5 -IPAddress 192.168.155.50 -PrefixLength 24
+PS C:\Users\Administrator> New-NetIPAddress -InterfaceIndex 5 -IPAddress 192.168.155.50 -PrefixLength 24
 PS C:\Users\Administrator> exit                                          
 [root@dell-per750-47 ~]# 
 [root@dell-per750-47 ~]# vm cpto root-windows-server-2019 ./MLNX_WinOF2-25_4_50020_All_x64.exe .
