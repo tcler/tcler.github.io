@@ -209,7 +209,9 @@ Ethernet Instance 0 2     Intel(R) PRO/1000 MT Network Connection       7 Up    
 Ethernet Instance 0 3     Intel(R) PRO/1000 MT Network Conne...#2       6 Up           54-52-00-41-0D-56 bps 
 Ethernet Instance 0       Mellanox ConnectX-5 Virtual Adapter           5 Up           E6-1D-2D-9C-A9-39 bps
 
-PS C:\Users\Administrator> New-NetIPAddress -InterfaceIndex 5 -IPAddress 192.168.155.50 -PrefixLength 24
+PS C:\Users\Administrator> $ifindex = ( Get-NetAdapter | Where-Object { $_.InterfaceDescription -like "Mellan
+ox*" } | Select-Object -ExpandProperty ifindex ) 
+PS C:\Users\Administrator> New-NetIPAddress -InterfaceIndex $ifindex -IPAddress 192.168.155.79 -PrefixLength 24
 PS C:\Users\Administrator> exit
 ```
 
@@ -235,11 +237,11 @@ dell-per750-47.rhts.eng.pek2.redhat.com:5901
 
 rdma mount from another Linux Client:  
 ```
-[root@dell-per750-44 ~]# mount -t cifs -vvv -ordma,user=Administrator,password=xxxxxxxx  //192.168.155.50/cifstest /mnt/cifsmp 
-Host "192.168.155.50" resolved to the following IP addresses: 192.168.155.50
-mount.cifs kernel mount options: ip=192.168.155.50,unc=\\192.168.155.50\cifstest,rdma,user=Administrator,pass=********
+[root@dell-per750-44 ~]# mount -t cifs -vvv -ordma,user=Administrator,password=xxxxxxxx  //192.168.155.79/cifstest /mnt/cifsmp 
+Host "192.168.155.79" resolved to the following IP addresses: 192.168.155.79
+mount.cifs kernel mount options: ip=192.168.155.79,unc=\\192.168.155.79\cifstest,rdma,user=Administrator,pass=********
 [root@dell-per750-44 ~]# mount -t cifs
-//192.168.155.50/cifstest on /mnt/cifsmp type cifs (rw,relatime,vers=3.1.1,cache=strict,upcall_target=app,username=Administrator,uid=0,noforceuid,gid=0,noforcegid,addr=192.168.155.50,rdma,file_mode=0755,dir_mode=0755,soft,nounix,serverino,mapposix,reparse=nfs,nativesocket,symlink=native,rsize=4194304,wsize=4194304,bsize=1048576,retrans=1,echo_interval=60,actimeo=1,closetimeo=1)
+//192.168.155.79/cifstest on /mnt/cifsmp type cifs (rw,relatime,vers=3.1.1,cache=strict,upcall_target=app,username=Administrator,uid=0,noforceuid,gid=0,noforcegid,addr=192.168.155.79,rdma,file_mode=0755,dir_mode=0755,soft,nounix,serverino,mapposix,reparse=nfs,nativesocket,symlink=native,rsize=4194304,wsize=4194304,bsize=1048576,retrans=1,echo_interval=60,actimeo=1,closetimeo=1)
 ```
 
 ---
