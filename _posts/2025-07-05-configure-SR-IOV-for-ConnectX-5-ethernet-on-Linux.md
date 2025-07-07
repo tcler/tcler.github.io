@@ -195,10 +195,10 @@ rtt min/avg/max/mdev = 0.018/0.020/0.051/0.000 ms, ipg/ewma 0.035/0.021 ms
 
 ## 4.4 vm create Windows server VM
 ```
-[root@dell-per750-47 ~]# vm create Windows-server-2019 --hostif eno12399v0 --win-auto=cifs-nfs -w
+[root@dell-per750-47 ~]# vm create Windows-server-2022 --hostif eno12399v0 --win-auto=cifs-nfs -w
 ...
 ...
-[root@dell-per750-47 ~]# vm login root-windows-server-2019 
+[root@dell-per750-47 ~]# vm login root-windows-server-2022 
 PS C:\Users\Administrator> Get-NetAdapter                                                                    
 
 Name                      InterfaceDescription                    ifIndex Status       MacAddress        Lin 
@@ -217,7 +217,7 @@ PS C:\Users\Administrator> exit
 Install MLNX_WinOF2 for Windows Guest(seems It is unnecessary)  
 ```
 [root@dell-per750-47 ~]# wget http://fs-qe.usersys.redhat.com/ftp/pub/jiyin/MLNX_WinOF2-25_4_50020_All_x64.exe
-[root@dell-per750-47 ~]# vm cpto root-windows-server-2019 ./MLNX_WinOF2-25_4_50020_All_x64.exe .
+[root@dell-per750-47 ~]# vm cpto root-windows-server-2022 ./MLNX_WinOF2-25_4_50020_All_x64.exe .
 MLNX_WinOF2-25_4_50020_All_x64.exe                                         100%  225MB  23.2MB/s   00:09    
 
 
@@ -228,7 +228,7 @@ Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----                                              
 -a----         7/5/2025  12:48 PM      235837344 MLNX_WinOF2-25_4_50020_All_x64.exe
 
-[root@dell-per750-47 ~]# vm vnc root-windows-server-2019 
+[root@dell-per750-47 ~]# vm vnc root-windows-server-2022 
 dell-per750-47.rhts.eng.pek2.redhat.com:5901
 
 # install MLNX_WinOF2 from vnc viewer
