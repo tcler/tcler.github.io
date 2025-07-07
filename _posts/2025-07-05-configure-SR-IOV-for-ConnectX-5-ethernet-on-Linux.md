@@ -39,7 +39,6 @@ Note: please select the right version, Distribution/OS, and Distribution Version
 ```
 
 ## 3.1 Enable SR-IOV on the Firmware
-after reboot  
 ```
 [root@dell-per750-47 ~]# mst start
 Starting MST (Mellanox Software Tools) driver set
@@ -88,6 +87,7 @@ Applying... Done!
 ```
 
 ## 3.2 create mlx5 vfs [ConnectX-5 Virtual Function] 
+after reboot  
 ```
 [root@dell-per750-47 ~]# cat /sys/class/net/eno12399np0/device/sriov_numvfs 
 0
@@ -209,8 +209,7 @@ Ethernet Instance 0 2     Intel(R) PRO/1000 MT Network Connection       7 Up    
 Ethernet Instance 0 3     Intel(R) PRO/1000 MT Network Conne...#2       6 Up           54-52-00-41-0D-56 bps 
 Ethernet Instance 0       Mellanox ConnectX-5 Virtual Adapter           5 Up           E6-1D-2D-9C-A9-39 bps
 
-PS C:\Users\Administrator> $ifindex = ( Get-NetAdapter | Where-Object { $_.InterfaceDescription -like "Mellan
-ox*" } | Select-Object -ExpandProperty ifindex ) 
+PS C:\Users\Administrator> $ifindex = ( Get-NetAdapter | Where-Object { $_.InterfaceDescription -like "Mellanox*" } | Select-Object -ExpandProperty ifindex ) 
 PS C:\Users\Administrator> New-NetIPAddress -InterfaceIndex $ifindex -IPAddress 192.168.155.79 -PrefixLength 24
 PS C:\Users\Administrator> exit
 ```
