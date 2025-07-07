@@ -28,6 +28,7 @@ Note: for AMD cpu, seems that amd_iommu now is no need
 download from https://network.nvidia.com/products/infiniband-drivers/linux/mlnx_ofed/  
 Note: please select the right version, Distribution/OS, and Distribution Version.  
 ```
+[root@dell-per750-47 ~]# wget http://fs-qe.usersys.redhat.com/ftp/pub/jiyin/MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64.tgz
 [root@dell-per750-47 ~]# tar zxf MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64.tgz
 [root@dell-per750-47 ~]# cd MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64/
 [root@dell-per750-47 MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64]# 
@@ -209,8 +210,12 @@ Ethernet Instance 0 3     Intel(R) PRO/1000 MT Network Conne...#2       6 Up    
 Ethernet Instance 0       Mellanox ConnectX-5 Virtual Adapter           5 Up           E6-1D-2D-9C-A9-39 bps
 
 PS C:\Users\Administrator> New-NetIPAddress -InterfaceIndex 5 -IPAddress 192.168.155.50 -PrefixLength 24
-PS C:\Users\Administrator> exit                                          
-[root@dell-per750-47 ~]# 
+PS C:\Users\Administrator> exit
+```
+
+Install MLNX_WinOF2 for Windows Guest(seems It is unnecessary)  
+```
+[root@dell-per750-47 ~]# wget http://fs-qe.usersys.redhat.com/ftp/pub/jiyin/MLNX_WinOF2-25_4_50020_All_x64.exe
 [root@dell-per750-47 ~]# vm cpto root-windows-server-2019 ./MLNX_WinOF2-25_4_50020_All_x64.exe .
 MLNX_WinOF2-25_4_50020_All_x64.exe                                         100%  225MB  23.2MB/s   00:09    
 
@@ -221,6 +226,9 @@ MLNX_WinOF2-25_4_50020_All_x64.exe                                         100% 
 Mode                LastWriteTime         Length Name                                              
 ----                -------------         ------ ----                                              
 -a----         7/5/2025  12:48 PM      235837344 MLNX_WinOF2-25_4_50020_All_x64.exe
+
+[root@dell-per750-47 ~]# vm vnc root-windows-server-2019 
+dell-per750-47.rhts.eng.pek2.redhat.com:5901
 
 # install MLNX_WinOF2 from vnc viewer
 ```
