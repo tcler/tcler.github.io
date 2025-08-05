@@ -244,4 +244,16 @@ mount.cifs kernel mount options: ip=192.168.155.79,unc=\\192.168.155.79\cifstest
 ```
 
 ---
+Automatically create multiple VMs  
+```
+for i in {0..9}; do
+    vm create 9 -n rdma-lab0-vm-49-$i --hostif eno12399v$i --nointeract --msize 6 --serial tcp,host=0.0.0.0:$((52445+i)),source.mode=bind --machine=q35;
+done
+
+for i in {0..9}; do
+    vm create 9 -n rdma-lab0-vm-46-$i --hostif eno12399v$i --nointeract --msize 6 --serial unix,path=/var/lib/libvirt/qemu/vm$((1+i)),source.mode=bind --machine=q35;
+done
+```
+
+---
 ref: https://enterprise-support.nvidia.com/s/article/HowTo-Configure-SR-IOV-for-ConnectX-4-ConnectX-5-ConnectX-6-with-KVM-Ethernet#jive_content_id_Setup_and_Prerequisites
