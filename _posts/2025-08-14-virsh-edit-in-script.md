@@ -64,3 +64,14 @@ Domain 'rhel-8-latest-ppc64le' XML configuration edited.
     <boot dev='hd'/>
     <bootmenu enable='yes'/>
 ```
+
+
+---
+PS: If you want to specify the startup order when creating a virtual machine:  
+```
+for i in {0..9}; do
+    vm create 9 -n rdma-lab0-vm-46-$i --nointeract --msize 6 --ds 80 --machine=q35 --hostif eno12399v$i \
+        --serial unix,path=/var/lib/libvirt/qemu/vm$((1+i)),source.mode=bind \
+        --boot=bootmenu.enable=on --boot=network,hd;
+done
+```
