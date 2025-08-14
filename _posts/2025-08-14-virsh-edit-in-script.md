@@ -75,3 +75,5 @@ for i in {0..9}; do
         --boot=bootmenu.enable=on --boot=network,hd;
 done
 ```
+
+Note: the ```vm``` command comes from project [kiss-vm](https://github.com/tcler/kiss-vm-ns) 
