@@ -16,7 +16,7 @@ sudo dnf install -y ccache @'Development Tools' ncurses-devel zstd openssl-devel
 
 Note: since dnf5(fedora-41), 'dnf5 group list' added ID attribute for dnf group
 ```
-sudo dnf install -y ccache @c-development ncurses-devel zstd openssl-devel elfutils-libelf-devel dwarves  #openssl-devel-engine  #f41/dnf5
+sudo dnf install -y ccache @development-tools ncurses-devel zstd openssl-devel elfutils-libelf-devel dwarves  #openssl-devel-engine  #f41/dnf5
 ```
 
 ```
