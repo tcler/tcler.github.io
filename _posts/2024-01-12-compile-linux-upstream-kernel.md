@@ -11,12 +11,12 @@ fedora/centos-stream/rocky/alma
 ```
 #sudo yum install -y @'C Development Tools and Libraries' ncurses-devel zstd openssl-devel elfutils-libelf-devel dwarves  #openssl-devel-engine
 #@'C Development Tools and Libraries' deprecared on latest RHEL-8/9/10, use @'Development Tools' instead
-sudo dnf install -y ccache @'Development Tools' ncurses-devel zstd openssl-devel elfutils-libelf-devel dwarves  #openssl-devel-engine
+sudo dnf install -y ccache @'Development Tools' ncurses-devel zstd openssl-devel elfutils-libelf-devel dwarves lz4 #openssl-devel-engine
 ```
 
 Note: since dnf5(fedora-41), 'dnf5 group list' added ID attribute for dnf group
 ```
-sudo dnf install -y ccache @development-tools ncurses-devel zstd openssl-devel elfutils-libelf-devel dwarves  #openssl-devel-engine  #f41/dnf5
+sudo dnf install -y ccache @development-tools ncurses-devel zstd openssl-devel elfutils-libelf-devel dwarves lz4 #openssl-devel-engine  #f41/dnf5
 ```
 
 ```
