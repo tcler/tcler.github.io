@@ -22,9 +22,13 @@ title: "try out jira cli tools"
 ### github.com/ankitpokhrel/jira-cli
 Install, init and examples:  
 ```
-$ wget https://github.com/ankitpokhrel/jira-cli/releases/download/v1.5.1/jira_1.5.1_linux_x86_64.tar.gz
-$ tar axf jira_1.5.1_linux_x86_64.tar.gz
-$ sudo cp jira_1.5.1_linux_x86_64/bin/jira /bin/
+$ durl=https://github.com/ankitpokhrel/jira-cli/releases/download/v1.5.1/jira_1.5.1_linux_x86_64.tar.gz
+$ durl=$(curl -sL https://api.github.com/repos/ankitpokhrel/jira-cli/releases/latest |
+	jq -r '.assets[] | select(.name? | match("linux.*x86_64")) | .browser_download_url')
+$ fname=${durl##*/}
+$ curl -LO $durl
+$ tar axf ${fname}
+$ sudo cp -v ${fname%.tar.gz}/bin/jira /usr/local/bin/
 
 $ jira init
 ? Installation type: Local
@@ -134,5 +138,6 @@ done
 ```
 
 see also:  
+- https://github.com/tcler/kiss-vm-ns/blob/master/utils/jiracli-install.sh
 - https://github.com/tcler/bkr-client-improved/blob/master/utils/Jira-issue-need-pre-test.sh
 - https://github.com/tcler/bkr-client-improved/blob/master/utils/Jira-issue-need-verify.sh
