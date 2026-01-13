@@ -139,5 +139,5 @@ done
 
 see also:  
 - https://github.com/tcler/kiss-vm-ns/blob/master/utils/jiracli-install.sh
-- https://github.com/tcler/bkr-client-improved/blob/master/utils/Jira-issue-need-pre-test.sh
-- https://github.com/tcler/bkr-client-improved/blob/master/utils/Jira-issue-need-verify.sh
+- https://github.com/tcler/bkr-client-improved/blob/master/jira-utils/Jira-issue-need-pre-test.sh
+- https://github.com/tcler/bkr-client-improved/blob/master/jira-utils/Jira-issue-need-verify.sh
