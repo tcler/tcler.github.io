@@ -28,19 +28,19 @@ Note: for AMD cpu, seems that amd_iommu now is no need
 download from https://network.nvidia.com/products/infiniband-drivers/linux/mlnx_ofed/  
 Note: please select the right version, Distribution/OS, and Distribution Version.  
 ```
-[root@dell-per750-47 ~]# wget http://fs-qe.usersys.redhat.com/ftp/pub/jiyin/MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64.tgz
-[root@dell-per750-47 ~]# tar zxf MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64.tgz
-[root@dell-per750-47 ~]# cd MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64/
-[root@dell-per750-47 MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64]# 
-[root@dell-per750-47 MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64]# yum install perl-File* --nobest --skip-broken perl-sigtrap -y
-[root@dell-per750-47 MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64]# yum install gcc-gfortran lsof pkgconf-pkg-config tk libusbx tcl -y
-[root@dell-per750-47 MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64]# ./mlnxofedinstall --help
-[root@dell-per750-47 MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64]# ./mlnxofedinstall --with-nfsrdma  
+[root@dell-per750-44 ~]# wget http://fs-qe.usersys.redhat.com/ftp/pub/jiyin/MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64.tgz
+[root@dell-per750-44 ~]# tar zxf MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64.tgz
+[root@dell-per750-44 ~]# cd MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64/
+[root@dell-per750-44 MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64]# 
+[root@dell-per750-44 MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64]# yum install perl-File* --nobest --skip-broken perl-sigtrap -y
+[root@dell-per750-44 MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64]# yum install gcc-gfortran lsof pkgconf-pkg-config tk libusbx tcl -y
+[root@dell-per750-44 MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64]# ./mlnxofedinstall --help
+[root@dell-per750-44 MLNX_OFED_LINUX-24.10-3.2.5.0-rhel9.6-x86_64]# ./mlnxofedinstall --with-nfsrdma  
 ```
 
 ## 3.1 Enable SR-IOV on the Firmware
 ```
-[root@dell-per750-47 ~]# mst start
+[root@dell-per750-44 ~]# mst start
 Starting MST (Mellanox Software Tools) driver set
 Loading MST PCI module - Success
 Loading MST PCI configuration module - Success
@@ -52,7 +52,7 @@ Unloading MST PCI module (unused) - Success
 ## 3.2 enable SRIOV_EN and set NUM_OF_VFS
 
 ```
-[root@dell-per750-47 ~]# mst status
+[root@dell-per750-44 ~]# mst status
 MST modules:
 ------------
     MST PCI module is not loaded
@@ -64,10 +64,10 @@ MST devices:
                                    domain:bus:dev.fn=0000:32:00.0 addr.reg=88 data.reg=92 cr_bar.gw_offset=-1
                                    Chip revision is: 00
 
-[root@dell-per750-47 ~]# mlxconfig -d /dev/mst/mt4119_pciconf0 q | grep -e SRIOV.EN -e _VFS
+[root@dell-per750-44 ~]# mlxconfig -d /dev/mst/mt4119_pciconf0 q | grep -e SRIOV.EN -e _VFS
         NUM_OF_VFS                                  8                   
         SRIOV_EN                                    False(0)
-[root@dell-per750-47 ~]# mlxconfig -d /dev/mst/mt4119_pciconf0 set SRIOV_EN=1 NUM_OF_VFS=8 
+[root@dell-per750-44 ~]# mlxconfig -d /dev/mst/mt4119_pciconf0 set SRIOV_EN=1 NUM_OF_VFS=8 
 
 Device #1:
 ----------
@@ -89,12 +89,12 @@ Applying... Done!
 ## 3.2 create mlx5 vfs [ConnectX-5 Virtual Function] 
 after reboot  
 ```
-[root@dell-per750-47 ~]# cat /sys/class/net/eno12399np0/device/sriov_numvfs 
+[root@dell-per750-44 ~]# cat /sys/class/net/eno12399np0/device/sriov_numvfs 
 0
-[root@dell-per750-47 ~]# echo 8 > /sys/class/infiniband/mlx5_0/device/mlx5_num_vfs
-[root@dell-per750-47 ~]# cat /sys/class/net/eno12399np0/device/sriov_numvfs 
+[root@dell-per750-44 ~]# echo 8 > /sys/class/infiniband/mlx5_0/device/mlx5_num_vfs
+[root@dell-per750-44 ~]# cat /sys/class/net/eno12399np0/device/sriov_numvfs 
 8
-[root@dell-per750-47 ~]# lspci -D | grep Mellanox
+[root@dell-per750-44 ~]# lspci -D | grep Mellanox
 0000:32:00.0 Ethernet controller: Mellanox Technologies MT27800 Family [ConnectX-5]
 0000:32:00.1 Ethernet controller: Mellanox Technologies MT27800 Family [ConnectX-5]
 0000:32:00.2 Ethernet controller: Mellanox Technologies MT27800 Family [ConnectX-5 Virtual Function]
@@ -106,7 +106,7 @@ after reboot
 0000:32:01.0 Ethernet controller: Mellanox Technologies MT27800 Family [ConnectX-5 Virtual Function]
 0000:32:01.1 Ethernet controller: Mellanox Technologies MT27800 Family [ConnectX-5 Virtual Function]
 
-[root@dell-per750-47 ~]# ip -br a s | grep eno12399
+[root@dell-per750-44 ~]# ip -br a s | grep eno12399
 eno12399np0      UP             
 eno12399v0       UP             fe80::74ec:95cd:12be:a770/64 
 eno12399v1       UP             fe80::e752:fe42:3dda:701f/64 
@@ -131,10 +131,10 @@ vm prepare
 
 ## 4.2 vm create VM with the mlx5.vfs passthr...
 ```
-[root@dell-per750-47 ~]# vm create 9 --hostif eno12399v7 --nointeract  
+[root@dell-per750-44 ~]# vm create 9 --hostif eno12399v7 --nointeract  
 ...
 ...
-[root@dell-per750-47 ~]# vm login root-rhel-970-202507022 
+[root@dell-per750-44 ~]# vm login root-rhel-970-202507022 
 Activate the web console with: systemctl enable --now cockpit.socket
 
 Register this system with Red Hat Insights: rhc connect
@@ -195,10 +195,10 @@ rtt min/avg/max/mdev = 0.018/0.020/0.051/0.000 ms, ipg/ewma 0.035/0.021 ms
 
 ## 4.4 vm create Windows server VM
 ```
-[root@dell-per750-47 ~]# vm create Windows-server-2022 --hostif eno12399v0 --win-auto=cifs-nfs -w
+[root@dell-per750-44 ~]# vm create Windows-server-2022 --hostif eno12399v0 --win-auto=cifs-nfs -w
 ...
 ...
-[root@dell-per750-47 ~]# vm login root-windows-server-2022 
+[root@dell-per750-44 ~]# vm login root-windows-server-2022 
 PS C:\Users\Administrator> Get-NetAdapter                                                                    
 
 Name                      InterfaceDescription                    ifIndex Status       MacAddress        Lin 
@@ -210,14 +210,14 @@ Ethernet Instance 0 3     Intel(R) PRO/1000 MT Network Conne...#2       6 Up    
 Ethernet Instance 0       Mellanox ConnectX-5 Virtual Adapter           5 Up           E6-1D-2D-9C-A9-39 bps
 
 PS C:\Users\Administrator> $ifindex = ( Get-NetAdapter | Where-Object { $_.InterfaceDescription -like "Mellanox*" } | Select-Object -ExpandProperty ifindex ) 
-PS C:\Users\Administrator> New-NetIPAddress -InterfaceIndex $ifindex -IPAddress 192.168.155.79 -PrefixLength 24
+PS C:\Users\Administrator> New-NetIPAddress -InterfaceIndex $ifindex -IPAddress 192.168.155.40 -PrefixLength 24
 PS C:\Users\Administrator> exit
 ```
 
 Install MLNX_WinOF2 for Windows Guest(seems It is unnecessary)  
 ```
-[root@dell-per750-47 ~]# wget http://fs-qe.usersys.redhat.com/ftp/pub/jiyin/MLNX_WinOF2-25_4_50020_All_x64.exe
-[root@dell-per750-47 ~]# vm cpto root-windows-server-2022 ./MLNX_WinOF2-25_4_50020_All_x64.exe .
+[root@dell-per750-44 ~]# wget http://fs-qe.usersys.redhat.com/ftp/pub/jiyin/MLNX_WinOF2-25_4_50020_All_x64.exe
+[root@dell-per750-44 ~]# vm cpto root-windows-server-2022 ./MLNX_WinOF2-25_4_50020_All_x64.exe .
 MLNX_WinOF2-25_4_50020_All_x64.exe                                         100%  225MB  23.2MB/s   00:09    
 
 
@@ -228,19 +228,19 @@ Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----                                              
 -a----         7/5/2025  12:48 PM      235837344 MLNX_WinOF2-25_4_50020_All_x64.exe
 
-[root@dell-per750-47 ~]# vm vnc root-windows-server-2022 
-dell-per750-47.rhts.eng.pek2.redhat.com:5901
+[root@dell-per750-44 ~]# vm vnc root-windows-server-2022 
+dell-per750-44.rhts.eng.pek2.redhat.com:5901
 
 # install MLNX_WinOF2 from vnc viewer
 ```
 
 rdma mount from another Linux Client:  
 ```
-[root@dell-per750-44 ~]# mount -t cifs -vvv -ordma,user=Administrator,password=xxxxxxxx  //192.168.155.79/cifstest /mnt/cifsmp 
-Host "192.168.155.79" resolved to the following IP addresses: 192.168.155.79
-mount.cifs kernel mount options: ip=192.168.155.79,unc=\\192.168.155.79\cifstest,rdma,user=Administrator,pass=********
+[root@dell-per750-44 ~]# mount -t cifs -vvv -ordma,user=Administrator,password=xxxxxxxx  //192.168.155.40/cifstest /mnt/cifsmp 
+Host "192.168.155.40" resolved to the following IP addresses: 192.168.155.40
+mount.cifs kernel mount options: ip=192.168.155.40,unc=\\192.168.155.40\cifstest,rdma,user=Administrator,pass=********
 [root@dell-per750-44 ~]# mount -t cifs
-//192.168.155.79/cifstest on /mnt/cifsmp type cifs (rw,relatime,vers=3.1.1,cache=strict,upcall_target=app,username=Administrator,uid=0,noforceuid,gid=0,noforcegid,addr=192.168.155.79,rdma,file_mode=0755,dir_mode=0755,soft,nounix,serverino,mapposix,reparse=nfs,nativesocket,symlink=native,rsize=4194304,wsize=4194304,bsize=1048576,retrans=1,echo_interval=60,actimeo=1,closetimeo=1)
+//192.168.155.40/cifstest on /mnt/cifsmp type cifs (rw,relatime,vers=3.1.1,cache=strict,upcall_target=app,username=Administrator,uid=0,noforceuid,gid=0,noforcegid,addr=192.168.155.40,rdma,file_mode=0755,dir_mode=0755,soft,nounix,serverino,mapposix,reparse=nfs,nativesocket,symlink=native,rsize=4194304,wsize=4194304,bsize=1048576,retrans=1,echo_interval=60,actimeo=1,closetimeo=1)
 ```
 
 ---
