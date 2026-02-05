@@ -260,4 +260,19 @@ done
 ```
 
 ---
+setup dhcp in the fixed Windows Server to assign dynamic IP addresses to rdma clients VM:
+```
+Install-WindowsFeature -Name DHCP -IncludeManagementTools
+Import-Module DHCPServer
+
+staticIP = "192.168.155.40"
+Get-DhcpServerv4Binding | ForEach-Object { Set-DhcpServerv4Binding $_.InterfaceAlias 0 }
+$ifAlias = (Get-DhcpServerv4Binding | Where-Object {$_.IPAddress -eq $staticIP}).InterfaceAlias
+Set-DhcpServerv4Binding $ifAlias 1
+
+Add-DhcpServerv4Scope -name rdma-lab -StartRange 192.168.155.64 -EndRange 192.168.155.128 -SubnetMask 24 -State Active
+```
+
+
+---
 ref: https://enterprise-support.nvidia.com/s/article/HowTo-Configure-SR-IOV-for-ConnectX-4-ConnectX-5-ConnectX-6-with-KVM-Ethernet#jive_content_id_Setup_and_Prerequisites
