@@ -270,7 +270,7 @@ Get-DhcpServerv4Binding | ForEach-Object { Set-DhcpServerv4Binding $_.InterfaceA
 $ifAlias = (Get-DhcpServerv4Binding | Where-Object {$_.IPAddress -eq $staticIP}).InterfaceAlias
 Set-DhcpServerv4Binding $ifAlias 1
 
-Add-DhcpServerv4Scope -name rdma-lab -StartRange 192.168.155.64 -EndRange 192.168.155.128 -SubnetMask 24 -State Active
+Add-DhcpServerv4Scope -name rdma-lab -StartRange 192.168.155.64 -EndRange 192.168.155.128 -SubnetMask 255.255.255.0 -State Active
 ```
 
 
