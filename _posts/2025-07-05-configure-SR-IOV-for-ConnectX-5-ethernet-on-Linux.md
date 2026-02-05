@@ -265,7 +265,7 @@ setup dhcp in the fixed Windows Server to assign dynamic IP addresses to rdma cl
 Install-WindowsFeature -Name DHCP -IncludeManagementTools
 Import-Module DHCPServer
 
-staticIP = "192.168.155.40"
+$staticIP = "192.168.155.40"
 Get-DhcpServerv4Binding | ForEach-Object { Set-DhcpServerv4Binding $_.InterfaceAlias 0 }
 $ifAlias = (Get-DhcpServerv4Binding | Where-Object {$_.IPAddress -eq $staticIP}).InterfaceAlias
 Set-DhcpServerv4Binding $ifAlias 1
