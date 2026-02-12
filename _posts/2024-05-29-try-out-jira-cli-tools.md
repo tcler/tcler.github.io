@@ -30,13 +30,18 @@ $ curl -LO $durl
 $ tar axf ${fname}
 $ sudo cp -v ${fname%.tar.gz}/bin/jira /usr/local/bin/
 
-$ jira init
+$ jira config init  #--board=
 ? Installation type: Local
 ? Authentication type: bearer
 ? Link to Jira server: https://issues.redhat.com
 ? Login username: J*******Yin
 ? Default project: RHEL
 ? Default board: All RHEL
+
+#Then edit ~/.config/.jira/.config.yml, change the board.id	to your real scrum/sprint board id;
+  because now the --board option does not work well.
+  then the 'jira sprint' sub-command will also works fine
+  * see also: https://github.com/ankitpokhrel/jira-cli/issues/847
 
 
 $ jira me
@@ -45,6 +50,8 @@ $ jira issue list --created  month  --plain  --no-truncate -q'project = RHEL AND
 $ jira issue list --created  month  --plain  --no-truncate -q'project = RHEL AND filter = FSQE_Scope AND status != Closed AND "QA Contact" = currentUser()' --no-headers --columns KEY,SUMMARY
 $ jira issue list --plain --no-truncate --no-headers --columns KEY,SUMMARY  -q"project = RHEL and 'Preliminary Testing' = Requested and 'QA Contact' = currentUser()"
 $ jira issue view RHEL-36711 --plain --comments 100
+
+$ jira sprint list
 ```
 
 ---
