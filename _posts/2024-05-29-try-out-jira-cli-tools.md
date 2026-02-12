@@ -36,7 +36,7 @@ $ jira config init  #--board=
 ? Link to Jira server: https://issues.redhat.com
 ? Login username: J*******Yin
 ? Default project: RHEL
-? Default board: All RHEL
+? Default board: All RHEL   #Note: if can not find your BoardName, use any one instead, and
 
 #Then edit ~/.config/.jira/.config.yml, change the board.id	to your real scrum/sprint board id;
   because now the --board option does not work well.
