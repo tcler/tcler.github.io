@@ -72,3 +72,9 @@ dhcpcd
 dhcpcd -k ens8
 dhcpcd -n ens8
 ```
+
+
+---
+ref:  
+ https://learn.microsoft.com/en-us/windows-server/networking/technologies/dhcp/quickstart-install-configure-dhcp-server?tabs=powershell  
+ 
