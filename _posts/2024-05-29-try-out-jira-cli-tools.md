@@ -15,8 +15,8 @@ from webUI: **Click TopRight.Avatar** --> **Profile** --> **Personal Access Toke
 创建成功后，在 .bashrc 中增加: **export JIRA_API_TOKEN=$Your_Token_String**  
 
 #### Cloud 
-from webUI: **Click TopRight.Avatar** --> **Account Settings** --> **Security**  --> API Tokens
-or from url: https://id.atlassian.com/manage-profile/security/api-tokens
+from webUI: **Click TopRight.Avatar** --> **Account Settings** --> **Security**  --> API Tokens  
+or from url: https://id.atlassian.com/manage-profile/security/api-tokens  
 创建成功后，在 .bashrc 中增加: **export JIRA_API_TOKEN=$Your_Token_String**  
 
 ## 选择安装 jira cli 实现
