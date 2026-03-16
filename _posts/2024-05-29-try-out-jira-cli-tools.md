@@ -10,7 +10,13 @@ title: "try out jira cli tools"
 
 ## Before Start: Generate Token
 跟大多数系统一样，在开始 cli 开始之前，需要先创建 Token 用来认证，步骤如下:  
-  from webUI: **Click TopRight.Avatar** --> **Profile** --> **Personal Access Tokens**  
+#### Local 本地部署
+from webUI: **Click TopRight.Avatar** --> **Profile** --> **Personal Access Tokens**  
+创建成功后，在 .bashrc 中增加: **export JIRA_API_TOKEN=$Your_Token_String**  
+
+#### Cloud 
+from webUI: **Click TopRight.Avatar** --> **Account Settings** --> **Security**  --> API Tokens
+or from url: https://id.atlassian.com/manage-profile/security/api-tokens
 创建成功后，在 .bashrc 中增加: **export JIRA_API_TOKEN=$Your_Token_String**  
 
 ## 选择安装 jira cli 实现
@@ -30,13 +36,21 @@ $ curl -LO $durl
 $ tar axf ${fname}
 $ sudo cp -v ${fname%.tar.gz}/bin/jira /usr/local/bin/
 
-$ jira config init  #--board=
+$ jira config init  #--board=   ##for local
 ? Installation type: Local
 ? Authentication type: bearer
 ? Link to Jira server: https://issues.redhat.com
 ? Login username: J*******Yin
 ? Default project: RHEL
 ? Default board: All RHEL   #Note: if can not find your BoardName, use any one instead, and
+
+$ jira config init #--board=   ##for cloud
+? Config already exist. Do you want to overwrite? Yes
+? Installation type: Cloud
+? Link to Jira server: https://redhat.atlassian.net
+? Login email: jiyin@******.com
+? Default project: RHEL
+? Default board: RHEL Filesystems   #Note: if can not find your BoardName, use any one instead, and
 
 #Then edit ~/.config/.jira/.config.yml, change the board.id	to your real scrum/sprint board id;
   because now the --board option does not work well.
