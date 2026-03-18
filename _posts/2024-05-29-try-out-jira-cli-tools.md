@@ -74,8 +74,11 @@ Install, jirashell usage:
 ```
 $ pip install jiracli keyring ipython  #keyring,ipython is required by jirashell
 
-$ jirashell -s https://issues.redhat.com
-[n] jira = JIRA(server='https://issues.redhat.com', token_auth=os.environ.get('JIRA_API_TOKEN'))
+$ jirashell -s https://issues.rh.com
+[n] serverUrl='https://issues.rh.com' #or 'https://rh.atlassian.net'
+[n] jira = JIRA(server=serverUrl, token_auth=os.environ.get('JIRA_API_TOKEN'))
+[n] email='jiyin@******.com'
+[n] jira = JIRA(server=serverUrl, basic_auth=(email, os.environ.get('JIRA_API_TOKEN')))
 [n] ...
 [n] exit()
 ```
