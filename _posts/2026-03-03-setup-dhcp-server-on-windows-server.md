@@ -59,6 +59,20 @@ IPAddress       ScopeId         ClientId             HostName             Addres
 192.168.155.66  192.168.155.0   2a-9c-2b-a7-c2-02    dell-per750-47       Active               3/5/2026 6:13:10 PM 
 ```
 
+## remove lease
+```
+> Get-DhcpServerv4Lease -ScopeId 192.168.155.0 | Remove-DhcpServerv4Lease
+> Get-DhcpServerv4Lease -ScopeId 192.168.155.0 | 
+    Where-Object { $_.HostName -like "dell-per750-4*" } | 
+    Remove-DhcpServerv4Lease
+```
+
+## set/get leaseDuration
+```
+> Set-DhcpServerv4Scope -ScopeId 192.168.155.0 -LeaseDuration 1.00:00:00
+> Get-DhcpServerv4Scope -ScopeId 192.168.155.0 | Select-Object Name, LeaseDuration
+```
+
 ---
 ## get ip from linux
 NetworkManager/nmcli
