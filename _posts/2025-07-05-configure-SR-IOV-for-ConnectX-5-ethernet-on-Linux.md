@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "configure SR-IOV for ConnectX-5 ethernet on Linux RHEL-9.6"
+title: "configure SR-IOV for RDMA/ConnectX-5 ethernet on Linux RHEL-9.6"
 ---
 
 # Why should I use SR-IOV?
@@ -116,7 +116,22 @@ eno12399v4       UP             fe80::6477:2966:c9b4:ff1a/64
 eno12399v5       UP             fe80::d408:b24e:2b27:1db3/64 
 eno12399v6       UP             fe80::529a:f237:32a4:2a61/64 
 eno12399v7       UP             fe80::36:2977:a72a:1b4a/64 
+```
 
+## 3.2 set static mac address for mlx5 vfs [ConnectX-5 Virtual Function] 
+avoid/prevent DHCP server lease pool exhaustion.  
+```
+host_num=$(hostname | grep -oP 'dell-per750-\K\d+')
+
+for vf in eno12399v{0..9}; do
+    vf_num=${vf##*v}
+    # MAC format: 52:54:00:$host:$vf:00
+    host_hex=$(printf "%02x" $host_num)
+    vf_hex=$(printf "%02x" $vf_num)
+    mac="52:54:00:${host_hex}:${vf_hex}:00"
+    ip link set $vf address $mac
+    echo "Set $vf to $mac"
+done
 ```
 
 # 4. create VM
