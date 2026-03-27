@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "fedora install pkg from rawhide"
+title: "fedora install pkg(rocm) from rawhide"
 ---
 
 ## update rocm from rawhide
