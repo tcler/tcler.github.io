@@ -12,7 +12,7 @@ https://pc-file.s3.us-west-1.amazonaws.com/MS-S1+MAX/BIOS/SHWSA_1.06_260104B.7z
 
 ## download shellx64.efi from https://github.com/pbatard/UEFI-Shell/releases 
 ```
-a=$(uname -m); case $a in (x86_64|amd64) a=x64;; (aarch64|arm64) a=aa;; esac
+a=$(uname -m); case $a in (x86_64|amd64) a=x64;; (aarch64|arm64) a=aa64;; esac
 url=$(curl -Ls https://api.github.com/repos/pbatard/UEFI-Shell/releases/latest | sed -rn "/^.*(https:.*shell${a}.efi)\"$/{s//\1/;p}")
 curl -L "$url" -O
 
