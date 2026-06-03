@@ -141,3 +141,43 @@ VNC 客户端显示这条消息
 换句话说，VGA 的设计里没有"通知用户显示暂时不可用"这个环节——它要么显示正确的画面，要么黑屏，
 但不会给你看一段提示文字。而 VirtIO-GPU 则通过那个占位符告诉你："我知道你没画面，我在等驱动给我发数据"。
 
+
+
+---
+关于 vga 模式下出现的 "Guest has not initialized the display (yet)." 应该是真正的初始化 慢 导致的。
+因为这个函数貌似大家 都会调用。。
+```
+QemuConsole *qemu_graphic_console_create(DeviceState *dev, uint32_t head,
+                                         const GraphicHwOps *hw_ops,
+                                         void *opaque)
+{
+    static const char noinit[] =
+        "Guest has not initialized the display (yet).";
+    int width = 640;
+    int height = 480;
+    QemuConsole *s;
+    DisplaySurface *surface;
+
+    s = qemu_graphic_console_lookup_unused();
+    if (s) {
+        trace_console_gfx_reuse(s->index);
+        width = qemu_console_get_width(s, 0);
+        height = qemu_console_get_height(s, 0);
+    } else {
+        trace_console_gfx_new();
+        s = (QemuConsole *)object_new(TYPE_QEMU_GRAPHIC_CONSOLE);
+    }
+    QEMU_GRAPHIC_CONSOLE(s)->head = head;
+    qemu_graphic_console_set_hwops(s, hw_ops, opaque);
+    if (dev) {
+        object_property_set_link(OBJECT(s), "device", OBJECT(dev),
+                                 &error_abort);
+    }
+
+    surface = qemu_create_placeholder_surface(width, height, noinit);
+    qemu_console_set_surface(s, surface);
+    s->gl_unblock_timer = timer_new_ms(QEMU_CLOCK_REALTIME,
+                                       console_hw_gl_unblock_timer, s);
+    return s;
+}
+```
