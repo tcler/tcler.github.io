@@ -111,5 +111,25 @@ static void virtio_gpu_reset_bh(void *opaque)
     g->reset_finished = true;
     qemu_cond_signal(&g->reset_cond);
 }
+```
 
+最后感谢 DeepSeek 帮助梳理 代码调用流程:
+```
+OS 加载 virtio-gpu 驱动
+    ↓
+驱动通过 PCIe 配置空间写命令寄存器 (触发设备复位)
+    ↓
+QEMU PCI 模拟层捕获写操作
+    ↓
+调用 VirtIO-PCI 层的 virtio_pci_reset() 或类似函数
+    ↓
+virtio_gpu_reset()  [hw/display/virtio-gpu.c]
+    ↓
+调度下半部 virtio_gpu_reset_bh()
+    ↓
+对每个 scanout 调用 qemu_console_set_surface(con, NULL)
+    ↓
+qemu_create_placeholder_surface() 生成 "Display output is not active."
+    ↓
+VNC 客户端显示这条消息
 ```
