@@ -23,8 +23,8 @@ x86_64 HOST 用 virt-install(qemu-system-loongarch64) 启动不同架构的 linu
 loongarch64 的 iso 镜像，"display output is not active" 持续时间长 所以发现了~
 
 ---
-没用的知识又增加了，，其实上学的时候 课本上提过 BIOS 里面的中断处理程序提供外设驱动，没想到 vga 模式，OS(至少linux) 是
-直接复用 BIOS 你的驱动 ~~
+没用的知识又增加了，，其实上学的时候 课本上提过 BIOS 里面的中断处理程序提供外设驱动，没想到 vga 模式，OS(linux) 是
+直接复用 BIOS 你的驱动 ~~ ？？？
 
 ---
 按照习惯还是查看代码验证一下吧:
