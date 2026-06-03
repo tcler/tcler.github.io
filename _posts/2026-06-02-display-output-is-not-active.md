@@ -25,3 +25,91 @@ loongarch64 的 iso 镜像，"display output is not active" 持续时间长 所�
 ---
 没用的知识又增加了，，其实上学的时候 课本上提过 BIOS 里面的中断处理程序提供外设驱动，没想到 vga 模式，OS(至少linux) 是
 直接复用 BIOS 你的驱动 ~~
+
+---
+按照习惯还是查看代码验证一下吧:
+```
+jiyin@max395:~/ws/tools/qemu-master$ grep -i "display output is not active" -r .
+./ui/console.c:    static const char placeholder_msg[] = "Display output is not active.";
+jiyin@max395:~/ws/tools/qemu-master$ vim ui/console.c
+
+void qemu_console_set_surface(QemuConsole *con,
+                             DisplaySurface *surface)
+{
+    static const char placeholder_msg[] = "Display output is not active.";
+    DisplayState *s = con->ds;
+    DisplaySurface *old_surface = con->surface;
+    DisplaySurface *new_surface = surface;
+    DisplayChangeListener *dcl;
+    int width;
+    int height;
+
+    if (!surface) {
+        if (old_surface) {
+            width = surface_width(old_surface);
+            height = surface_height(old_surface);
+        } else {
+            width = 640;
+            height = 480;
+        }
+
+        new_surface = qemu_create_placeholder_surface(width, height, placeholder_msg);
+    }
+
+    assert(old_surface != new_surface);
+
+    con->scanout.kind = SCANOUT_SURFACE;
+    con->surface = new_surface;
+    dpy_gfx_create_texture(con, new_surface);
+    QLIST_FOREACH(dcl, &s->listeners, next) {
+        if (con != dcl->con) {
+            continue;
+        }
+        displaychangelistener_gfx_switch(dcl, new_surface, surface ? FALSE : TRUE);
+    }
+    dpy_gfx_destroy_texture(con, old_surface);
+    qemu_free_displaysurface(old_surface);
+}
+
+jiyin@max395:~/ws/tools/qemu-master$ grep qemu_console_set_surface.*NULL -r .
+./hw/display/vhost-user-gpu.c:            qemu_console_set_surface(con, NULL);
+./hw/display/virtio-gpu-rutabaga.c:        qemu_console_set_surface(scanout->con, NULL);
+./hw/display/virtio-gpu-rutabaga.c:    qemu_console_set_surface(scanout->con, NULL);
+./hw/display/virtio-gpu-virgl.c:        qemu_console_set_surface(g->parent_obj.scanout[ss.scanout_id].con, NULL);
+./hw/display/virtio-gpu-virgl.c:        qemu_console_set_surface(g->parent_obj.scanout[i].con, NULL);
+./hw/display/virtio-gpu.c:    qemu_console_set_surface(scanout->con, NULL);
+./hw/display/virtio-gpu.c:        qemu_console_set_surface(g->parent_obj.scanout[i].con, NULL);
+jiyin@max395:~/ws/tools/qemu-master$ vim hw/display/virtio-gpu.c
+
+static void virtio_gpu_reset_bh(void *opaque)
+{
+    VirtIOGPU *g = VIRTIO_GPU(opaque);
+    VirtIOGPUClass *vgc = VIRTIO_GPU_GET_CLASS(g);
+    struct virtio_gpu_simple_resource *res, *tmp;
+    uint32_t resource_id;
+    Error *local_err = NULL;
+    int i = 0;
+
+    QTAILQ_FOREACH_SAFE(res, &g->reslist, next, tmp) {
+        resource_id = res->resource_id;
+        vgc->resource_destroy(g, res, &local_err);
+        if (local_err) {
+            error_append_hint(&local_err, "%s: %s resource_destroy"
+                              "for resource_id = %"PRIu32" failed.\n",
+                              __func__, object_get_typename(OBJECT(g)),
+                              resource_id);
+            /* error_report_err frees the error object for us */
+            error_report_err(local_err);
+            local_err = NULL;
+        }
+    }
+
+    for (i = 0; i < g->parent_obj.conf.max_outputs; i++) {
+        qemu_console_set_surface(g->parent_obj.scanout[i].con, NULL);  //<--- 大概就是这里了
+    }
+
+    g->reset_finished = true;
+    qemu_cond_signal(&g->reset_cond);
+}
+
+```
