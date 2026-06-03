@@ -135,7 +135,7 @@ qemu_create_placeholder_surface() 生成 "Display output is not active."
 VNC 客户端显示这条消息
 ```
 
-而 VGA(vga-pci.c) 复位时 只是重置寄存器状态，不调用 qemu_console_set_surface(con, NULL)
+而 VGA(vga-pci.c) 复位时 只是重置寄存器状态，不调用 qemu_console_set_surface(con, NULL); 
 未初始化时 继续输出最后一次有效画面（或黑屏），不会主动生成占位符。
 
 换句话说，VGA 的设计里没有"通知用户显示暂时不可用"这个环节——它要么显示正确的画面，要么黑屏，
