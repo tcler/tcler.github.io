@@ -16,7 +16,7 @@ x86_64 HOST 用 virt-install(qemu-system-loongarch64) 启动不同架构的 linu
 的 VGA 驱动，这样就不会重新初始化(虚拟)显卡，所以不会出现 VPN 中断~  
 
 为了验证 AI 是不是胡乱猜测，又使用 --arch ppc64le 尝试启动 Alma-10 的 ppc64le qcow2 image，果然也出现了类似的情况，
-然后在加上 --video=vga 选项后，"display output is not active" 提示就消失了~~ 看来 AI 说对了~
+然后在加上 --video=vga 选项后，"display output is not active" 提示就消失了~~ 看来 AI 这次可能是说对了~？
 
 ## 为什么以前没有发现？
 以前都是自动化，没有在 VM 刚刚启动那个时间点去连 VPN 看；这次是在一个拆了大内存，只有 16G 内存的 x99 机器上，手工安装
@@ -144,8 +144,8 @@ VNC 客户端显示这条消息
 
 
 ---
-关于 vga 模式下出现的 "Guest has not initialized the display (yet)." 应该是真正的初始化 慢 导致的。
-因为这个函数貌似大家 都会调用。。
+【更新】关于 vga 模式下出现的 "Guest has not initialized the display (yet)." 应该是真正的初始化 慢 导致的。
+因为这个函数貌似大家 都会调用。。 
 ```
 QemuConsole *qemu_graphic_console_create(DeviceState *dev, uint32_t head,
                                          const GraphicHwOps *hw_ops,
@@ -181,3 +181,6 @@ QemuConsole *qemu_graphic_console_create(DeviceState *dev, uint32_t head,
     return s;
 }
 ```
+
+//所以前面 AI 猜测的 vga 场景没有重新初始化 vga 设备，存疑，即便初始化 qemu vga
+的代码处理也没有 `qemu_console_set_surface(con, NULL);` 调用～ 有时间再验证吧
