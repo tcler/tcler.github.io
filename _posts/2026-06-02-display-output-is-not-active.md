@@ -9,7 +9,7 @@ x86_64 HOST 用 virt-install(qemu-system-loongarch64) 启动不同架构的 linu
 --video=vga 后，这个“现象”就消失了。
 
 ## why ？
-跟 XL 大概聊了一下，怀疑是因为指令模拟效率本身低 + virtio-gpu 模块加载导致的，但是如上所述 即使换了性能很好的 host
+跟 XL 大概聊了一下，怀疑是因为指令模拟效率本身低 + virtio-gpu 模块加载慢导致的，但是如上所述 即使换了性能很好的 host
 仍然有这个提示信息，只是时间缩短到1、2秒；  
 
 然后尝试跟 DeepSeek 聊，给出的回答/猜测是，--video=vga 模式时，OS 不使用自带的驱动，而是使用中断调用 直接使用 BIOS 里
