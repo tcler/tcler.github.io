@@ -113,6 +113,7 @@ static void virtio_gpu_reset_bh(void *opaque)
 }
 ```
 
+---
 最后感谢 DeepSeek 帮助梳理 代码调用流程:
 ```
 OS 加载 virtio-gpu 驱动
@@ -133,3 +134,10 @@ qemu_create_placeholder_surface() 生成 "Display output is not active."
     ↓
 VNC 客户端显示这条消息
 ```
+
+而 VGA(vga-pci.c) 复位时 只是重置寄存器状态，不调用 qemu_console_set_surface(con, NULL)
+未初始化时 继续输出最后一次有效画面（或黑屏），不会主动生成占位符。
+
+换句话说，VGA 的设计里没有"通知用户显示暂时不可用"这个环节——它要么显示正确的画面，要么黑屏，
+但不会给你看一段提示文字。而 VirtIO-GPU 则通过那个占位符告诉你："我知道你没画面，我在等驱动给我发数据"。
+
