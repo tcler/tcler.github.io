@@ -77,7 +77,7 @@ qemu-system-aarch64 -M vexpress-a9 \
 
 ---
 # 构建 U-Boot
-#U-Boot 启动目前还有问题: 启动后，串口没有任何输出，不知道是不是 U-Boot 本身的问题  
+#U-Boot 启动目前还有问题: 启动后，串口没有任何输出，不知道是不是 U-Boot 构建设置问题  
 #case with bootloader, run 'make menuconfig' again to enable U-Boot  
 
 make linux-menuconfig  
@@ -94,4 +94,86 @@ qemu-system-aarch64 -M vexpress-a9 -smp 1 -m 256 \
     -net nic,model=lan9118 -net user \
     -nographic
 ```
+
+---
+# 构建 U-Boot 更新(2026-06-22)：  
+## 1. U-Boot 串口配置（使 U-Boot 能输出）  
+在 make uboot-menuconfig 中：ARM architecture --> ARM debug   
+ - 启用 Low-level debugging functions（DEBUG_LL=y）  
+ - 设置 Physical base address of debug UART = 0x10009000  
+ - 设置 Register offset shift = 2  
+
+原因:  
+U-Boot 默认没有启用早期调试输出，导致无法在串口上看到输出。启用 DEBUG_LL 后，U-Boot 在 gd 指针初始化之前就能通过串口输出调试信息。
+
+## 2. U-Boot 加载地址（解决 U-Boot 无法执行的问题）  
+使用 -kernel 参数（ELF 文件）而不是 -bios 或 -device loader 来启动 U-Boot：
+```
+qemu-system-aarch64 -M vexpress-a9 -m 1024 \
+    -kernel output/build/uboot-2026.04/u-boot \
+    -drive file=output/images/rootfs.ext2,if=sd,format=raw \
+    -net nic,model=lan9118 -net user \
+    -serail stdio
+```
+
+原因:  
+ - bios 将 U-Boot 加载到 0x00000000，但 U-Boot 的入口点是 0x60800000，导致 CPU 从错误地址执行。  
+ - device loader 虽然将 U-Boot 加载到 0x60800000，但 CPU 仍然从 0x00000000 开始执行。  
+ - kernel 参数会自动解析 ELF 文件头，将代码加载到正确的地址（0x60800000）并自动设置 PC 到入口点，所以能正常工作。  
+
+
+## 3. 内核和设备树集成到 rootfs（使 U-Boot 能找到内核）  
+在 make menuconfig 中设置 Root filesystem overlay directories：  
+System configuration  --->  
+   - (board/vexpress/rootfs-overlay) Root filesystem overlay directories  
+
+并在 board/vexpress/rootfs-overlay/boot/ 目录中放置：  
+ - zImage  
+ - vexpress-v2p-ca9.dtb  
+
+原因:  
+Buildroot 默认不将内核和设备树放入 rootfs.ext2。U-Boot 需要从 MMC 加载这些文件，因此需要将它们复制到根文件系统的 /boot 目录。
+
+
+## 4. U-Boot 启动命令（在 U-Boot 命令行中手动启动）  
+在 U-Boot 命令行中执行：  
+```
+ext2load mmc 0 0x60000000 /boot/zImage  
+ext2load mmc 0 0x61000000 /boot/vexpress-v2p-ca9.dtb  
+setenv bootargs 'console=ttyAMA0,115200 root=/dev/mmcblk0'  
+bootz 0x60000000 - 0x61000000
+```
+
+原因:  
+U-Boot 的自动启动（bootcmd）默认尝试从 TFTP 加载内核，而不是从 MMC。需要手动指定从 /boot 目录加载内核和设备树，并设置正确的 bootargs。  
+注: bootz 的地址参数分别是上面ext2load mmc, kernel dtb 的加载地址
+
+## 5. U-Boot 环境变量存储（解决 saveenv 失败和 .env 不生效的问题）
+### a. 在 make uboot-menuconfig 中切换存储介质：  
+Environment  --->  
+ - "[ ] Environment in flash memory"      # 取消选中  
+ - "[*] Environment in an MMC device"     # 改为选中  
+
+ - (0x100000) Environment offset (CONFIG_ENV_OFFSET)  
+
+### b. 在 make menuconfig --> Bootloaders --> U-Boot 设置  
+ - (board/vexpress/.env) Text file with default environment  
+
+### c. mkdir -p board/vexpress  
+```
+cat board/vexpress/.env 
+bootargs=console=ttyAMA0,115200 root=/dev/mmcblk0
+bootcmd=ext2load mmc 0 0x60000000 /boot/zImage; ext2load mmc 0 0x61000000 /boot/vexpress-v2p-ca9.dtb; bootz 0x60000000 - 0x61000000
+```
+
+---
+最后，终于基于 u-boot.bin 也可以自动启动了:  
+```
+qemu-system-aarch64 -M vexpress-a9 -m 1024 \
+    -kernel output/build/uboot-2026.04/u-boot \
+    -drive file=output/images/rootfs.ext2,if=sd,format=raw \
+    -net nic,model=lan9118 -net user \
+    -serial stdio
+```
+
 
