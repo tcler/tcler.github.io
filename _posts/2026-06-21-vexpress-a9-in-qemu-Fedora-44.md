@@ -176,4 +176,4 @@ qemu-system-aarch64 -M vexpress-a9 -m 1024 \
     -serial stdio
 ```
 
-
+//ref: https://zhuanlan.zhihu.com/p/2032539553039434883
