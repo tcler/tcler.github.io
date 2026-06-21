@@ -10,7 +10,7 @@ title: "vexpress-a9 in qemu/Fedora-44"
 # buildroot
 然后也搜到 buildroot：Buildroot是Linux平台上一个开源的嵌入式Linux系统自动构建框架。整个 Buildroot 是由 Makefile 脚本
 和 Kconfig 配置文件构成的。 你可以和编译 Linux 内核一样，通过 buildroot 配置，menuconfig修改，编译出一个完整的可以直接
-烧写到机器上运行的Linux系统软件。
+烧写到机器上运行的Linux rootfs image。
 
 现在 buildroot 已经成为嵌入式开发的主流工具，不用再像之前那样：去手工配置交叉编译工具链、下载构建各个组件去编译、组装。
 buildroot 项目默认也包含了 vexpress-a9 板子
