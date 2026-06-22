@@ -123,7 +123,7 @@ qemu-system-aarch64 -M vexpress-a9 -m 1024 \
  - kernel 参数会自动解析 ELF 文件头，将代码加载到正确的地址（0x60800000）并自动设置 PC 到入口点，所以能正常工作。  
 
 
-## 3. 内核和设备树集成到 rootfs（使 U-Boot 能找到内核）  
+## 2. 内核和设备树集成到 rootfs（使 U-Boot 能找到内核）  
 在 make menuconfig 中设置 Root filesystem overlay directories：  
 System configuration  --->  
    - (board/vexpress/rootfs-overlay) Root filesystem overlay directories  
@@ -136,7 +136,7 @@ System configuration  --->
 Buildroot 默认不将内核和设备树放入 rootfs.ext2。U-Boot 需要从 MMC 加载这些文件，因此需要将它们复制到根文件系统的 /boot 目录。
 
 
-## 4. U-Boot 启动命令（在 U-Boot 命令行中手动启动）  
+## 3. U-Boot 启动命令（在 U-Boot 命令行中手动启动）  
 在 U-Boot 命令行中执行：  
 ```
 ext2load mmc 0 0x60000000 /boot/zImage  
@@ -149,7 +149,7 @@ bootz 0x60000000 - 0x61000000
 U-Boot 的自动启动（bootcmd）默认尝试从 TFTP 加载内核，而不是从 MMC。需要手动指定从 /boot 目录加载内核和设备树，并设置正确的 bootargs。  
 注: bootz 的地址参数分别是上面ext2load mmc, kernel dtb 的加载地址
 
-## 5. U-Boot 环境变量存储（解决 saveenv 失败和 .env 不生效的问题）
+## 4. U-Boot 环境变量存储（解决 saveenv 失败和 .env 不生效的问题）
 ### a. 在 make uboot-menuconfig 中切换存储介质：  
 Environment  --->  
  - "[ ] Environment in flash memory"      # 取消选中  
