@@ -97,7 +97,7 @@ qemu-system-aarch64 -M vexpress-a9 -smp 1 -m 256 \
 
 ---
 # 构建 U-Boot 更新(2026-06-22)：  
-## 1. U-Boot 串口配置（使 U-Boot 能输出）  
+## 0. U-Boot 串口配置（使 U-Boot 能输出）//这个修改其实没有用，这里只是记录一下  
 在 make uboot-menuconfig 中：ARM architecture --> ARM debug   
  - 启用 Low-level debugging functions（DEBUG_LL=y）  
  - 设置 Physical base address of debug UART = 0x10009000  
@@ -106,8 +106,9 @@ qemu-system-aarch64 -M vexpress-a9 -smp 1 -m 256 \
 原因:  
 U-Boot 默认没有启用早期调试输出，导致无法在串口上看到输出。启用 DEBUG_LL 后，U-Boot 在 gd 指针初始化之前就能通过串口输出调试信息。
 
-## 2. U-Boot 加载地址（解决 U-Boot 无法执行的问题）  
-使用 -kernel 参数（ELF 文件）而不是 -bios 或 -device loader 来启动 U-Boot：
+## 1. U-Boot 加载地址（解决 U-Boot 无法执行的问题）  
+使用 -kernel u-boot (ELF格式) 而不是 u-boot.bin; -kernel 会解析 elf 中的入口地址，直接加载到指定地址  
+如果用 u-boot.bin 需要设置 General setup --> (0x00000000) Text Base, 然后 -bios u-boot.bin 就可以工作了 
 ```
 qemu-system-aarch64 -M vexpress-a9 -m 1024 \
     -kernel output/build/uboot-2026.04/u-boot \
@@ -118,7 +119,7 @@ qemu-system-aarch64 -M vexpress-a9 -m 1024 \
 
 原因:  
  - bios 将 U-Boot 加载到 0x00000000，但 U-Boot 的入口点是 0x60800000，导致 CPU 从错误地址执行。  
- - device loader 虽然将 U-Boot 加载到 0x60800000，但 CPU 仍然从 0x00000000 开始执行。  
+ - device loader,file=,addr=0x60800000 虽然将 U-Boot 加载到 0x60800000，但 CPU 仍然从 0x00000000 开始执行。  
  - kernel 参数会自动解析 ELF 文件头，将代码加载到正确的地址（0x60800000）并自动设置 PC 到入口点，所以能正常工作。  
 
 
@@ -173,7 +174,9 @@ qemu-system-aarch64 -M vexpress-a9 -m 1024 \
     -kernel output/build/uboot-2026.04/u-boot \
     -drive file=output/images/rootfs.ext2,if=sd,format=raw \
     -net nic,model=lan9118 -net user \
-    -serial stdio
+    -serial stdio  # -d in_asm,cpu_reset,mmu,guest_errors 
 ```
+
+选项 -d in_asm,cpu_reset,mmu,guest_errors 可以用来获取 debug 信息，然后交给 AI 分析。
 
 //ref: https://zhuanlan.zhihu.com/p/2032539553039434883
