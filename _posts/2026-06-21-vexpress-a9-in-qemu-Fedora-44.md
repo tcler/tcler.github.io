@@ -174,9 +174,9 @@ qemu-system-aarch64 -M vexpress-a9 -m 1024 \
     -kernel output/build/uboot-2026.04/u-boot \
     -drive file=output/images/rootfs.ext2,if=sd,format=raw \
     -net nic,model=lan9118 -net user \
-    -serial stdio  # -d in_asm,cpu_reset,mmu,guest_errors 
+    -serial stdio  # -d cpu_reset,mmu,guest_errors,in_asm
 ```
 
-选项 -d in_asm,cpu_reset,mmu,guest_errors 可以用来获取 debug 信息，然后交给 AI 分析。
+选项 -d cpu_reset,mmu,guest_errors,in_asm 可以用来获取 debug 信息，然后交给 AI 分析。
 
 //ref: https://zhuanlan.zhihu.com/p/2032539553039434883
