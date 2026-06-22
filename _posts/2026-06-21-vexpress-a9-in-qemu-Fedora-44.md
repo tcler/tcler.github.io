@@ -163,7 +163,7 @@ Environment  --->
 ### c. mkdir -p board/vexpress  
 ```
 cat board/vexpress/.env 
-bootargs=console=ttyAMA0,115200 root=/dev/mmcblk0
+bootargs=console=ttyAMA0,115200 console=tty0 root=/dev/mmcblk0
 bootcmd=ext2load mmc 0 0x60000000 /boot/zImage; ext2load mmc 0 0x61000000 /boot/vexpress-v2p-ca9.dtb; bootz 0x60000000 - 0x61000000
 ```
 
