@@ -177,6 +177,49 @@ qemu-system-aarch64 -M vexpress-a9 -m 1024 \
     -serial stdio  # -d cpu_reset,mmu,guest_errors,in_asm
 ```
 
-选项 -d cpu_reset,mmu,guest_errors,in_asm 可以用来获取 debug 信息，然后交给 AI 分析。
+选项 -d cpu_reset,mmu,guest_errors,in_asm 可以用来获取 debug 信息，然后交给 AI 分析。  
+如果 over ssh(没有GUI), 使用 -nographic 替代 -serial stdio
 
 //ref: https://zhuanlan.zhihu.com/p/2032539553039434883
+
+
+---
+# Update (2026-06-23) //好记性不如烂笔头，更多细节：  
+## 给rootfs添加包，以 libgpiod2 为例(为了调试 gpio 引脚)
+```
+make menuconfig
+  -> Target packages -> Libraries -> Hardware handling -> libgpiod2 -> install tools
+  #注意最后一个 libgpiod2 的子项，install tools 必须选中，不然只编译，不打包
+  #如果不知道包的路径，可以在 make menuconfig TUI 里 / 查找
+```
+
+## 如果希望在 GUI 里显示 log，在 bootargs 里加上 console=tty0 ，不然只有一个小企鹅
+
+## 如果要在 GUI 里 login，在 ttyN 添加 getty (是的跟通用Linux系统不一样，默认没有在 tty 上启动 getty)
+```
+jiyin@x99i:~/ws/tools/buildroot$ grep getty output/target/etc/inittab 
+# Put a getty on the serial port
+ttyAMA0::respawn:/sbin/getty -L  ttyAMA0 0 vt100 # GENERIC_SERIAL
+
+# 添加下面这行，在 tty1 也启动 getty
+tty1::respawn:/sbin/getty -L tty1 0 vt100
+```
+
+```
+# echo 1 >/sys/class/leds/v2m:green:user1/brightness
+# cat /sys/class/leds/v2m:green:user1/brightness
+0
+# echo none >/sys/class/leds/v2m:green:user1/trigger
+# echo 1 >/sys/class/leds/v2m:green:user1/brightness
+# cat /sys/class/leds/v2m:green:user1/brightness
+1
+# cat /sys/class/leds/v2m:green:user1/trigger 
+[none] default kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock kbd-shiftlock kbd-altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock heartbeat cpu cpu0 cpu1 cpu2 cpu3 mmc0
+# cat /sys/class/leds/v2m:green:user2/trigger 
+none default kbd-scrolllock kbd-numlock kbd-capslock kbd-kanalock kbd-shiftlock kbd-altgrlock kbd-ctrllock kbd-altlock kbd-shiftllock kbd-shiftrlock kbd-ctrlllock kbd-ctrlrlock heartbeat cpu cpu0 cpu1 cpu2 cpu3 [mmc0]
+# cat /sys/class/leds/input0::capslock/brightness 
+0
+# #switch to GUI window and press CapsLock key, then will get 1
+# cat /sys/class/leds/input0::capslock/brightness
+1
+```
