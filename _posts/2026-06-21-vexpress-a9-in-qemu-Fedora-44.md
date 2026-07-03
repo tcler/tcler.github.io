@@ -108,7 +108,7 @@ U-Boot 默认没有启用早期调试输出，导致无法在串口上看到输�
 
 ## 1. U-Boot 加载地址（解决 U-Boot 无法执行的问题）  
 使用 -kernel u-boot (ELF格式) 而不是 u-boot.bin; -kernel 会解析 elf 中的入口地址，直接加载到指定地址  
-如果用 u-boot.bin 需要设置 General setup --> (0x00000000) Text Base, 然后 -bios /path/to/u-boot.bin 就可以工作了 
+如果用 u-boot.bin 需要设置 General setup --> (0x00000000) Text Base, 然后 -bios /path/to/u-boot.bin 就可以工作了  
 ```
 $ make uboot-menuconfig
   --> General setup --> (0x00000000) Text Base
@@ -126,10 +126,10 @@ qemu-system-aarch64 -M vexpress-a9 -m 1024 \
     -serail stdio
 ```
 
-原因:  
- - bios 将 U-Boot 加载到 0x00000000，但 U-Boot 的入口点是 0x60800000，导致 CPU 从错误地址执行。  
+修改前 U-boot 不能启动的 原因:  
+ - bios 将 U-Boot 加载到 0x00000000，但 U-Boot 的默认入口点是 0x60800000，导致 CPU 从错误地址执行。  
  - device loader,file=,addr=0x60800000 虽然将 U-Boot 加载到 0x60800000，但 CPU 仍然从 0x00000000 开始执行。  
- - kernel 参数会自动解析 ELF 文件头，将代码加载到正确的地址（0x60800000）并自动设置 PC 到入口点，所以能正常工作。  
+ - kernel 选项会自动解析 ELF 文件头，将代码加载到正确的地址（0x60800000）并自动设置 PC 到入口点，所以能正常工作。 
 
 
 ## 2. 内核和设备树集成到 rootfs（使 U-Boot 能找到内核）  
