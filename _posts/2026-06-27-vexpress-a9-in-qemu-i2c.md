@@ -25,7 +25,7 @@ $ make rootfs-ext2
 $ make menuconfig
     System configuration --> (board/vexpress/post-build.sh) Custom scripts to run before creating filesystem images
 
-$ cat board/vexpress/post-rebuild.sh 
+$ cat board/vexpress/post-build.sh 
 #!/bin/bash
 # board/vexpress/post-build.sh
 
@@ -52,4 +52,5 @@ i2c-0	i2c       	Versatile I2C adapter           	I2C adapter
 70: -- -- -- -- -- -- -- --                         
 ```
 
-## 未完待续
+## 添加一个简单的 I2C 设备， LM75(温度传感器)
+
