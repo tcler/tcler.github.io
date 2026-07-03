@@ -3,7 +3,7 @@ layout: post
 title: "qemu vexpress-a9 i2c"
 ---
 
-# [继续 vexpress-a9] i2c 驱动的学习
+# [继续 qemu/vexpress-a9] i2c 驱动的学习
 上周通过 buildroot 构建 vexpress-a9 板子的基础 嵌入式 linux 系统，调试成功；并尝试添加了包 libgpiod2 还有控制 GPIO led 的输入输出控制。
 今天继续 i2c 驱动的学习。
 
