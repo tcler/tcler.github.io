@@ -78,7 +78,8 @@ $ tail output/build/linux-6.18.7/arch/arm/boot/dts/arm/vexpress-v2p-ca9.dts
     };
 };
 ```
-选择 v2m_i2c_dvi 而不是 v2m_i2c_pcie， 主要是因为之前的观察中，v2m_i2c_dvi 已经挂在了设备，被成功识别驱动； 之后有兴趣可以再试试 v2m_i2c_pcie  
+选择 v2m_i2c_dvi 而不是 v2m_i2c_pcie， 主要是因为之前的观察中，v2m_i2c_dvi 已经挂在了设备，被成功识别驱动，而且是第0个；
+结合后面 qemu -device 选项 bus= 属性的值好像不支持选 bus ID，就选第0个吧；  //之后有兴趣也可以再试试如果用 v2m_i2c_pcie 看会出现什么情况；
 
 ### 更新 make linux-menuconfig enable lm75 驱动
 在驱动 Hardware Monitoring support 下面，使能 LM75 驱动  
@@ -95,7 +96,7 @@ make rootfs-ext2
 ```
 
 ### qemu-system-aarch64(maybe qemu-system-arm on debian/ubuntu) add i2c device by -device 
-因为 vexpress 板子默认没有 lm75 温度传感器，所以我们需要想办法使用 qemu 添加一个设备；
+因为 vexpress 板子默认没有 lm75 温度传感器，所以我们需要想办法使用 qemu 添加一个设备(通过 -device 选项)；
 注：lm75 是早期由 National Semiconductor 定义的温度传感器标准，很多厂商都生产兼容芯片，我们先通过 `qemu-system-aarch64 -M vexpress-a9 -device help` 来查找
 qemu 支持的 lm75 兼容的的芯片，这里我们找到 tmp105 ,,  
 
