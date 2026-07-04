@@ -217,4 +217,101 @@ lm75 0-0049: hwmon6: sensor 'lm75'
 ```
 
 ---
-## 0x50 是什么设备？ //未完待续~
+## 0x50 是什么设备？
+前面 `i2cdetect -y 0` 结果显示，地址 0x50 处还有一个设备，但是没有被驱动识别；经 AI 提示，根据地址特征是一个 EEPROM 设备，vexpress 板子上自带的；
+但是内核里没有使能驱动，而且设备树里 也没有描述。 所以我们需要 1. 添加设备树，2. 内核里使能 EEPROM 驱动;
+
+```
+$ tail -22 output/build/linux-6.18.7/arch/arm/boot/dts/arm/vexpress-v2p-ca9.dts 
+&v2m_i2c_dvi {
+    status = "okay";
+
+    lm75@48 {
+        compatible = "ti,lm75";
+        reg = <0x48>;
+        status = "okay";
+    };
+    lm75@49 {
+        compatible = "ti,lm75";
+        reg = <0x49>;
+        status = "okay";
+    };
+
+    /* EEPROM */
+    eeprom@50 {
+        compatible = "atmel,24c02";
+        reg = <0x50>;
+        status = "okay";
+    };
+};
+```
+
+这里还是，需要防止缓存，保证 dtb , kernel 确实重新 build 了；不行就多试两次；  //不知道是不是跟我的 btrfs 有关系~~
+```
+$ make linux-menuconfig
+  Device Drivers -> Misc devices -> EEPROM support -> I2C EEPROMs / RAMs / ROMs from most vendors
+$ make linux-rebuild
+$ make rootfs-ext2
+```
+
+重新启动后，0x50 地址的设备成功驱动了：
+```
+$ qemu-system-aarch64 -M vexpress-a9 -m 1024   \
+    -bios output/build/uboot-2026.04/u-boot.bin   \
+    -drive file=output/images/rootfs.ext2,if=sd,format=raw  \
+    -net nic,model=lan9118 -net user \
+    -device tmp105,address=0x48,bus=i2c  \
+    -device tmp105,address=0x49,bus=i2c \
+    -nographic   # -d cpu_reset,mmu,guest_errors,in_asm
+...
+Welcome to Buildroot
+buildroot login: root
+# i2cdetect -y 0
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+30: -- -- -- -- -- -- -- -- -- UU -- -- -- -- -- -- 
+40: -- -- -- -- -- -- -- -- 48 49 -- -- -- -- -- -- 
+50: UU -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+70: -- -- -- -- -- -- -- --
+
+# cat /sys/bus/i2c/devices/i2c-0/0-0050/name
+24c02
+```
+
+
+### 如果设备树里没有描述，而我们知道设备型号和地址，可以直接通过如下方式 手工加载驱动
+```
+# echo 24c02 0x50 > /sys/bus/i2c/devices/i2c-0/new_device
+```
+
+```
+24c02 是通过 at24 驱动中的 i2c_device_id 表来关联到具体驱动的。
+具体代码见:
+$ vim output/build/linux-6.18.7/drivers/misc/eeprom/at24.c
+static const struct i2c_device_id at24_ids[] = {
+        { "24c00",      (kernel_ulong_t)&at24_data_24c00 },
+        { "24c01",      (kernel_ulong_t)&at24_data_24c01 },
+        { "24cs01",     (kernel_ulong_t)&at24_data_24cs01 },
+        { "24c02",      (kernel_ulong_t)&at24_data_24c02 },
+        { "24cs02",     (kernel_ulong_t)&at24_data_24cs02 },
+        { "24mac402",   (kernel_ulong_t)&at24_data_24mac402 },
+        { "24mac602",   (kernel_ulong_t)&at24_data_24mac602 },
+        { "24aa025e48", (kernel_ulong_t)&at24_data_24aa025e48 },
+        { "24aa025e64", (kernel_ulong_t)&at24_data_24aa025e64 },
+        { "spd",        (kernel_ulong_t)&at24_data_spd },
+        { "24c02-vaio", (kernel_ulong_t)&at24_data_24c02_vaio },
+        { "24c04",      (kernel_ulong_t)&at24_data_24c04 },
+        { "24cs04",     (kernel_ulong_t)&at24_data_24cs04 },
+        { "24c08",      (kernel_ulong_t)&at24_data_24c08 },
+        { "24cs08",     (kernel_ulong_t)&at24_data_24cs08 },
+        { "24c16",      (kernel_ulong_t)&at24_data_24c16 },
+```
+
+
+---
+这里看到一个硬件上重复上拉电阻导致问题的 案例，mark 一下:  
+  https://www.bilibili.com/opus/685613695676448768
+  
