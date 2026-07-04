@@ -150,4 +150,71 @@ lm75 0-0048: hwmon5: sensor 'lm75'
 70: -- -- -- -- -- -- -- --                         
 ```
 
+### 再添加一个 lm75
+```
+$ tail -15 output/build/linux-6.18.7/arch/arm/boot/dts/arm/vexpress-v2p-ca9.dts
+&v2m_i2c_dvi {
+    status = "okay";
+
+    lm75@48 {
+        compatible = "ti,lm75";
+        reg = <0x48>;
+        status = "okay";
+    };
+
+    lm75@49 {
+        compatible = "ti,lm75";
+        reg = <0x49>;
+        status = "okay";
+    };
+};
+```
+
+有时候，时间戳更新好像有问题，多 touch 一下 编辑后的 dts 文件；再 make
+```
+make linux-rebuild
+make rootfs-ext2
+```
+
+```
+$ qemu-system-aarch64 -M vexpress-a9 -m 1024   \
+    -bios output/build/uboot-2026.04/u-boot.bin  \
+    -drive file=output/images/rootfs.ext2,if=sd,format=raw  \
+    -net nic,model=lan9118 -net user \
+    -device tmp105,address=0x48,bus=i2c  \
+    -device tmp105,address=0x49,bus=i2c  \
+    -nographic
+...
+# i2cdetect -l
+i2c-1	i2c       	Versatile I2C adapter           	I2C adapter
+i2c-2	i2c       	i2c-0-mux (chan_id 0)           	I2C adapter
+i2c-0	i2c       	Versatile I2C adapter           	I2C adapter
+# i2cdetect -y 0
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+30: -- -- -- -- -- -- -- -- -- UU -- -- -- -- -- -- 
+40: -- -- -- -- -- -- -- -- 48 49 -- -- -- -- -- -- 
+50: 50 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+70: -- -- -- -- -- -- -- --                         
+# modprobe lm75
+lm75 0-0048: supply vs not found, using dummy regulator
+lm75 0-0048: hwmon5: sensor 'lm75'
+lm75 0-0049: supply vs not found, using dummy regulator
+lm75 0-0049: hwmon6: sensor 'lm75'
+# i2cdetect -y 0
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+30: -- -- -- -- -- -- -- -- -- UU -- -- -- -- -- -- 
+40: -- -- -- -- -- -- -- -- UU UU -- -- -- -- -- -- 
+50: 50 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+70: -- -- -- -- -- -- -- --                         
+```
+
+---
 ## 0x50 是什么设备？ //未完待续~
